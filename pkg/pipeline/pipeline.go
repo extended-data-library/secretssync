@@ -41,6 +41,7 @@ import (
 	"github.com/robertlestak/vault-secret-sync/internal/backend"
 	"github.com/robertlestak/vault-secret-sync/internal/queue"
 	internalSync "github.com/robertlestak/vault-secret-sync/internal/sync"
+	"github.com/robertlestak/vault-secret-sync/pkg/diff"
 	"github.com/robertlestak/vault-secret-sync/stores/aws"
 	"github.com/robertlestak/vault-secret-sync/stores/vault"
 	log "github.com/sirupsen/logrus"
@@ -74,6 +75,10 @@ type Pipeline struct {
 	// Execution tracking
 	results   []Result
 	resultsMu sync.Mutex
+
+	// Diff tracking for dry-run and CI/CD integration
+	pipelineDiff *diff.PipelineDiff
+	diffMu       sync.Mutex
 }
 
 // New creates a new Pipeline from configuration
@@ -174,6 +179,13 @@ type Options struct {
 
 	// Parallelism controls max concurrent operations per phase
 	Parallelism int
+
+	// OutputFormat specifies how to format diff output (human, json, github, compact)
+	OutputFormat diff.OutputFormat
+
+	// ComputeDiff enables diff computation even for non-dry-run executions
+	// Useful for audit trails and CI/CD reporting
+	ComputeDiff bool
 }
 
 // DefaultOptions returns sensible defaults
@@ -183,6 +195,8 @@ func DefaultOptions() Options {
 		DryRun:          false,
 		ContinueOnError: true,
 		Parallelism:     4,
+		OutputFormat:    diff.OutputFormatHuman,
+		ComputeDiff:     false,
 	}
 }
 
@@ -195,11 +209,16 @@ type Result struct {
 	Error     error         `json:"error,omitempty"`
 	Duration  time.Duration `json:"duration"`
 	Details   ResultDetails `json:"details,omitempty"`
+	Diff      *diff.TargetDiff `json:"diff,omitempty"`
 }
 
 // ResultDetails contains additional information about the operation
 type ResultDetails struct {
 	SecretsProcessed int      `json:"secrets_processed,omitempty"`
+	SecretsAdded     int      `json:"secrets_added,omitempty"`
+	SecretsModified  int      `json:"secrets_modified,omitempty"`
+	SecretsRemoved   int      `json:"secrets_removed,omitempty"`
+	SecretsUnchanged int      `json:"secrets_unchanged,omitempty"`
 	SourcePaths      []string `json:"source_paths,omitempty"`
 	DestinationPath  string   `json:"destination_path,omitempty"`
 	RoleARN          string   `json:"role_arn,omitempty"`
@@ -226,6 +245,11 @@ func (p *Pipeline) Run(ctx context.Context, opts Options) ([]Result, error) {
 	p.resultsMu.Lock()
 	p.results = nil
 	p.resultsMu.Unlock()
+
+	// Initialize diff tracking for dry-run or when explicitly requested
+	if opts.DryRun || opts.ComputeDiff {
+		p.initDiff(opts.DryRun, "")
+	}
 
 	// Resolve targets
 	targets := p.resolveTargets(opts.Targets)
@@ -772,6 +796,70 @@ func (p *Pipeline) Results() []Result {
 	p.resultsMu.Lock()
 	defer p.resultsMu.Unlock()
 	return p.results
+}
+
+// Diff returns the computed diff from the last Run
+func (p *Pipeline) Diff() *diff.PipelineDiff {
+	p.diffMu.Lock()
+	defer p.diffMu.Unlock()
+	return p.pipelineDiff
+}
+
+// initDiff initializes diff tracking for a run
+func (p *Pipeline) initDiff(dryRun bool, configPath string) {
+	p.diffMu.Lock()
+	defer p.diffMu.Unlock()
+	p.pipelineDiff = &diff.PipelineDiff{
+		DryRun:     dryRun,
+		ConfigPath: configPath,
+	}
+}
+
+// addTargetDiff adds a target diff to the pipeline diff
+func (p *Pipeline) addTargetDiff(td diff.TargetDiff) {
+	p.diffMu.Lock()
+	defer p.diffMu.Unlock()
+	if p.pipelineDiff != nil {
+		p.pipelineDiff.AddTargetDiff(td)
+	}
+}
+
+// FormatDiff returns the formatted diff output
+func (p *Pipeline) FormatDiff(format diff.OutputFormat) string {
+	p.diffMu.Lock()
+	defer p.diffMu.Unlock()
+	if p.pipelineDiff == nil {
+		return ""
+	}
+	return diff.FormatDiff(p.pipelineDiff, format)
+}
+
+// ExitCode returns the appropriate exit code based on diff results
+// 0 = no changes (zero-sum), 1 = changes detected, 2 = errors
+func (p *Pipeline) ExitCode() int {
+	p.diffMu.Lock()
+	defer p.diffMu.Unlock()
+	
+	// Check for errors first
+	p.resultsMu.Lock()
+	hasErrors := false
+	for _, r := range p.results {
+		if !r.Success {
+			hasErrors = true
+			break
+		}
+	}
+	p.resultsMu.Unlock()
+	
+	if hasErrors {
+		return 2
+	}
+	
+	if p.pipelineDiff != nil {
+		return p.pipelineDiff.ExitCode()
+	}
+	
+	return 0
 }
 
 // GenerateConfigs generates VaultSecretSync configs without executing them

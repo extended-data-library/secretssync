@@ -9,17 +9,21 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/robertlestak/vault-secret-sync/pkg/diff"
 	"github.com/robertlestak/vault-secret-sync/pkg/pipeline"
 	"github.com/spf13/cobra"
 	log "github.com/sirupsen/logrus"
 )
 
 var (
-	targets        string
-	mergeOnly      bool
-	syncOnly       bool
-	dryRun         bool
+	targets         string
+	mergeOnly       bool
+	syncOnly        bool
+	dryRun          bool
 	discoverTargets bool
+	outputFormat    string
+	computeDiff     bool
+	exitCodeMode    bool
 )
 
 // pipelineCmd runs the full merge-then-sync pipeline
@@ -37,18 +41,33 @@ var pipelineCmd = &cobra.Command{
    - Assumes Control Tower execution role in each account
    - Runs in parallel (respects --parallel setting)
 
+3. DIFF REPORTING: Track and report all changes
+   - Zero-sum validation for migration verification
+   - Multiple output formats (human, JSON, GitHub Actions)
+   - CI/CD-friendly exit codes (0=no changes, 1=changes, 2=errors)
+
 Examples:
   # Full pipeline
   vss pipeline --config config.yaml
 
-  # Dry run
-  vss pipeline --config config.yaml --dry-run
+  # Dry run with diff output (validates zero-sum)
+  vss pipeline --config config.yaml --dry-run --output json
+
+  # CI/CD mode with exit codes
+  vss pipeline --config config.yaml --dry-run --exit-code
+  # Returns: 0 if no changes, 1 if changes detected, 2 on errors
+
+  # GitHub Actions compatible output
+  vss pipeline --config config.yaml --dry-run --output github
 
   # Specific targets only
   vss pipeline --config config.yaml --targets "Serverless_Stg,Serverless_Prod"
 
   # Merge only (no AWS sync)
-  vss pipeline --config config.yaml --merge-only`,
+  vss pipeline --config config.yaml --merge-only
+
+  # Compute diff even when applying changes (for audit trail)
+  vss pipeline --config config.yaml --diff`,
 	RunE: runPipeline,
 }
 
@@ -60,6 +79,11 @@ func init() {
 	pipelineCmd.Flags().BoolVar(&syncOnly, "sync-only", false, "only run sync phase")
 	pipelineCmd.Flags().BoolVar(&dryRun, "dry-run", false, "dry run mode (no changes)")
 	pipelineCmd.Flags().BoolVar(&discoverTargets, "discover", false, "enable dynamic target discovery from AWS Organizations/Identity Center")
+	
+	// Diff and output options
+	pipelineCmd.Flags().StringVarP(&outputFormat, "output", "o", "human", "output format: human, json, github, compact")
+	pipelineCmd.Flags().BoolVar(&computeDiff, "diff", false, "compute and show diff even when not in dry-run mode")
+	pipelineCmd.Flags().BoolVar(&exitCodeMode, "exit-code", false, "use exit codes: 0=no changes, 1=changes, 2=errors (useful for CI/CD)")
 }
 
 func runPipeline(cmd *cobra.Command, args []string) error {
@@ -112,26 +136,49 @@ func runPipeline(cmd *cobra.Command, args []string) error {
 		op = pipeline.OperationSync
 	}
 
+	// Parse output format
+	format := parseOutputFormat(outputFormat)
+
 	// Run options
 	opts := pipeline.Options{
 		Operation:       op,
 		Targets:         targetList,
 		DryRun:          dryRun,
 		ContinueOnError: true,
+		OutputFormat:    format,
+		ComputeDiff:     computeDiff || dryRun,
 	}
 
 	l.WithFields(log.Fields{
-		"config":    cfgFile,
-		"targets":   targetList,
-		"operation": op,
-		"dryRun":    dryRun,
+		"config":       cfgFile,
+		"targets":      targetList,
+		"operation":    op,
+		"dryRun":       dryRun,
+		"outputFormat": format,
 	}).Info("Starting pipeline")
 
 	// Run pipeline
 	results, err := p.Run(ctx, opts)
 
-	// Print summary
-	printResults(results)
+	// Print diff output if computed
+	if d := p.Diff(); d != nil {
+		diffOutput := p.FormatDiff(format)
+		if diffOutput != "" {
+			fmt.Println(diffOutput)
+		}
+	} else {
+		// Fall back to traditional results format
+		printResults(results)
+	}
+
+	// Determine exit behavior
+	if exitCodeMode {
+		exitCode := p.ExitCode()
+		if exitCode != 0 {
+			os.Exit(exitCode)
+		}
+		return nil
+	}
 
 	if err != nil {
 		return err
@@ -146,6 +193,20 @@ func runPipeline(cmd *cobra.Command, args []string) error {
 
 	l.Info("Pipeline completed successfully")
 	return nil
+}
+
+// parseOutputFormat converts string to OutputFormat
+func parseOutputFormat(s string) diff.OutputFormat {
+	switch strings.ToLower(s) {
+	case "json":
+		return diff.OutputFormatJSON
+	case "github":
+		return diff.OutputFormatGitHub
+	case "compact":
+		return diff.OutputFormatCompact
+	default:
+		return diff.OutputFormatHuman
+	}
 }
 
 func printResults(results []pipeline.Result) {
