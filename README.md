@@ -1,6 +1,6 @@
 # HashiCorp Vault Secret Sync
 
-> **Maintained by jbcom** | [Original by robertlestak](https://github.com/robertlestak/vault-secret-sync)
+> **Maintained by jbcom** | [Original by robertlestak](https://github.com/jbcom/secretsync)
 
 vault-secret-sync provides fully automated real-time secret synchronization from HashiCorp Vault to other remote secret stores. This enables you to take advantage of natively integrated cloud secret stores while maintaining an authoritative single source of truth in Vault. Both Open Source and Enterprise versions of Vault are supported.
 

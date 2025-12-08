@@ -11,8 +11,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager/types"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
-	"github.com/robertlestak/vault-secret-sync/pkg/driver"
-	"github.com/robertlestak/vault-secret-sync/pkg/utils"
+	"github.com/jbcom/secretsync/pkg/driver"
+	"github.com/jbcom/secretsync/pkg/utils"
 	log "github.com/sirupsen/logrus"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )

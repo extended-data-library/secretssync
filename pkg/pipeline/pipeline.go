@@ -37,13 +37,13 @@ import (
 	"time"
 
 	"github.com/hashicorp/vault/sdk/logical"
-	"github.com/robertlestak/vault-secret-sync/api/v1alpha1"
-	"github.com/robertlestak/vault-secret-sync/internal/backend"
-	"github.com/robertlestak/vault-secret-sync/internal/queue"
-	internalSync "github.com/robertlestak/vault-secret-sync/internal/sync"
-	"github.com/robertlestak/vault-secret-sync/pkg/diff"
-	"github.com/robertlestak/vault-secret-sync/stores/aws"
-	"github.com/robertlestak/vault-secret-sync/stores/vault"
+	"github.com/jbcom/secretsync/api/v1alpha1"
+	"github.com/jbcom/secretsync/internal/backend"
+	"github.com/jbcom/secretsync/internal/queue"
+	internalSync "github.com/jbcom/secretsync/internal/sync"
+	"github.com/jbcom/secretsync/pkg/diff"
+	"github.com/jbcom/secretsync/stores/aws"
+	"github.com/jbcom/secretsync/stores/vault"
 	log "github.com/sirupsen/logrus"
 )
 

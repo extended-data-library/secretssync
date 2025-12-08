@@ -111,7 +111,7 @@ The name "vault-secret-sync" no longer accurately represents what this tool does
 ### Module Path
 ```go
 // Old
-import "github.com/robertlestak/vault-secret-sync/..."
+import "github.com/jbcom/secretsync/..."
 
 // New
 import "github.com/jbcom/secretsync/..."
@@ -158,7 +158,7 @@ docker pull jbcom/secretsync:latest
 
 ## Attribution
 
-This project was originally forked from [robertlestak/vault-secret-sync](https://github.com/robertlestak/vault-secret-sync). We acknowledge and thank the original author for the foundation this project is built upon.
+This project was originally forked from [robertlestak/vault-secret-sync](https://github.com/jbcom/secretsync). We acknowledge and thank the original author for the foundation this project is built upon.
 
 The fork has diverged significantly with:
 - Unified pipeline configuration

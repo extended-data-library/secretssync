@@ -9,8 +9,8 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/robertlestak/vault-secret-sync/pkg/diff"
-	"github.com/robertlestak/vault-secret-sync/pkg/pipeline"
+	"github.com/jbcom/secretsync/pkg/diff"
+	"github.com/jbcom/secretsync/pkg/pipeline"
 	"github.com/spf13/cobra"
 	log "github.com/sirupsen/logrus"
 )

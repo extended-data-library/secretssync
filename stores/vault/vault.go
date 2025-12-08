@@ -8,8 +8,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/robertlestak/vault-secret-sync/pkg/driver"
-	"github.com/robertlestak/vault-secret-sync/pkg/utils"
+	"github.com/jbcom/secretsync/pkg/driver"
+	"github.com/jbcom/secretsync/pkg/utils"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/hashicorp/vault/api"

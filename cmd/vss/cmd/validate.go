@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/robertlestak/vault-secret-sync/pkg/pipeline"
+	"github.com/jbcom/secretsync/pkg/pipeline"
 	"github.com/spf13/cobra"
 	log "github.com/sirupsen/logrus"
 )

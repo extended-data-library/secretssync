@@ -1,4 +1,4 @@
-module github.com/robertlestak/vault-secret-sync
+module github.com/jbcom/secretsync
 
 go 1.25.3
 
