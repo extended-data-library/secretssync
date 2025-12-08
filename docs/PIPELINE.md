@@ -62,22 +62,22 @@ targets:
 
 ```bash
 # Full pipeline (merge + sync)
-vss pipeline --config config.yaml
+secretsync pipeline --config config.yaml
 
 # Dry run
-vss pipeline --config config.yaml --dry-run
+secretsync pipeline --config config.yaml --dry-run
 
 # Specific targets
-vss pipeline --config config.yaml --targets Serverless_Stg
+secretsync pipeline --config config.yaml --targets Serverless_Stg
 
 # Merge only (no AWS sync)
-vss pipeline --config config.yaml --merge-only
+secretsync pipeline --config config.yaml --merge-only
 
 # Validate configuration
-vss validate --config config.yaml
+secretsync validate --config config.yaml
 
 # Show dependency graph
-vss graph --config config.yaml
+secretsync graph --config config.yaml
 ```
 
 ## AWS Execution Context
@@ -359,17 +359,17 @@ jobs:
           role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
           aws-region: us-east-1
       
-      - name: Install vss
+      - name: Install secretsync
         run: |
-          curl -sL https://github.com/jbcom/vault-secret-sync/releases/latest/download/vss_linux_amd64 \
-            -o /usr/local/bin/vss && chmod +x /usr/local/bin/vss
+          curl -sL https://github.com/jbcom/vault-secret-sync/releases/latest/download/secretsync_linux_amd64 \
+            -o /usr/local/bin/secretsync && chmod +x /usr/local/bin/secretsync
       
       - name: Run Pipeline
         env:
           VAULT_ROLE_ID: ${{ secrets.VAULT_ROLE_ID }}
           VAULT_SECRET_ID: ${{ secrets.VAULT_SECRET_ID }}
         run: |
-          vss pipeline \
+          secretsync pipeline \
             --config config.yaml \
             --targets "${{ inputs.targets || 'all' }}" \
             ${{ inputs.dry_run && '--dry-run' || '' }}
@@ -382,10 +382,10 @@ secrets-sync:
   stage: deploy
   image: alpine
   before_script:
-    - wget -O /usr/local/bin/vss https://github.com/jbcom/vault-secret-sync/releases/latest/download/vss_linux_amd64
-    - chmod +x /usr/local/bin/vss
+    - wget -O /usr/local/bin/secretsync https://github.com/jbcom/vault-secret-sync/releases/latest/download/secretsync_linux_amd64
+    - chmod +x /usr/local/bin/secretsync
   script:
-    - vss pipeline --config config.yaml
+    - secretsync pipeline --config config.yaml
   only:
     - schedules
     - web
@@ -396,28 +396,28 @@ secrets-sync:
 ### Validate Configuration
 
 ```bash
-vss validate --config config.yaml
-vss validate --config config.yaml --check-aws
+secretsync validate --config config.yaml
+secretsync validate --config config.yaml --check-aws
 ```
 
 ### View Dependency Graph
 
 ```bash
-vss graph --config config.yaml
-vss graph --config config.yaml --format dot | dot -Tpng -o graph.png
+secretsync graph --config config.yaml
+secretsync graph --config config.yaml --format dot | dot -Tpng -o graph.png
 ```
 
 ### Check AWS Context
 
 ```bash
-vss context
-vss context --config config.yaml
+secretsync context
+secretsync context --config config.yaml
 ```
 
 ### Debug Logging
 
 ```bash
-vss pipeline --config config.yaml --log-level debug --log-format json
+secretsync pipeline --config config.yaml --log-level debug --log-format json
 ```
 
 ### Common Issues
@@ -445,18 +445,18 @@ vss pipeline --config config.yaml --log-level debug --log-format json
 
 ## Migration from terraform-aws-secretsmanager
 
-If you're migrating from the Terraform-based pipeline, use the `vss migrate` command:
+If you're migrating from the Terraform-based pipeline, use the `secretsync migrate` command:
 
 ```bash
 # Migrate from terraform-aws-secretsmanager format
-vss migrate --from terraform-secretsmanager \
+secretsync migrate --from terraform-secretsmanager \
             --targets config/targets.yaml \
             --secrets config/secrets.yaml \
             --accounts config/accounts.yaml \
             --output pipeline-config.yaml
 
 # Optional: specify Vault address and merge mount
-vss migrate --from terraform-secretsmanager \
+secretsync migrate --from terraform-secretsmanager \
             --targets config/targets.yaml \
             --secrets config/secrets.yaml \
             --accounts config/accounts.yaml \
@@ -508,8 +508,8 @@ accounts:
 
 1. Review the generated config file
 2. Add Vault authentication (token, AppRole, etc.)
-3. Validate: `vss validate --config pipeline-config.yaml`
-4. Dry run: `vss pipeline --config pipeline-config.yaml --dry-run`
+3. Validate: `secretsync validate --config pipeline-config.yaml`
+4. Dry run: `secretsync pipeline --config pipeline-config.yaml --dry-run`
 
 Key differences from the Terraform-based approach:
 - No Terraform state required

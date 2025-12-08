@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed `AnnotationOperations` to accept and use context parameter
 - Fixed dangerous `os.Exit(1)` in goroutine - now uses proper logging
 - Fixed duplicate `rand` import conflict in stores/github/github.go
-- Fixed incorrect type reference in cmd/vss/main.go (`EventsConfig` → `EventServer`)
+- Fixed incorrect type reference in cmd/secretsync/main.go (`EventsConfig` → `EventServer`)
 - Fixed `metrics.Start()` call in main.go (function doesn't return error)
 - Fixed README typos ("syncronization" → "synchronization", "authoratative" → "authoritative")
 - Fixed README copy-paste error in Suspended section (showed wrong YAML example)

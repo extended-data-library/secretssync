@@ -34,7 +34,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     GOARM=${TARGETVARIANT#v} \
     go build -trimpath \
       -ldflags="-s -w" \
-      -o /out/vss ./cmd/vss
+      -o /out/secretsync ./cmd/secretsync
 
 ###
 # Runtime image: tiny BusyBox container that only carries the binary and certs.
@@ -42,10 +42,10 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 FROM busybox:1.36.1-musl AS runtime
 
 ARG VERSION=dev
-ARG VSS_CONFIG=/etc/vss/config.yaml
+ARG SECRETSYNC_CONFIG=/etc/secretsync/config.yaml
 
-ENV VSS_CONFIG=${VSS_CONFIG} \
-    VSS_VERSION=${VERSION}
+ENV SECRETSYNC_CONFIG=${SECRETSYNC_CONFIG} \
+    SECRETSYNC_VERSION=${VERSION}
 
 LABEL org.opencontainers.image.title="secretsync" \
       org.opencontainers.image.source="https://github.com/jbcom/jbcom-oss-ecosystem" \
@@ -55,8 +55,10 @@ WORKDIR /app
 
 RUN mkdir -p /etc/ssl/certs
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=builder /out/vss /usr/local/bin/vss
+COPY --from=builder /out/secretsync /usr/local/bin/secretsync
+# Keep vss as a symlink for backwards compatibility
+RUN ln -s /usr/local/bin/secretsync /usr/local/bin/vss
 
 USER 65532:65532
 
-ENTRYPOINT ["/usr/local/bin/vss"]
+ENTRYPOINT ["/usr/local/bin/secretsync"]

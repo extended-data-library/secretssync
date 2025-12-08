@@ -26,7 +26,7 @@ go test ./...
 golangci-lint run
 
 # Run locally
-go run cmd/vss/main.go
+go run cmd/secretsync/main.go
 ```
 
 ## Docker

@@ -4,3 +4,5 @@
 data/
 config.yaml
 devcerts/
+secretsync
+vss

@@ -30,7 +30,7 @@ go test ./internal/sync/...
 golangci-lint run
 
 # Build
-go build ./cmd/vss
+go build ./cmd/secretsync
 ```
 
 ## Docker Commands

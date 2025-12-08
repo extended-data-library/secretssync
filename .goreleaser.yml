@@ -9,9 +9,9 @@ before:
     - go mod download
 
 builds:
-  - id: vss
-    main: ./cmd/vss
-    binary: vss
+  - id: secretsync
+    main: ./cmd/secretsync
+    binary: secretsync
     env:
       - CGO_ENABLED=0
     goos:

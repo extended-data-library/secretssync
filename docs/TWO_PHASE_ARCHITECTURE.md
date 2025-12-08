@@ -146,7 +146,7 @@ targets:
 
 **Execution**:
 ```bash
-vss pipeline --config config.yaml
+secretsync pipeline --config config.yaml
 # Phase 1: MERGE - sources → merge store
 # Phase 2: SYNC  - merge store → targets
 ```
@@ -173,7 +173,7 @@ targets:
 
 **Execution**:
 ```bash
-vss pipeline --config config.yaml --sync-only
+secretsync pipeline --config config.yaml --sync-only
 # Only SYNC phase - source → targets directly
 ```
 
@@ -203,7 +203,7 @@ targets:
 
 **Execution**:
 ```bash
-vss pipeline --config config.yaml --merge-only
+secretsync pipeline --config config.yaml --merge-only
 # Only MERGE phase - sources → merge store
 # Sync can be triggered later or by another process
 ```
@@ -214,7 +214,7 @@ Both phases support diff computation:
 
 ```bash
 # Dry-run with diff output
-vss pipeline --config config.yaml --dry-run --output json
+secretsync pipeline --config config.yaml --dry-run --output json
 
 # Output:
 {
@@ -235,7 +235,7 @@ For migration validation, ensure the new pipeline produces identical results:
 
 ```bash
 # Should return exit code 0 (no changes)
-vss pipeline --config config.yaml --dry-run --exit-code
+secretsync pipeline --config config.yaml --dry-run --exit-code
 echo $?  # 0 = zero-sum, 1 = changes detected, 2 = errors
 ```
 
@@ -245,7 +245,7 @@ echo $?  # 0 = zero-sum, 1 = changes detected, 2 = errors
 # GitHub Actions example
 - name: Validate secrets pipeline
   run: |
-    vss pipeline --config config.yaml --dry-run --output github --exit-code
+    secretsync pipeline --config config.yaml --dry-run --output github --exit-code
   continue-on-error: true
   
 - name: Check for unexpected changes
@@ -319,11 +319,11 @@ common-secrets + staging-secrets + production-secrets
 
 3. **Always use dry-run first**:
    ```bash
-   vss pipeline --config config.yaml --dry-run --output human
+   secretsync pipeline --config config.yaml --dry-run --output human
    ```
 
 4. **For migrations, validate zero-sum**:
    ```bash
-   vss pipeline --config old-config.yaml --dry-run --exit-code
+   secretsync pipeline --config old-config.yaml --dry-run --exit-code
    # Must return 0 before switching to new solution
    ```

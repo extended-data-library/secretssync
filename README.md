@@ -57,7 +57,7 @@ See [Two-Phase Architecture](./docs/TWO_PHASE_ARCHITECTURE.md) for detailed docu
 
 ```bash
 # Go install
-go install github.com/jbcom/secretsync/cmd/vss@latest
+go install github.com/jbcom/secretsync/cmd/secretsync@latest
 
 # Or download binary from releases
 curl -LO https://github.com/jbcom/secretsync/releases/latest/download/secretsync-linux-amd64
