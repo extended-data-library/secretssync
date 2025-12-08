@@ -445,11 +445,71 @@ vss pipeline --config config.yaml --log-level debug --log-format json
 
 ## Migration from terraform-aws-secretsmanager
 
-If you're migrating from the Terraform-based pipeline, manually convert your configuration:
+If you're migrating from the Terraform-based pipeline, use the `vss migrate` command:
 
-1. Map your `targets.yaml` to the new `targets:` section
-2. Map your `secrets.yaml` to the new `sources:` section
-3. Map your `accounts.yaml` account IDs to target `account_id` fields
+```bash
+# Migrate from terraform-aws-secretsmanager format
+vss migrate --from terraform-secretsmanager \
+            --targets config/targets.yaml \
+            --secrets config/secrets.yaml \
+            --accounts config/accounts.yaml \
+            --output pipeline-config.yaml
+
+# Optional: specify Vault address and merge mount
+vss migrate --from terraform-secretsmanager \
+            --targets config/targets.yaml \
+            --secrets config/secrets.yaml \
+            --accounts config/accounts.yaml \
+            --vault-addr https://vault.example.com \
+            --vault-merge-mount secret/merged \
+            --output pipeline-config.yaml
+```
+
+### Expected Input Format
+
+**targets.yaml**:
+```yaml
+targets:
+  - name: production
+    description: Production account
+    imports: []
+    secrets:
+      - analytics_secrets
+      - shared_config
+  - name: staging
+    imports:
+      - production
+    secrets:
+      - staging_overrides
+```
+
+**secrets.yaml**:
+```yaml
+secrets:
+  - name: analytics_secrets
+    vault_path: analytics/config
+    vault_mount: secret
+  - name: shared_config
+    vault_path: shared/settings
+```
+
+**accounts.yaml**:
+```yaml
+accounts:
+  - name: production
+    account_id: "123456789012"
+    region: us-east-1
+  - name: staging
+    account_id: "234567890123"
+    region: us-west-2
+```
+
+### Post-Migration Steps
+
+1. Review the generated config file
+2. Add Vault authentication (token, AppRole, etc.)
+3. Validate: `vss validate --config pipeline-config.yaml`
+4. Dry run: `vss pipeline --config pipeline-config.yaml --dry-run`
 
 Key differences from the Terraform-based approach:
 - No Terraform state required

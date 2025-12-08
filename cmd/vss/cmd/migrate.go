@@ -147,7 +147,7 @@ func migrateTerraformSecretManager() error {
 			Address: getVaultAddr(),
 		},
 		MergeStore: pipeline.MergeStoreConfig{
-			Vault: &pipeline.VaultMergeStore{
+			Vault: &pipeline.MergeStoreVault{
 				Mount: vaultMergeMount,
 			},
 		},
@@ -172,8 +172,10 @@ func migrateTerraformSecretManager() error {
 		}
 		sourceName := sanitizeSourceName(sec.Name)
 		cfg.Sources[sourceName] = pipeline.Source{
-			VaultMount: mount,
-			VaultPath:  sec.VaultPath,
+			Vault: &pipeline.VaultSource{
+				Mount: mount,
+				Paths: []string{sec.VaultPath},
+			},
 		}
 	}
 
@@ -192,9 +194,7 @@ func migrateTerraformSecretManager() error {
 			imports = append(imports, sanitizeSourceName(secName))
 		}
 		// Add imports from target inheritance
-		for _, imp := range target.Imports {
-			imports = append(imports, imp)
-		}
+		imports = append(imports, target.Imports...)
 
 		pipelineTarget := pipeline.Target{
 			AccountID: account.AccountID,

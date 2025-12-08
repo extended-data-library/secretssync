@@ -13,12 +13,12 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.19.2
 	github.com/aws/aws-sdk-go-v2/service/identitystore v1.34.5
 	github.com/aws/aws-sdk-go-v2/service/organizations v1.49.2
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.79.3
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.80.1
 	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.40.2
-	github.com/aws/aws-sdk-go-v2/service/ssm v1.58.2
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.42.17
 	github.com/aws/aws-sdk-go-v2/service/ssoadmin v1.36.10
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.2
+	github.com/fsnotify/fsnotify v1.9.0
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/google/go-github/v62 v62.0.0
 	github.com/google/uuid v1.6.0
@@ -58,12 +58,16 @@ require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/armon/go-radix v1.0.0 // indirect
+	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.6.10 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.14 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.16 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.16 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.4 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.34 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.3 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.7.2 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.14 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.18.15 // indirect
 	github.com/aws/aws-sdk-go-v2/service/signin v1.0.2 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.30.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.10 // indirect
@@ -82,7 +86,6 @@ require (
 	github.com/evanphx/json-patch/v5 v5.9.11 // indirect
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
-	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.0 // indirect
 	github.com/go-jose/go-jose/v3 v3.0.4 // indirect
 	github.com/go-jose/go-jose/v4 v4.1.3 // indirect
