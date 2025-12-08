@@ -105,8 +105,8 @@ The service can be deployed in Kubernetes using the provided Helm chart. The Hel
 Once you have your `values.yaml` file configured, you can deploy the service using the following command:
 
 ```shell
-helm install -n vault-secret-sync --create-namespace \
-  vault-secret-sync ./deploy/charts/vault-secret-sync \
+helm install -n secretsync --create-namespace \
+  secretsync ./deploy/charts/secretsync \
   -f /path/to/values.yaml
 ```
 
@@ -119,14 +119,14 @@ You can mount volumes, secrets, and env vars to any of the components through th
 If you're not a fan of using Helm to manage your resources, you can always replace `helm install` with `helm template` and pipe the output to `kubectl apply -f -` to apply the resources directly to your cluster.
 
 ```shell
-helm template -n vault-secret-sync \
-  vault-secret-sync ./deploy/charts/vault-secret-sync \
+helm template -n secretsync \
+  secretsync ./deploy/charts/secretsync \
   -f /path/to/values.yaml | kubectl apply -f -
 ```
 
 ## Shipping Logs
 
-This service relies on the audit logs as shipped by HashiCorp Vault. You must have an [audit device](https://developer.hashicorp.com/vault/docs/audit) configured in your Vault instance to ship logs to the service. You must configure the webhook endpoint in your audit device to point to the `/events` endpoint of the service. It is recommended to include the `X-Vault-Tenant` header in the request to the service to identify the source of the event. This is especially important if you are syncing secrets from multiple Vault instances. This is discussed more in [Usage - Source Determination](./USAGE.md#source-determination). Below is a sample Fluentd configuration that ships logs to the service. If you have event server token-based security enabled, you will also need to include the `X-Vault-Secret-Sync-Token` header in the request. While your security posture may vary, it's generally recommended to use multiple layers of security, such as internal networking, IP whitelisting, service mesh RBAC, and token-based security.
+This service relies on the audit logs as shipped by HashiCorp Vault. You must have an [audit device](https://developer.hashicorp.com/vault/docs/audit) configured in your Vault instance to ship logs to the service. You must configure the webhook endpoint in your audit device to point to the `/events` endpoint of the service. It is recommended to include the `X-Vault-Tenant` header in the request to the service to identify the source of the event. This is especially important if you are syncing secrets from multiple Vault instances. This is discussed more in [Usage - Source Determination](./USAGE.md#source-determination). Below is a sample Fluentd configuration that ships logs to the service. If you have event server token-based security enabled, you will also need to include the `X-SecretSync-Token` header in the request. While your security posture may vary, it's generally recommended to use multiple layers of security, such as internal networking, IP whitelisting, service mesh RBAC, and token-based security.
 
 ### Fluentd Configuration Example
 
@@ -135,8 +135,8 @@ This service relies on the audit logs as shipped by HashiCorp Vault. You must ha
 ```xml
 <store>
   @type http
-  endpoint https://vault-secret-sync/events
-  headers {"x-vault-tenant": "https://vault.example.com", "x-vault-secret-sync-token": "99CFF209-9E67-4B22-880F-E15DAC3C1CEE"}
+  endpoint https://secretsync/events
+  headers {"x-vault-tenant": "https://vault.example.com", "x-secretsync-token": "99CFF209-9E67-4B22-880F-E15DAC3C1CEE"}
   open_timeout 2
   <format>
     @type json
@@ -152,7 +152,7 @@ This service relies on the audit logs as shipped by HashiCorp Vault. You must ha
 ```xml
 <store>
   @type http
-  endpoint https://vault-secret-sync/events
+  endpoint https://secretsync/events
   headers {"x-vault-tenant": "https://vault.example.com"}
   tls_ca_cert_path /path/to/ca.crt
   tls_client_cert_path /path/to/client.crt

@@ -92,7 +92,7 @@ The name "vault-secret-sync" no longer accurately represents what this tool does
 2. **Update Go module path**: `github.com/jbcom/secretsync`
 3. **Update all imports**: sed/find-replace across codebase
 4. **Update binary name**: `vss` → `secretsync` (or keep `vss` as alias)
-5. **Update Helm charts**: `vault-secret-sync` → `secretsync`
+5. **Update Helm charts**: `vault-secret-sync` → `secretsync` ✅
 6. **Update Docker images**: `vault-secret-sync` → `secretsync`
 
 ### Phase 3: Documentation
