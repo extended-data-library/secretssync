@@ -28,6 +28,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials/stscreds"
 	"github.com/aws/aws-sdk-go-v2/service/organizations"
+	"github.com/aws/aws-sdk-go-v2/service/ssm"
 	"github.com/aws/aws-sdk-go-v2/service/ssoadmin"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
 	log "github.com/sirupsen/logrus"
@@ -44,6 +45,7 @@ type AWSExecutionContext struct {
 	stsClient  *sts.Client
 	orgClient  *organizations.Client
 	ssoClient  *ssoadmin.Client
+	ssmClient  *ssm.Client
 }
 
 // CallerIdentity contains AWS STS GetCallerIdentity information
@@ -483,6 +485,27 @@ type AccountInfo struct {
 	Email  string
 	Status string
 	Tags   map[string]string
+}
+
+// GetSSMParameter retrieves a parameter value from SSM Parameter Store
+func (ec *AWSExecutionContext) GetSSMParameter(ctx context.Context, name string) (string, error) {
+	if ec.ssmClient == nil {
+		ec.ssmClient = ssm.NewFromConfig(ec.BaseConfig)
+	}
+
+	output, err := ec.ssmClient.GetParameter(ctx, &ssm.GetParameterInput{
+		Name:           aws.String(name),
+		WithDecryption: aws.Bool(true),
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed to get SSM parameter %s: %w", name, err)
+	}
+
+	if output.Parameter == nil || output.Parameter.Value == nil {
+		return "", fmt.Errorf("SSM parameter %s has no value", name)
+	}
+
+	return aws.ToString(output.Parameter.Value), nil
 }
 
 // Summary returns a summary of the execution context

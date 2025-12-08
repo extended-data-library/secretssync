@@ -179,13 +179,42 @@ type MergeStoreS3 struct {
 	KMSKeyID  string `mapstructure:"kms_key_id" yaml:"kms_key_id"`
 }
 
-// Target defines a sync destination
+// Target defines a sync destination.
+// Supports two YAML formats:
+//  1. Explicit: target: {account_id: "...", imports: [...]}
+//  2. Shorthand inheritance: target: [parent1, parent2]  (list IS the imports)
 type Target struct {
 	AccountID    string   `mapstructure:"account_id" yaml:"account_id"`
 	Imports      []string `mapstructure:"imports" yaml:"imports"`
 	Region       string   `mapstructure:"region" yaml:"region"`
 	SecretPrefix string   `mapstructure:"secret_prefix" yaml:"secret_prefix"`
 	RoleARN      string   `mapstructure:"role_arn" yaml:"role_arn"`
+}
+
+// UnmarshalYAML implements custom YAML unmarshaling to support shorthand format.
+// This matches terraform-aws-secretsmanager targets.yaml format where:
+//
+//	Serverless_Stg:
+//	  imports: [analytics]  # explicit format
+//
+//	Serverless_Prod:
+//	  - Serverless_Stg      # shorthand: list IS the imports
+func (t *Target) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	// First try to unmarshal as a list (shorthand format)
+	var shorthand []string
+	if err := unmarshal(&shorthand); err == nil {
+		t.Imports = shorthand
+		return nil
+	}
+
+	// Otherwise unmarshal as the full struct
+	type targetAlias Target // avoid infinite recursion
+	var full targetAlias
+	if err := unmarshal(&full); err != nil {
+		return err
+	}
+	*t = Target(full)
+	return nil
 }
 
 // DynamicTarget defines targets discovered at runtime

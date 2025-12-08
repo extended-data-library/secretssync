@@ -3,6 +3,7 @@ package pipeline
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -294,8 +295,11 @@ func (d *DiscoveryService) discoverFromAccountsList(cfg *AccountsListDiscovery) 
 	return nil, fmt.Errorf("unsupported accounts list source: %s (supported: ssm:)", cfg.Source)
 }
 
-// getAccountsFromSSM retrieves account IDs from an SSM Parameter Store parameter
-// The parameter value should be a comma-separated list of account IDs or JSON array
+// getAccountsFromSSM retrieves account IDs from an SSM Parameter Store parameter.
+// The parameter value can be:
+//   - A comma-separated list of account IDs: "111111111111,222222222222,333333333333"
+//   - A JSON array: ["111111111111","222222222222","333333333333"]
+//   - A JSON array of objects: [{"id": "111111111111", "name": "Account1"}, ...]
 func (d *DiscoveryService) getAccountsFromSSM(paramName string) ([]AccountInfo, error) {
 	l := log.WithFields(log.Fields{
 		"action": "getAccountsFromSSM",
@@ -303,9 +307,62 @@ func (d *DiscoveryService) getAccountsFromSSM(paramName string) ([]AccountInfo, 
 	})
 	l.Debug("Fetching accounts from SSM Parameter Store")
 
-	// Note: SSM client needs to be added to AWSExecutionContext
-	// For now, return a placeholder that explains the limitation
-	return nil, fmt.Errorf("SSM-based account discovery requires SSM client setup; parameter: %s", paramName)
+	// Get parameter value
+	value, err := d.awsCtx.GetSSMParameter(d.ctx, paramName)
+	if err != nil {
+		return nil, err
+	}
+
+	value = strings.TrimSpace(value)
+	if value == "" {
+		return nil, fmt.Errorf("SSM parameter %s is empty", paramName)
+	}
+
+	var accounts []AccountInfo
+
+	// Try to parse as JSON array first
+	if strings.HasPrefix(value, "[") {
+		// Try as array of objects with id/name fields
+		var objArray []struct {
+			ID   string `json:"id"`
+			Name string `json:"name"`
+		}
+		if err := json.Unmarshal([]byte(value), &objArray); err == nil && len(objArray) > 0 && objArray[0].ID != "" {
+			for _, obj := range objArray {
+				accounts = append(accounts, AccountInfo{
+					ID:   obj.ID,
+					Name: obj.Name,
+				})
+			}
+			l.WithField("count", len(accounts)).Debug("Parsed SSM parameter as JSON object array")
+			return accounts, nil
+		}
+
+		// Try as simple string array
+		var strArray []string
+		if err := json.Unmarshal([]byte(value), &strArray); err == nil {
+			for _, id := range strArray {
+				id = strings.TrimSpace(id)
+				if id != "" {
+					accounts = append(accounts, AccountInfo{ID: id})
+				}
+			}
+			l.WithField("count", len(accounts)).Debug("Parsed SSM parameter as JSON string array")
+			return accounts, nil
+		}
+	}
+
+	// Fall back to comma-separated list
+	parts := strings.Split(value, ",")
+	for _, part := range parts {
+		id := strings.TrimSpace(part)
+		if id != "" {
+			accounts = append(accounts, AccountInfo{ID: id})
+		}
+	}
+
+	l.WithField("count", len(accounts)).Debug("Parsed SSM parameter as comma-separated list")
+	return accounts, nil
 }
 
 // findGroupByName finds an Identity Store group by display name
