@@ -32,6 +32,7 @@ package pipeline
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"sync"
 	"time"
@@ -617,7 +618,7 @@ func (p *Pipeline) mergeTarget(ctx context.Context, targetName string, dryRun bo
 		"failedImports": failedImports,
 	}).Info("Merge completed")
 
-	return Result{
+	result := Result{
 		Target:    targetName,
 		Phase:     "merge",
 		Operation: string(OperationMerge),
@@ -631,6 +632,24 @@ func (p *Pipeline) mergeTarget(ctx context.Context, targetName string, dryRun bo
 			FailedImports:    failedImports,
 		},
 	}
+
+	// Compute diff if tracking is enabled
+	if p.pipelineDiff != nil {
+		targetDiff, err := p.computeMergeDiff(ctx, targetName, sourcePaths)
+		if err != nil {
+			l.WithError(err).Debug("Failed to compute merge diff")
+		} else {
+			result.Diff = targetDiff
+			p.addTargetDiff(*targetDiff)
+			l.WithFields(log.Fields{
+				"added":    targetDiff.Summary.Added,
+				"removed":  targetDiff.Summary.Removed,
+				"modified": targetDiff.Summary.Modified,
+			}).Debug("Diff computed for merge")
+		}
+	}
+
+	return result
 }
 
 // syncTarget syncs merged secrets to AWS for a single target
@@ -712,7 +731,7 @@ func (p *Pipeline) syncTarget(ctx context.Context, targetName string, dryRun boo
 
 	l.WithField("duration", time.Since(start)).Info("Sync completed")
 
-	return Result{
+	result := Result{
 		Target:    targetName,
 		Phase:     "sync",
 		Operation: string(OperationSync),
@@ -724,6 +743,24 @@ func (p *Pipeline) syncTarget(ctx context.Context, targetName string, dryRun boo
 			RoleARN:         roleARN,
 		},
 	}
+
+	// Compute diff if tracking is enabled
+	if p.pipelineDiff != nil {
+		targetDiff, err := p.computeSyncDiff(ctx, targetName, roleARN, region)
+		if err != nil {
+			l.WithError(err).Debug("Failed to compute sync diff")
+		} else {
+			result.Diff = targetDiff
+			p.addTargetDiff(*targetDiff)
+			l.WithFields(log.Fields{
+				"added":    targetDiff.Summary.Added,
+				"removed":  targetDiff.Summary.Removed,
+				"modified": targetDiff.Summary.Modified,
+			}).Debug("Diff computed for sync")
+		}
+	}
+
+	return result
 }
 
 // createMergeSync creates a VaultSecretSync for merging sources
@@ -816,13 +853,244 @@ func (p *Pipeline) initDiff(dryRun bool, configPath string) {
 }
 
 // addTargetDiff adds a target diff to the pipeline diff
-// nolint:unused // Will be used when diff tracking is fully integrated into merge/sync phases
 func (p *Pipeline) addTargetDiff(td diff.TargetDiff) {
 	p.diffMu.Lock()
 	defer p.diffMu.Unlock()
 	if p.pipelineDiff != nil {
 		p.pipelineDiff.AddTargetDiff(td)
 	}
+}
+
+// fetchVaultSecrets fetches all secrets from a Vault path
+func (p *Pipeline) fetchVaultSecrets(ctx context.Context, path string) (map[string]interface{}, error) {
+	l := log.WithFields(log.Fields{
+		"action": "fetchVaultSecrets",
+		"path":   path,
+	})
+
+	// Create a Vault client
+	vaultClient := &vault.VaultClient{
+		Address:   p.config.Vault.Address,
+		Namespace: p.config.Vault.Namespace,
+		Path:      path,
+	}
+
+	if err := vaultClient.Init(ctx); err != nil {
+		l.WithError(err).Debug("Failed to initialize Vault client")
+		return nil, err
+	}
+	defer vaultClient.Close()
+
+	// List all secrets at the path
+	secretsList, err := vaultClient.ListSecrets(ctx, path)
+	if err != nil {
+		l.WithError(err).Debug("Failed to list secrets")
+		// Return empty map if path doesn't exist (no secrets yet)
+		return map[string]interface{}{}, nil
+	}
+
+	// Fetch each secret
+	secrets := make(map[string]interface{})
+	for _, secretName := range secretsList {
+		secretPath := fmt.Sprintf("%s/%s", path, secretName)
+		secretData, err := vaultClient.GetSecret(ctx, secretPath)
+		if err != nil {
+			l.WithError(err).WithField("secretPath", secretPath).Debug("Failed to get secret")
+			continue
+		}
+
+		// Parse the secret data
+		var data interface{}
+		if err := json.Unmarshal(secretData, &data); err != nil {
+			l.WithError(err).WithField("secretPath", secretPath).Debug("Failed to parse secret")
+			continue
+		}
+		secrets[secretName] = data
+	}
+
+	return secrets, nil
+}
+
+// fetchAWSSecrets fetches all secrets from AWS Secrets Manager
+func (p *Pipeline) fetchAWSSecrets(ctx context.Context, roleARN, region string) (map[string]interface{}, error) {
+	l := log.WithFields(log.Fields{
+		"action":  "fetchAWSSecrets",
+		"roleARN": roleARN,
+		"region":  region,
+	})
+
+	// Create an AWS client
+	awsClient := &aws.AwsClient{
+		RoleArn: roleARN,
+		Region:  region,
+		Name:    "fetch-current-state",
+	}
+
+	if err := awsClient.Init(ctx); err != nil {
+		l.WithError(err).Debug("Failed to initialize AWS client")
+		return nil, err
+	}
+
+	// List all secrets
+	secretsList, err := awsClient.ListSecrets(ctx, "")
+	if err != nil {
+		l.WithError(err).Debug("Failed to list AWS secrets")
+		return map[string]interface{}{}, nil
+	}
+
+	// Fetch each secret
+	secrets := make(map[string]interface{})
+	for _, secretName := range secretsList {
+		secretData, err := awsClient.GetSecret(ctx, secretName)
+		if err != nil {
+			l.WithError(err).WithField("secretName", secretName).Debug("Failed to get secret")
+			continue
+		}
+
+		// Parse the secret data
+		var data interface{}
+		if err := json.Unmarshal(secretData, &data); err != nil {
+			l.WithError(err).WithField("secretName", secretName).Debug("Failed to parse secret")
+			continue
+		}
+		secrets[secretName] = data
+	}
+
+	return secrets, nil
+}
+
+// fetchS3MergeSecrets fetches all secrets from S3 merge store for a target
+func (p *Pipeline) fetchS3MergeSecrets(ctx context.Context, targetName string) (map[string]interface{}, error) {
+	l := log.WithFields(log.Fields{
+		"action": "fetchS3MergeSecrets",
+		"target": targetName,
+	})
+
+	if p.s3Store == nil {
+		return map[string]interface{}{}, nil
+	}
+
+	// List all secrets for the target from S3
+	secrets, err := p.s3Store.ListSecrets(ctx, targetName)
+	if err != nil {
+		l.WithError(err).Debug("Failed to list S3 secrets")
+		return map[string]interface{}{}, nil
+	}
+
+	// Fetch each secret
+	secretsMap := make(map[string]interface{})
+	for _, secretName := range secrets {
+		secretData, err := p.s3Store.ReadSecret(ctx, targetName, secretName)
+		if err != nil {
+			l.WithError(err).WithField("secretName", secretName).Debug("Failed to read secret")
+			continue
+		}
+		secretsMap[secretName] = secretData
+	}
+
+	return secretsMap, nil
+}
+
+// computeMergeDiff computes the diff for a merge operation
+func (p *Pipeline) computeMergeDiff(ctx context.Context, targetName string, sourcePaths []string) (*diff.TargetDiff, error) {
+	l := log.WithFields(log.Fields{
+		"action": "computeMergeDiff",
+		"target": targetName,
+	})
+
+	// Fetch current state from merge store
+	var currentSecrets map[string]interface{}
+	var err error
+
+	if p.config.MergeStore.Vault != nil {
+		mergePath := fmt.Sprintf("%s/%s", p.config.MergeStore.Vault.Mount, targetName)
+		currentSecrets, err = p.fetchVaultSecrets(ctx, mergePath)
+		if err != nil {
+			l.WithError(err).Debug("Failed to fetch current merge store state")
+			currentSecrets = make(map[string]interface{})
+		}
+	} else if p.s3Store != nil {
+		currentSecrets, err = p.fetchS3MergeSecrets(ctx, targetName)
+		if err != nil {
+			l.WithError(err).Debug("Failed to fetch current S3 merge store state")
+			currentSecrets = make(map[string]interface{})
+		}
+	}
+
+	// Fetch desired state from source paths
+	// NOTE: This is a simplified implementation for diff calculation purposes.
+	// The actual merge operation uses deepmerge logic with proper precedence handling.
+	// This diff may not perfectly reflect merge conflicts when multiple sources
+	// contain the same secret path, but it provides a good approximation for
+	// zero-sum validation and change tracking.
+	desiredSecrets := make(map[string]interface{})
+	for _, sourcePath := range sourcePaths {
+		sourceSecrets, err := p.fetchVaultSecrets(ctx, sourcePath)
+		if err != nil {
+			l.WithError(err).WithField("sourcePath", sourcePath).Debug("Failed to fetch source secrets")
+			continue
+		}
+		// Simple merge - last source wins (actual merge uses deepmerge logic)
+		for k, v := range sourceSecrets {
+			desiredSecrets[k] = v
+		}
+	}
+
+	// Compute diff
+	changes := diff.DiffSecrets(currentSecrets, desiredSecrets)
+	summary := diff.ComputeSummary(changes)
+
+	targetDiff := &diff.TargetDiff{
+		Target:  targetName,
+		Changes: changes,
+		Summary: summary,
+	}
+
+	return targetDiff, nil
+}
+
+// computeSyncDiff computes the diff for a sync operation
+func (p *Pipeline) computeSyncDiff(ctx context.Context, targetName string, roleARN, region string) (*diff.TargetDiff, error) {
+	l := log.WithFields(log.Fields{
+		"action": "computeSyncDiff",
+		"target": targetName,
+	})
+
+	// Fetch current state from AWS
+	currentSecrets, err := p.fetchAWSSecrets(ctx, roleARN, region)
+	if err != nil {
+		l.WithError(err).Debug("Failed to fetch current AWS state")
+		currentSecrets = make(map[string]interface{})
+	}
+
+	// Fetch desired state from merge store
+	var desiredSecrets map[string]interface{}
+	if p.config.MergeStore.Vault != nil {
+		mergePath := fmt.Sprintf("%s/%s", p.config.MergeStore.Vault.Mount, targetName)
+		desiredSecrets, err = p.fetchVaultSecrets(ctx, mergePath)
+		if err != nil {
+			l.WithError(err).Debug("Failed to fetch desired state from merge store")
+			desiredSecrets = make(map[string]interface{})
+		}
+	} else if p.s3Store != nil {
+		desiredSecrets, err = p.fetchS3MergeSecrets(ctx, targetName)
+		if err != nil {
+			l.WithError(err).Debug("Failed to fetch desired state from S3")
+			desiredSecrets = make(map[string]interface{})
+		}
+	}
+
+	// Compute diff
+	changes := diff.DiffSecrets(currentSecrets, desiredSecrets)
+	summary := diff.ComputeSummary(changes)
+
+	targetDiff := &diff.TargetDiff{
+		Target:  targetName,
+		Changes: changes,
+		Summary: summary,
+	}
+
+	return targetDiff, nil
 }
 
 // FormatDiff returns the formatted diff output
@@ -840,7 +1108,7 @@ func (p *Pipeline) FormatDiff(format diff.OutputFormat) string {
 func (p *Pipeline) ExitCode() int {
 	p.diffMu.Lock()
 	defer p.diffMu.Unlock()
-	
+
 	// Check for errors first
 	p.resultsMu.Lock()
 	hasErrors := false
@@ -851,15 +1119,15 @@ func (p *Pipeline) ExitCode() int {
 		}
 	}
 	p.resultsMu.Unlock()
-	
+
 	if hasErrors {
 		return 2
 	}
-	
+
 	if p.pipelineDiff != nil {
 		return p.pipelineDiff.ExitCode()
 	}
-	
+
 	return 0
 }
 
