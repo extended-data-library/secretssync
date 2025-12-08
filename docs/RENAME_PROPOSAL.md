@@ -29,8 +29,66 @@ The name "vault-secret-sync" no longer accurately represents what this tool does
 - [ ] Ensure tests pass
 - [ ] Document current architecture
 
-### Phase 2: Rename Execution
-1. **Create new repository**: `github.com/jbcom/secretsync`
+### Phase 2: Break the Fork
+
+**Why break the fork?**
+- GitHub forks have limitations (can't disable issues separately, always linked)
+- PRs show "compare across forks" which is confusing
+- Project has diverged significantly - it's no longer the same project
+- Clean slate for CI/CD, releases, and permissions
+
+**How to break the fork:**
+
+```bash
+# Option A: Use the provided script
+./scripts/break-fork.sh jbcom secretsync
+
+# Option B: Manual steps
+# 1. Update go.mod module path
+# 2. Update all Go imports
+# 3. Update documentation
+# 4. Update Helm charts
+# 5. Update Dockerfile
+# 6. Update GitHub workflows
+```
+
+**GitHub-specific steps:**
+
+1. **Create NEW repository** (not a fork):
+   - Go to github.com/new
+   - Name: `secretsync`
+   - Do NOT initialize with README
+   - Do NOT use "Fork" button
+
+2. **Push fresh history** (optional but cleaner):
+   ```bash
+   rm -rf .git
+   git init
+   git add -A
+   git commit -m "Initial commit: secretsync - Universal Secrets Sync"
+   git remote add origin https://github.com/jbcom/secretsync.git
+   git push -u origin main
+   ```
+
+3. **Or keep history** (preserves blame/history):
+   ```bash
+   git remote remove origin
+   git remote add origin https://github.com/jbcom/secretsync.git
+   git push -u origin main --force
+   ```
+
+4. **Archive old fork** with notice:
+   ```markdown
+   # ⚠️ This repository has moved
+   
+   This project has been renamed and moved to:
+   **https://github.com/jbcom/secretsync**
+   
+   Please update your imports and bookmarks.
+   ```
+
+### Phase 3: Rename Execution
+1. **Create new repository**: `github.com/jbcom/secretsync` (NOT as fork)
 2. **Update Go module path**: `github.com/jbcom/secretsync`
 3. **Update all imports**: sed/find-replace across codebase
 4. **Update binary name**: `vss` → `secretsync` (or keep `vss` as alias)
