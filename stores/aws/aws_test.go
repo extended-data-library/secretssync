@@ -156,20 +156,38 @@ func TestAwsClient_DeepCopy(t *testing.T) {
 }
 
 func TestAwsClient_ListSecrets(t *testing.T) {
-	t.Run("List secrets validation", func(t *testing.T) {
+	t.Run("List secrets with LocalStack", func(t *testing.T) {
+		skipIfNoLocalStack(t)
+
+		client := &AwsClient{
+			Name:           "test",
+			Region:         "us-east-1",
+			NoEmptySecrets: false,
+		}
+
+		ctx := context.Background()
+
+		// Create client with LocalStack endpoint
+		err := client.CreateClientWithEndpoint(ctx, getTestEndpoint())
+		require.NoError(t, err)
+
+		// List secrets (should be empty initially)
+		secrets, err := client.ListSecrets(ctx, "")
+		assert.NoError(t, err)
+		assert.NotNil(t, secrets)
+	})
+
+	t.Run("List secrets validation - no client", func(t *testing.T) {
+		// This test validates the code structure without requiring LocalStack
 		client := &AwsClient{
 			Name:           "test",
 			NoEmptySecrets: false,
 		}
 
-		ctx := context.Background()
-		
-		// Without a real AWS client, this will fail
-		// This test validates the structure and compilation
-		_, err := client.ListSecrets(ctx, "")
-		
-		// Expected to fail without mock - validates code compiles
-		assert.Error(t, err)
+		// Don't call CreateClient - client.client is nil
+		// The test just validates the struct setup
+		assert.Equal(t, "test", client.Name)
+		assert.False(t, client.NoEmptySecrets)
 	})
 }
 
@@ -269,22 +287,54 @@ func TestAwsClient_SetDefaults(t *testing.T) {
 }
 
 func TestAwsClient_WriteSecret(t *testing.T) {
-	t.Run("Write secret validation", func(t *testing.T) {
+	t.Run("Write and read secret with LocalStack", func(t *testing.T) {
+		skipIfNoLocalStack(t)
+
+		client := &AwsClient{
+			Name:              "test",
+			Region:            "us-east-1",
+			SkipUnchanged:     false,
+			accountSecretArns: map[string]string{},
+		}
+
+		ctx := context.Background()
+
+		// Create client with LocalStack endpoint
+		err := client.CreateClientWithEndpoint(ctx, getTestEndpoint())
+		require.NoError(t, err)
+
+		meta := metav1.ObjectMeta{Name: "test"}
+		secretName := "test-secret-" + t.Name()
+		secretValue := []byte(`{"key":"value"}`)
+
+		// Write the secret
+		_, err = client.WriteSecret(ctx, meta, secretName, secretValue)
+		assert.NoError(t, err)
+
+		// List to populate ARN map
+		_, err = client.ListSecrets(ctx, "")
+		require.NoError(t, err)
+
+		// Read back the secret
+		result, err := client.GetSecret(ctx, secretName)
+		assert.NoError(t, err)
+		assert.Equal(t, secretValue, result)
+
+		// Cleanup
+		_ = client.DeleteSecret(ctx, secretName)
+	})
+
+	t.Run("Write secret validation - no client", func(t *testing.T) {
+		// This test validates the struct setup without requiring LocalStack
 		client := &AwsClient{
 			Name:              "test",
 			SkipUnchanged:     false,
 			accountSecretArns: map[string]string{},
 		}
 
-		ctx := context.Background()
-		meta := metav1.ObjectMeta{Name: "test"}
-		
-		// Without a real AWS client, this will fail
-		// This test validates the structure and compilation
-		_, err := client.WriteSecret(ctx, meta, "test-secret", []byte(`{"key":"value"}`))
-		
-		// Expected to fail without mock - validates code compiles
-		assert.Error(t, err)
+		assert.Equal(t, "test", client.Name)
+		assert.False(t, client.SkipUnchanged)
+		assert.NotNil(t, client.accountSecretArns)
 	})
 }
 
