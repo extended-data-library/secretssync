@@ -1,6 +1,7 @@
 package pipeline
 
 import (
+	"context"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -21,7 +22,7 @@ func TestGetAccountTagsStructure(t *testing.T) {
 
 		// Verify that GetAccountTags exists and returns the right types
 		// This will return an error since we don't have a valid org client, but that's expected
-		tags, err := ec.GetAccountTags(nil, "123456789012")
+		tags, err := ec.GetAccountTags(context.TODO(), "123456789012")
 
 		// Should return error about no access to Organizations
 		assert.Error(t, err)

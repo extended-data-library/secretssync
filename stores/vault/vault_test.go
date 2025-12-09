@@ -12,91 +12,17 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// mockLogical implements the Vault logical interface for testing
+// mockLogical is a minimal mock for Vault logical operations in tests.
+// Only implements ListWithContext which is the method used by recursive listing tests.
 type mockLogical struct {
-	readWithContextFunc   func(ctx context.Context, path string) (*api.Secret, error)
-	writeWithContextFunc  func(ctx context.Context, path string, data map[string]interface{}) (*api.Secret, error)
-	deleteWithContextFunc func(ctx context.Context, path string) (*api.Secret, error)
-	listWithContextFunc   func(ctx context.Context, path string) (*api.Secret, error)
+	listWithContextFunc func(ctx context.Context, path string) (*api.Secret, error)
 }
 
-func (m *mockLogical) Read(path string) (*api.Secret, error) {
-	return m.ReadWithContext(context.Background(), path)
-}
-
-func (m *mockLogical) Write(path string, data map[string]interface{}) (*api.Secret, error) {
-	return m.WriteWithContext(context.Background(), path, data)
-}
-
-func (m *mockLogical) Delete(path string) (*api.Secret, error) {
-	return m.DeleteWithContext(context.Background(), path)
-}
-
-func (m *mockLogical) List(path string) (*api.Secret, error) {
-	return m.ListWithContext(context.Background(), path)
-}
-
-func (m *mockLogical) ReadWithContext(ctx context.Context, path string) (*api.Secret, error) {
-	if m.readWithContextFunc != nil {
-		return m.readWithContextFunc(ctx, path)
-	}
-	return nil, nil
-}
-
-func (m *mockLogical) WriteWithContext(ctx context.Context, path string, data map[string]interface{}) (*api.Secret, error) {
-	if m.writeWithContextFunc != nil {
-		return m.writeWithContextFunc(ctx, path, data)
-	}
-	return nil, nil
-}
-
-func (m *mockLogical) DeleteWithContext(ctx context.Context, path string) (*api.Secret, error) {
-	if m.deleteWithContextFunc != nil {
-		return m.deleteWithContextFunc(ctx, path)
-	}
-	return nil, nil
-}
-
+// ListWithContext is used by the recursive listing tests
 func (m *mockLogical) ListWithContext(ctx context.Context, path string) (*api.Secret, error) {
 	if m.listWithContextFunc != nil {
 		return m.listWithContextFunc(ctx, path)
 	}
-	return nil, nil
-}
-
-func (m *mockLogical) Unwrap(wrappingToken string) (*api.Secret, error) {
-	return nil, nil
-}
-
-func (m *mockLogical) UnwrapWithContext(ctx context.Context, wrappingToken string) (*api.Secret, error) {
-	return nil, nil
-}
-
-func (m *mockLogical) ReadRaw(path string) (*api.Response, error) {
-	return nil, nil
-}
-
-func (m *mockLogical) ReadRawWithContext(ctx context.Context, path string) (*api.Response, error) {
-	return nil, nil
-}
-
-func (m *mockLogical) WriteBytes(path string, data []byte) (*api.Secret, error) {
-	return nil, nil
-}
-
-func (m *mockLogical) WriteBytesWithContext(ctx context.Context, path string, data []byte) (*api.Secret, error) {
-	return nil, nil
-}
-
-func (m *mockLogical) JSONMergePatch(ctx context.Context, path string, data map[string]interface{}) (*api.Secret, error) {
-	return nil, nil
-}
-
-func (m *mockLogical) ReadRawWithData(path string, data map[string][]string) (*api.Response, error) {
-	return nil, nil
-}
-
-func (m *mockLogical) ReadRawWithDataWithContext(ctx context.Context, path string, data map[string][]string) (*api.Response, error) {
 	return nil, nil
 }
 
