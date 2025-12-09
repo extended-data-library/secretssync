@@ -47,7 +47,18 @@ test-integration-docker:
 test-env-up:
 	docker-compose -f docker-compose.test.yml up -d localstack vault
 	@echo "Waiting for services to be healthy..."
-	@sleep 5
+	@for i in 1 2 3 4 5 6 7 8 9 10 11 12; do \
+		if docker-compose -f docker-compose.test.yml ps | grep -q "(healthy)" 2>/dev/null; then \
+			echo "Services are healthy!"; \
+			break; \
+		fi; \
+		if [ $$i -eq 12 ]; then \
+			echo "Warning: Services may not be fully healthy, proceeding anyway"; \
+		else \
+			echo "Waiting... ($$i/12)"; \
+			sleep 5; \
+		fi; \
+	done
 	@echo ""
 	@echo "Test environment ready. Export these variables:"
 	@echo "  export VAULT_ADDR=http://localhost:8200"

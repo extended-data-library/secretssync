@@ -86,7 +86,9 @@ func (p *Pipeline) syncTarget(ctx context.Context, targetName string, dryRun boo
 		}
 	}
 
-	// Allow time for async processing
+	// TODO: The backend.ManualTrigger is async and doesn't provide a completion signal.
+	// This sleep is a temporary workaround until we implement proper synchronization.
+	// Future improvement: make backend operations synchronous or return a completion channel.
 	time.Sleep(500 * time.Millisecond)
 
 	l.WithField("duration", time.Since(start)).Info("Sync completed")

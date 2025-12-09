@@ -251,17 +251,35 @@ func (p *Pipeline) initialize(ctx context.Context) error {
 
 	p.setDefaultStores()
 
+	// Use a channel to signal when the event processor is ready
+	ready := make(chan struct{})
+	errCh := make(chan error, 1)
+
 	go func() {
 		workerPoolSize := p.config.Pipeline.Merge.Parallel
 		if workerPoolSize <= 0 {
 			workerPoolSize = 4
 		}
+		// Signal ready before entering the event loop
+		close(ready)
 		if err := internalSync.EventProcessor(ctx, workerPoolSize, workerPoolSize); err != nil {
 			l.WithError(err).Error("Event processor exited")
+			select {
+			case errCh <- err:
+			default:
+			}
 		}
 	}()
 
-	time.Sleep(100 * time.Millisecond)
+	// Wait for the event processor to be ready or timeout
+	select {
+	case <-ready:
+		// Event processor goroutine has started
+	case <-ctx.Done():
+		return ctx.Err()
+	case <-time.After(5 * time.Second):
+		return fmt.Errorf("timeout waiting for event processor to start")
+	}
 
 	p.initialized = true
 	l.Info("Pipeline infrastructure initialized")

@@ -100,9 +100,16 @@ func (p *Pipeline) mergeTarget(ctx context.Context, targetName string, dryRun bo
 		successCount++
 	}
 
-	// Allow time for async processing (only for Vault merge store)
-	if p.config.MergeStore.Vault != nil {
-		time.Sleep(time.Duration(len(target.Imports)*300) * time.Millisecond)
+	// TODO: The backend.ManualTrigger is async and doesn't provide a completion signal.
+	// This sleep is a temporary workaround until we implement proper synchronization.
+	// The duration is proportional to the number of imports to account for processing time.
+	// Future improvement: make backend operations synchronous or return a completion channel.
+	if p.config.MergeStore.Vault != nil && successCount > 0 {
+		waitDuration := time.Duration(successCount*300) * time.Millisecond
+		if waitDuration > 5*time.Second {
+			waitDuration = 5 * time.Second // Cap at 5 seconds
+		}
+		time.Sleep(waitDuration)
 	}
 
 	success := lastErr == nil
