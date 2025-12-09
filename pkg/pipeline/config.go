@@ -191,12 +191,8 @@ func (c *Config) Validate() error {
 // AutoConfigure applies intelligent defaults and resolves unspecified configuration.
 // Call this after loading config but before validation to fill in gaps.
 func (c *Config) AutoConfigure() {
-	// Initialize MergeStore if nil to prevent nil pointer dereference
-	if c.MergeStore == nil {
-		c.MergeStore = &MergeStoreConfig{}
-	}
-
 	// Auto-detect merge store if not specified
+	// MergeStore is a value type, so check if both sub-configs are nil
 	if c.MergeStore.Vault == nil && c.MergeStore.S3 == nil {
 		if c.Vault.Address != "" {
 			// Default to Vault merge store if Vault is configured

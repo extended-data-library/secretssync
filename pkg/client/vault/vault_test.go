@@ -3,6 +3,7 @@ package vault
 import (
 	"context"
 	"encoding/json"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/vault/api"

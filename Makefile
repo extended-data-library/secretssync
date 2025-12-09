@@ -17,7 +17,7 @@ all: lint test build
 
 ## Build targets
 build:
-	$(GOBUILD) -ldflags "-X main.Version=$(VERSION)" -o $(BINARY_NAME) ./...
+	$(GOBUILD) -ldflags "-X github.com/jbcom/secretsync/cmd/secretsync/cmd.Version=$(VERSION)" -o $(BINARY_NAME) ./cmd/secretsync
 
 ## Test targets
 test: test-unit

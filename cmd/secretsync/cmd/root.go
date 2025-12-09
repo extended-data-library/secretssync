@@ -9,10 +9,13 @@ import (
 )
 
 var (
-	cfgFile  string
-	logLevel string
+	cfgFile   string
+	logLevel  string
 	logFormat string
 )
+
+// Version is set via ldflags at build time
+var Version = "dev"
 
 // rootCmd represents the base command
 var rootCmd = &cobra.Command{
