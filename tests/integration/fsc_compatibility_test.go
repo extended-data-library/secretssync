@@ -281,9 +281,9 @@ func testMergePhaseWithInheritance(t *testing.T, client *api.Client, testData *T
 
 		// Scalar override: engineers wins
 		assert.Equal(t, "engineers-db.internal", merged["host"])
-		assert.Equal(t, float64(5433), merged["port"])
+		assert.Equal(t, "5433", toNumericString(merged["port"]))
 		assert.Equal(t, "engineering", merged["database"])
-		assert.Equal(t, float64(20), merged["pool_size"])
+		assert.Equal(t, "20", toNumericString(merged["pool_size"]))
 
 		// List append: tags from both
 		tags := merged["tags"].([]interface{})
@@ -352,6 +352,23 @@ func mergeAllSecrets(sources ...map[string]interface{}) map[string]interface{} {
 	}
 
 	return result
+}
+
+// toNumericString converts various numeric types to string for comparison
+// Handles json.Number, float64, and int values
+func toNumericString(v interface{}) string {
+	switch n := v.(type) {
+	case json.Number:
+		return n.String()
+	case float64:
+		return fmt.Sprintf("%v", n)
+	case int:
+		return fmt.Sprintf("%d", n)
+	case int64:
+		return fmt.Sprintf("%d", n)
+	default:
+		return fmt.Sprintf("%v", v)
+	}
 }
 
 // TestOrganizationsDiscoveryFuzzyMatching validates the fuzzy account name matching
