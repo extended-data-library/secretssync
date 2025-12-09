@@ -12,6 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/jbcom/secretsync/pkg/circuitbreaker"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -24,7 +25,8 @@ type S3MergeStore struct {
 	KMSKeyID string
 	Region   string
 
-	client *s3.Client
+	client  *s3.Client
+	breaker *circuitbreaker.CircuitBreaker
 }
 
 // NewS3MergeStore creates a new S3-based merge store
@@ -48,6 +50,10 @@ func NewS3MergeStore(ctx context.Context, cfg *MergeStoreS3, region string) (*S3
 		Region:   region,
 		client:   s3.NewFromConfig(awsCfg),
 	}
+
+	// Initialize circuit breaker for S3 API calls
+	breakerName := fmt.Sprintf("s3-%s-%s", cfg.Bucket, region)
+	store.breaker = circuitbreaker.New(circuitbreaker.DefaultConfig(breakerName))
 
 	return store, nil
 }
@@ -94,10 +100,13 @@ func (s *S3MergeStore) WriteSecret(ctx context.Context, targetName, secretName s
 		input.ServerSideEncryption = "AES256"
 	}
 
-	_, err = s.client.PutObject(ctx, input)
+	// Wrap S3 API call with circuit breaker
+	_, err = circuitbreaker.ExecuteTyped(s.breaker, ctx, func(ctx context.Context) (*s3.PutObjectOutput, error) {
+		return s.client.PutObject(ctx, input)
+	})
 	if err != nil {
 		l.WithError(err).Error("Failed to write secret to S3")
-		return fmt.Errorf("failed to put object: %w", err)
+		return circuitbreaker.WrapError(fmt.Errorf("failed to put object: %w", err), s.breaker.Name(), s.breaker.State())
 	}
 
 	l.Debug("Successfully wrote secret to S3")
@@ -116,12 +125,15 @@ func (s *S3MergeStore) ReadSecret(ctx context.Context, targetName, secretName st
 
 	key := s.keyPath(targetName, secretName)
 
-	output, err := s.client.GetObject(ctx, &s3.GetObjectInput{
-		Bucket: aws.String(s.Bucket),
-		Key:    aws.String(key),
+	// Wrap S3 API call with circuit breaker
+	output, err := circuitbreaker.ExecuteTyped(s.breaker, ctx, func(ctx context.Context) (*s3.GetObjectOutput, error) {
+		return s.client.GetObject(ctx, &s3.GetObjectInput{
+			Bucket: aws.String(s.Bucket),
+			Key:    aws.String(key),
+		})
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to get object: %w", err)
+		return nil, circuitbreaker.WrapError(fmt.Errorf("failed to get object: %w", err), s.breaker.Name(), s.breaker.State())
 	}
 	defer output.Body.Close()
 
@@ -160,9 +172,12 @@ func (s *S3MergeStore) ListSecrets(ctx context.Context, targetName string) ([]st
 	})
 
 	for paginator.HasMorePages() {
-		output, err := paginator.NextPage(ctx)
+		// Wrap S3 API call with circuit breaker
+		output, err := circuitbreaker.ExecuteTyped(s.breaker, ctx, func(ctx context.Context) (*s3.ListObjectsV2Output, error) {
+			return paginator.NextPage(ctx)
+		})
 		if err != nil {
-			return nil, fmt.Errorf("failed to list objects: %w", err)
+			return nil, circuitbreaker.WrapError(fmt.Errorf("failed to list objects: %w", err), s.breaker.Name(), s.breaker.State())
 		}
 
 		for _, obj := range output.Contents {
@@ -191,12 +206,15 @@ func (s *S3MergeStore) DeleteSecret(ctx context.Context, targetName, secretName 
 
 	key := s.keyPath(targetName, secretName)
 
-	_, err := s.client.DeleteObject(ctx, &s3.DeleteObjectInput{
-		Bucket: aws.String(s.Bucket),
-		Key:    aws.String(key),
+	// Wrap S3 API call with circuit breaker
+	_, err := circuitbreaker.ExecuteTyped(s.breaker, ctx, func(ctx context.Context) (*s3.DeleteObjectOutput, error) {
+		return s.client.DeleteObject(ctx, &s3.DeleteObjectInput{
+			Bucket: aws.String(s.Bucket),
+			Key:    aws.String(key),
+		})
 	})
 	if err != nil {
-		return fmt.Errorf("failed to delete object: %w", err)
+		return circuitbreaker.WrapError(fmt.Errorf("failed to delete object: %w", err), s.breaker.Name(), s.breaker.State())
 	}
 
 	return nil
@@ -263,10 +281,13 @@ func (s *S3MergeStore) WriteMergedBundle(ctx context.Context, targetName, bundle
 		input.ServerSideEncryption = "AES256"
 	}
 
-	_, err = s.client.PutObject(ctx, input)
+	// Wrap S3 API call with circuit breaker
+	_, err = circuitbreaker.ExecuteTyped(s.breaker, ctx, func(ctx context.Context) (*s3.PutObjectOutput, error) {
+		return s.client.PutObject(ctx, input)
+	})
 	if err != nil {
 		l.WithError(err).Error("Failed to write bundle to S3")
-		return fmt.Errorf("failed to put object: %w", err)
+		return circuitbreaker.WrapError(fmt.Errorf("failed to put object: %w", err), s.breaker.Name(), s.breaker.State())
 	}
 
 	l.WithField("secretsCount", len(secrets)).Debug("Successfully wrote bundle to S3")
@@ -285,12 +306,15 @@ func (s *S3MergeStore) ReadMergedBundle(ctx context.Context, targetName, bundleI
 
 	key := s.bundleKey(targetName, bundleID)
 
-	output, err := s.client.GetObject(ctx, &s3.GetObjectInput{
-		Bucket: aws.String(s.Bucket),
-		Key:    aws.String(key),
+	// Wrap S3 API call with circuit breaker
+	output, err := circuitbreaker.ExecuteTyped(s.breaker, ctx, func(ctx context.Context) (*s3.GetObjectOutput, error) {
+		return s.client.GetObject(ctx, &s3.GetObjectInput{
+			Bucket: aws.String(s.Bucket),
+			Key:    aws.String(key),
+		})
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to get object: %w", err)
+		return nil, circuitbreaker.WrapError(fmt.Errorf("failed to get object: %w", err), s.breaker.Name(), s.breaker.State())
 	}
 	defer output.Body.Close()
 
@@ -328,12 +352,15 @@ func (s *S3MergeStore) DeleteBundle(ctx context.Context, targetName, bundleID st
 
 	key := s.bundleKey(targetName, bundleID)
 
-	_, err := s.client.DeleteObject(ctx, &s3.DeleteObjectInput{
-		Bucket: aws.String(s.Bucket),
-		Key:    aws.String(key),
+	// Wrap S3 API call with circuit breaker
+	_, err := circuitbreaker.ExecuteTyped(s.breaker, ctx, func(ctx context.Context) (*s3.DeleteObjectOutput, error) {
+		return s.client.DeleteObject(ctx, &s3.DeleteObjectInput{
+			Bucket: aws.String(s.Bucket),
+			Key:    aws.String(key),
+		})
 	})
 	if err != nil {
-		return fmt.Errorf("failed to delete object: %w", err)
+		return circuitbreaker.WrapError(fmt.Errorf("failed to delete object: %w", err), s.breaker.Name(), s.breaker.State())
 	}
 
 	return nil
