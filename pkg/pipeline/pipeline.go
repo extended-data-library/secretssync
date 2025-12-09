@@ -39,6 +39,7 @@ import (
 	"sync"
 	"time"
 
+	reqctx "github.com/jbcom/secretsync/pkg/context"
 	"github.com/jbcom/secretsync/pkg/diff"
 	log "github.com/sirupsen/logrus"
 )
@@ -187,13 +188,18 @@ func NewFromFileWithContext(ctx context.Context, path string) (*Pipeline, error)
 // Run executes the pipeline with the given options.
 // Each operation (merge, sync) is distinct and idempotent.
 func (p *Pipeline) Run(ctx context.Context, opts Options) ([]Result, error) {
+	// Generate request ID and add to context
+	reqCtx := reqctx.NewRequestContext()
+	ctx = reqctx.WithRequestContext(ctx, reqCtx)
+
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
 	l := log.WithFields(log.Fields{
-		"action":    "Pipeline.Run",
-		"operation": opts.Operation,
-		"dryRun":    opts.DryRun,
+		"action":     "Pipeline.Run",
+		"operation":  opts.Operation,
+		"dryRun":     opts.DryRun,
+		"request_id": reqCtx.RequestID,
 	})
 
 	p.resultsMu.Lock()
@@ -216,16 +222,33 @@ func (p *Pipeline) Run(ctx context.Context, opts Options) ([]Result, error) {
 
 	p.initialized = true
 
+	var results []Result
+	var err error
+
 	switch opts.Operation {
 	case OperationMerge:
-		return p.runMerge(ctx, targets, opts)
+		results, err = p.runMerge(ctx, targets, opts)
 	case OperationSync:
-		return p.runSync(ctx, targets, opts)
+		results, err = p.runSync(ctx, targets, opts)
 	case OperationPipeline:
-		return p.runPipeline(ctx, targets, opts)
+		results, err = p.runPipeline(ctx, targets, opts)
 	default:
 		return nil, fmt.Errorf("unknown operation: %s", opts.Operation)
 	}
+
+	if err != nil {
+		l.WithError(err).WithFields(log.Fields{
+			"request_id":  reqCtx.RequestID,
+			"duration_ms": reqctx.GetElapsedTime(ctx).Milliseconds(),
+		}).Error("Pipeline execution failed")
+	} else {
+		l.WithFields(log.Fields{
+			"request_id":  reqCtx.RequestID,
+			"duration_ms": reqctx.GetElapsedTime(ctx).Milliseconds(),
+		}).Info("Pipeline execution completed successfully")
+	}
+
+	return results, err
 }
 
 // resolveTargets returns the targets to process, including dependencies

@@ -14,6 +14,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager/types"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
+	reqctx "github.com/jbcom/secretsync/pkg/context"
 	"github.com/jbcom/secretsync/pkg/driver"
 	"github.com/jbcom/secretsync/pkg/utils"
 	log "github.com/sirupsen/logrus"
@@ -231,11 +232,17 @@ func (g *AwsClient) GetPath() string {
 }
 
 func (g *AwsClient) GetSecret(ctx context.Context, name string) ([]byte, error) {
+	requestID := reqctx.GetRequestID(ctx)
 	l := log.WithFields(log.Fields{
-		"action": "GetSecret",
+		"action":     "GetSecret",
+		"secret":     name,
+		"request_id": requestID,
 	})
 	l.Trace("start")
 	defer l.Trace("end")
+	
+	errBuilder := reqctx.NewErrorBuilder(ctx, "aws.get_secret").WithSecretName(name)
+	
 	g.arnMu.RLock()
 	arn := g.accountSecretArns[name]
 	g.arnMu.RUnlock()
@@ -244,19 +251,24 @@ func (g *AwsClient) GetSecret(ctx context.Context, name string) ([]byte, error) 
 	})
 	if err != nil {
 		l.WithError(err).Error("Failed to get secret value")
-		return nil, err
+		return nil, errBuilder.Wrap(err, "failed to get secret value")
 	}
 	return []byte(*resp.SecretString), nil
 }
 
 func (c *AwsClient) createSecret(ctx context.Context, name string, secret []byte) error {
+	requestID := reqctx.GetRequestID(ctx)
 	l := log.WithFields(log.Fields{
-		"action": "createSecret",
-		"name":   name,
-		"driver": c.Driver(),
+		"action":     "createSecret",
+		"name":       name,
+		"driver":     c.Driver(),
+		"request_id": requestID,
 	})
 	l.Trace("start")
 	defer l.Trace("end")
+	
+	errBuilder := reqctx.NewErrorBuilder(ctx, "aws.create_secret").WithSecretName(name)
+	
 	csi := &secretsmanager.CreateSecretInput{
 		Name:         &name,
 		Description:  aws.String("managed by SecretSync. do not edit directly."),
@@ -291,19 +303,24 @@ func (c *AwsClient) createSecret(ctx context.Context, name string, secret []byte
 	_, err := c.client.CreateSecret(ctx, csi)
 	if err != nil {
 		l.WithError(err).Error("Failed to create secret")
-		return err
+		return errBuilder.Wrap(err, "failed to create secret")
 	}
 	return nil
 }
 
 func (c *AwsClient) updateSecret(ctx context.Context, name string, secret []byte) error {
+	requestID := reqctx.GetRequestID(ctx)
 	l := log.WithFields(log.Fields{
-		"action": "updateSecret",
-		"name":   name,
-		"driver": c.Driver(),
+		"action":     "updateSecret",
+		"name":       name,
+		"driver":     c.Driver(),
+		"request_id": requestID,
 	})
 	l.Trace("start")
 	defer l.Trace("end")
+	
+	errBuilder := reqctx.NewErrorBuilder(ctx, "aws.update_secret").WithSecretName(name)
+	
 	c.arnMu.RLock()
 	arn := c.accountSecretArns[name]
 	c.arnMu.RUnlock()
@@ -317,7 +334,7 @@ func (c *AwsClient) updateSecret(ctx context.Context, name string, secret []byte
 	_, err := c.client.UpdateSecret(ctx, usi)
 	if err != nil {
 		l.WithError(err).Error("Failed to update secret")
-		return err
+		return errBuilder.Wrap(err, "failed to update secret")
 	}
 	return nil
 }

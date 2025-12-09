@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	reqctx "github.com/jbcom/secretsync/pkg/context"
 	"github.com/jbcom/secretsync/pkg/driver"
 	"github.com/jbcom/secretsync/pkg/utils"
 	log "github.com/sirupsen/logrus"
@@ -242,43 +243,48 @@ func insertSliceString(a []string, index int, value string) []string {
 
 // GetKVSecret retrieves a kv secret from vault
 func (vc *VaultClient) GetKVSecretOnce(ctx context.Context, s string) (map[string]interface{}, error) {
+	requestID := reqctx.GetRequestID(ctx)
 	l := log.WithFields(log.Fields{
-		"address": vc.Address,
-		"role":    vc.Role,
-		"path":    s,
-		"method":  vc.AuthMethod,
+		"action":     "GetKVSecretOnce",
+		"address":    vc.Address,
+		"role":       vc.Role,
+		"path":       s,
+		"method":     vc.AuthMethod,
+		"request_id": requestID,
 	})
+	errBuilder := reqctx.NewErrorBuilder(ctx, "vault.read").WithPath(s)
+	
 	var secrets map[string]interface{}
 	if s == "" {
-		return secrets, errors.New("secret path required")
+		return secrets, errBuilder.Build("secret path required", nil)
 	}
 	ss := strings.Split(s, "/")
 	if len(ss) < 2 {
-		return secrets, errors.New("secret path must be in kv/path/to/secret format")
+		return secrets, errBuilder.Build("secret path must be in kv/path/to/secret format", nil)
 	}
 	ss = insertSliceString(ss, 1, "data")
 	//log.Debugf("headers_sent=%+v", vc.Client.Headers())
 	c := vc.Client.Logical()
 	s = strings.Join(ss, "/")
 	if c == nil {
-		return secrets, errors.New("vault client not initialized")
+		return secrets, errBuilder.Build("vault client not initialized", nil)
 	}
 	secret, err := c.ReadWithContext(ctx, s)
 	if err != nil {
-		return secrets, err
+		return secrets, errBuilder.Wrap(err, "failed to read secret")
 	}
 	if secret == nil || secret.Data == nil {
-		return nil, errors.New("secret not found: " + s)
+		return nil, errBuilder.Build("secret not found", nil)
 	}
 	l.Tracef("secret=%+v", secret)
 	if secret.Data["data"] == nil {
-		return nil, errors.New("secret data not found: " + s)
+		return nil, errBuilder.Build("secret data not found", nil)
 	}
 
 	// Type-safe extraction to prevent runtime panics
 	data, ok := secret.Data["data"].(map[string]interface{})
 	if !ok {
-		return nil, fmt.Errorf("unexpected data type in Vault response: got %T, expected map[string]interface{}", secret.Data["data"])
+		return nil, errBuilder.Errorf("unexpected data type in Vault response: got %T, expected map[string]interface{}", secret.Data["data"])
 	}
 	return data, nil
 }
@@ -382,18 +388,20 @@ func (vc *VaultClient) WriteSecret(ctx context.Context, meta metav1.ObjectMeta, 
 
 // WriteSecret writes a secret to Vault VaultClient at path p with secret value s
 func (vc *VaultClient) WriteSecretOnce(ctx context.Context, p string, s map[string]interface{}, cas *int) (map[string]interface{}, error) {
+	errBuilder := reqctx.NewErrorBuilder(ctx, "vault.write").WithPath(p)
+	
 	var secrets map[string]interface{}
 	pp := strings.Split(p, "/")
 	if len(pp) < 2 {
-		return secrets, errors.New("secret path must be in kv/path/to/secret format")
+		return secrets, errBuilder.Build("secret path must be in kv/path/to/secret format", nil)
 	}
 	pp = insertSliceString(pp, 1, "data")
 	p = strings.Join(pp, "/")
 	if s == nil {
-		return secrets, errors.New("secret data required")
+		return secrets, errBuilder.Build("secret data required", nil)
 	}
 	if p == "" {
-		return secrets, errors.New("secret path required")
+		return secrets, errBuilder.Build("secret path required", nil)
 	}
 
 	// Prepare the data payload
@@ -410,7 +418,7 @@ func (vc *VaultClient) WriteSecretOnce(ctx context.Context, p string, s map[stri
 
 	_, err := vc.Client.Logical().WriteWithContext(ctx, p, vd)
 	if err != nil {
-		return secrets, err
+		return secrets, errBuilder.Wrap(err, "failed to write secret")
 	}
 	return secrets, nil
 }
@@ -521,15 +529,17 @@ func (vc *VaultClient) getQueueCompactionThreshold() int {
 }
 
 func (vc *VaultClient) ListSecretsOnce(ctx context.Context, p string) ([]string, error) {
+	errBuilder := reqctx.NewErrorBuilder(ctx, "vault.list").WithPath(p)
+	
 	if vc == nil || vc.Client == nil {
-		return nil, errors.New("vault client not initialized")
+		return nil, errBuilder.Build("vault client not initialized", nil)
 	}
 	if p == "" {
-		return nil, errors.New("secret path required")
+		return nil, errBuilder.Build("secret path required", nil)
 	}
 	pp := strings.Split(p, "/")
 	if len(pp) < 2 {
-		return nil, errors.New("secret path must be in kv/path/to/secret format")
+		return nil, errBuilder.Build("secret path must be in kv/path/to/secret format", nil)
 	}
 
 	// Use BFS to recursively discover all secrets
@@ -538,13 +548,18 @@ func (vc *VaultClient) ListSecretsOnce(ctx context.Context, p string) ([]string,
 
 // listSecretsRecursive performs breadth-first search to discover all nested secrets
 func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string) ([]string, error) {
+	requestID := reqctx.GetRequestID(ctx)
 	l := log.WithFields(log.Fields{
-		"address": vc.Address,
-		"role":    vc.Role,
-		"path":    basePath,
-		"method":  vc.AuthMethod,
+		"action":     "listSecretsRecursive",
+		"address":    vc.Address,
+		"role":       vc.Role,
+		"path":       basePath,
+		"method":     vc.AuthMethod,
+		"request_id": requestID,
 	})
-	l.Debug("Starting recursive secret listing with BFS traversal")
+	l.Info("Starting recursive secret listing with BFS traversal")
+	
+	errBuilder := reqctx.NewErrorBuilder(ctx, "vault.list_recursive").WithPath(basePath)
 
 	var allSecrets []string
 	visited := make(map[string]bool)
@@ -567,7 +582,7 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 		// Check for context cancellation
 		select {
 		case <-ctx.Done():
-			return nil, ctx.Err()
+			return nil, errBuilder.Wrap(ctx.Err(), "operation cancelled")
 		default:
 		}
 
@@ -589,7 +604,7 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 		// Check depth limit as safety measure
 		depth := strings.Count(strings.TrimPrefix(currentPath, basePath), "/")
 		if depth > maxDepth {
-			return nil, fmt.Errorf("max traversal depth %d exceeded at path %q (base: %q, found %d secrets so far)",
+			return nil, errBuilder.Errorf("max traversal depth %d exceeded at path %q (base: %q, found %d secrets so far)",
 				maxDepth, currentPath, basePath, len(allSecrets))
 		}
 
@@ -613,8 +628,9 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 				}
 			}
 			// Network, authentication, or other critical errors should propagate
-			return nil, fmt.Errorf("failed to list path %q (depth %d, %d secrets found so far): %w",
-				metadataPath, depth, len(allSecrets), err)
+			return nil, reqctx.NewErrorBuilder(ctx, "vault.list_path").
+				WithPath(metadataPath).
+				Wrap(err, fmt.Sprintf("failed to list path at depth %d (%d secrets found so far)", depth, len(allSecrets)))
 		}
 
 		if keys == nil {
@@ -654,12 +670,18 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 				allSecrets = append(allSecrets, fullPath)
 				// Check if we've exceeded the maximum secrets limit to prevent DoS/OOM
 				if len(allSecrets) > maxSecrets {
-					return nil, fmt.Errorf("mount %q contains more than %d secrets at depth %d (possible DoS attack or misconfiguration)",
+					return nil, errBuilder.Errorf("mount %q contains more than %d secrets at depth %d (possible DoS attack or misconfiguration)",
 						basePath, maxSecrets, depth)
 				}
 			}
 		}
 	}
+
+	l.WithFields(log.Fields{
+		"request_id":  requestID,
+		"secretCount": len(allSecrets),
+		"duration_ms": reqctx.GetElapsedTime(ctx).Milliseconds(),
+	}).Info("Completed recursive secret listing")
 
 	return allSecrets, nil
 }

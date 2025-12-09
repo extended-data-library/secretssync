@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	reqctx "github.com/jbcom/secretsync/pkg/context"
 	"github.com/jbcom/secretsync/pkg/client/vault"
 	"github.com/jbcom/secretsync/pkg/utils"
 	log "github.com/sirupsen/logrus"
@@ -21,10 +22,12 @@ import (
 // Existing data at that path is wiped before writing.
 func (p *Pipeline) mergeTarget(ctx context.Context, targetName string, dryRun bool) Result {
 	start := time.Now()
+	requestID := reqctx.GetRequestID(ctx)
 	l := log.WithFields(log.Fields{
-		"action": "mergeTarget",
-		"target": targetName,
-		"dryRun": dryRun,
+		"action":     "mergeTarget",
+		"target":     targetName,
+		"dryRun":     dryRun,
+		"request_id": requestID,
 	})
 
 	target, ok := p.config.Targets[targetName]
