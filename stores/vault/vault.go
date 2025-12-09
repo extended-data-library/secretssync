@@ -491,39 +491,52 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 		"method":  vc.AuthMethod,
 	})
 	l.Debug("vault.ListSecretsRecursive")
-	
+
+	const maxDepth = 100 // Safety limit to prevent infinite loops
 	var allSecrets []string
 	visited := make(map[string]bool)
 	queue := []string{basePath}
-	
+
 	for len(queue) > 0 {
 		currentPath := queue[0]
 		queue = queue[1:]
-		
+
 		// Skip if already visited to prevent infinite loops
 		if visited[currentPath] {
 			continue
 		}
 		visited[currentPath] = true
-		
+
+		// Check depth limit as safety measure
+		depth := strings.Count(strings.TrimPrefix(currentPath, basePath), "/")
+		if depth > maxDepth {
+			return nil, fmt.Errorf("max traversal depth %d exceeded at %s", maxDepth, currentPath)
+		}
+
 		// Get the metadata path for listing
 		metadataPath, err := vc.getMetadataPath(currentPath)
 		if err != nil {
 			l.WithError(err).Warnf("Failed to get metadata path for %s", currentPath)
 			continue
 		}
-		
+
 		// List contents at current path
 		keys, err := vc.listPathContents(ctx, metadataPath)
 		if err != nil {
-			l.WithError(err).Warnf("Failed to list contents at %s", metadataPath)
-			continue
+			// Distinguish between expected errors (not found, permission) and unexpected errors
+			errMsg := err.Error()
+			if strings.Contains(errMsg, "permission denied") || strings.Contains(errMsg, "not found") || strings.Contains(errMsg, "403") {
+				l.WithError(err).Debugf("Skipping inaccessible path: %s", metadataPath)
+				continue
+			}
+			// Network, authentication, or other critical errors should propagate
+			return nil, fmt.Errorf("failed to list %s: %w", metadataPath, err)
 		}
-		
+
 		if keys == nil {
 			continue
 		}
-		
+
 		// Process each key found
 		for _, key := range keys {
 			// Construct the full path maintaining original format
@@ -533,7 +546,7 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 			} else {
 				fullPath = currentPath + "/" + key
 			}
-			
+
 			if strings.HasSuffix(key, "/") {
 				// It's a directory - add to queue for recursive exploration
 				// Remove trailing slash for consistent path handling
@@ -547,7 +560,7 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 			}
 		}
 	}
-	
+
 	return allSecrets, nil
 }
 

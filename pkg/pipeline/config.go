@@ -407,6 +407,11 @@ func (c *Config) Validate() error {
 		}
 	}
 
+	// Validate no circular dependencies in target inheritance
+	if err := c.validateTargetInheritance(); err != nil {
+		return err
+	}
+
 	// Validate dynamic targets
 	for name, dt := range c.DynamicTargets {
 		if dt.Discovery.IdentityCenter == nil && dt.Discovery.Organizations == nil && dt.Discovery.AccountsList == nil {
@@ -414,6 +419,48 @@ func (c *Config) Validate() error {
 		}
 	}
 
+	return nil
+}
+
+// validateTargetInheritance checks for circular dependencies in target inheritance chains
+func (c *Config) validateTargetInheritance() error {
+	// For each target, perform DFS to detect cycles
+	for name := range c.Targets {
+		visited := make(map[string]bool)
+		recursionStack := make(map[string]bool)
+		if err := c.detectCycle(name, visited, recursionStack); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// detectCycle performs DFS to detect circular dependencies in target inheritance
+func (c *Config) detectCycle(targetName string, visited, recursionStack map[string]bool) error {
+	// Mark current node as visited and add to recursion stack
+	visited[targetName] = true
+	recursionStack[targetName] = true
+
+	// Check all imports that reference other targets
+	if target, ok := c.Targets[targetName]; ok {
+		for _, imp := range target.Imports {
+			// Only check imports that are other targets (not sources)
+			if _, isTarget := c.Targets[imp]; isTarget {
+				// If not visited, recursively check
+				if !visited[imp] {
+					if err := c.detectCycle(imp, visited, recursionStack); err != nil {
+						return err
+					}
+				} else if recursionStack[imp] {
+					// Found a cycle - build the cycle path for error message
+					return fmt.Errorf("circular dependency detected in target inheritance: %s -> %s", targetName, imp)
+				}
+			}
+		}
+	}
+
+	// Remove from recursion stack before returning
+	recursionStack[targetName] = false
 	return nil
 }
 
@@ -507,5 +554,7 @@ func (c *Config) GetSourcePath(importName string) string {
 		}
 	}
 
+	// Unknown import - log warning to help users debug configuration issues
+	log.WithField("import", importName).Warn("Unknown import - not found in sources or targets, using import name as path")
 	return importName
 }
