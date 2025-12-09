@@ -3,8 +3,16 @@ package pipeline
 import (
 	"fmt"
 	"strings"
+	"sync"
 
 	log "github.com/sirupsen/logrus"
+)
+
+// warnedImports tracks imports that have already been warned about
+// to prevent log spam on repeated calls to GetSourcePath
+var (
+	warnedImports   = make(map[string]bool)
+	warnedImportsMu sync.RWMutex
 )
 
 // ValidateTargetInheritance checks for circular dependencies in target inheritance chains
@@ -12,7 +20,8 @@ func (c *Config) ValidateTargetInheritance() error {
 	for name := range c.Targets {
 		visited := make(map[string]bool)
 		recursionStack := make(map[string]bool)
-		if err := c.detectCycle(name, visited, recursionStack); err != nil {
+		path := []string{} // Track the path for better error messages
+		if err := c.detectCycle(name, visited, recursionStack, path); err != nil {
 			return err
 		}
 	}
@@ -20,19 +29,27 @@ func (c *Config) ValidateTargetInheritance() error {
 }
 
 // detectCycle performs DFS to detect circular dependencies in target inheritance
-func (c *Config) detectCycle(targetName string, visited, recursionStack map[string]bool) error {
+// path tracks the current traversal path for detailed error messages
+func (c *Config) detectCycle(targetName string, visited, recursionStack map[string]bool, path []string) error {
 	visited[targetName] = true
 	recursionStack[targetName] = true
+	path = append(path, targetName)
 
 	if target, ok := c.Targets[targetName]; ok {
 		for _, imp := range target.Imports {
 			if _, isTarget := c.Targets[imp]; isTarget {
+				// Self-reference is also a cycle
+				if imp == targetName {
+					return fmt.Errorf("circular dependency detected: %s -> %s (self-reference)", targetName, imp)
+				}
 				if !visited[imp] {
-					if err := c.detectCycle(imp, visited, recursionStack); err != nil {
+					if err := c.detectCycle(imp, visited, recursionStack, path); err != nil {
 						return err
 					}
 				} else if recursionStack[imp] {
-					return fmt.Errorf("circular dependency detected in target inheritance: %s -> %s", targetName, imp)
+					// Build full cycle path for clearer error message
+					cyclePath := buildCyclePath(path, imp)
+					return fmt.Errorf("circular dependency detected in target inheritance: %s", cyclePath)
 				}
 			}
 		}
@@ -40,6 +57,30 @@ func (c *Config) detectCycle(targetName string, visited, recursionStack map[stri
 
 	recursionStack[targetName] = false
 	return nil
+}
+
+// buildCyclePath constructs a human-readable cycle path like "A -> B -> C -> A"
+func buildCyclePath(path []string, cycleTarget string) string {
+	// Find where the cycle starts in the path
+	cycleStart := -1
+	for i, p := range path {
+		if p == cycleTarget {
+			cycleStart = i
+			break
+		}
+	}
+
+	if cycleStart == -1 {
+		// Cycle target not in path, just show last element -> cycle target
+		if len(path) > 0 {
+			return path[len(path)-1] + " -> " + cycleTarget
+		}
+		return cycleTarget
+	}
+
+	// Build the cycle path from start to end, plus back to start
+	cycleParts := append(path[cycleStart:], cycleTarget)
+	return strings.Join(cycleParts, " -> ")
 }
 
 // IsInheritedTarget checks if a target inherits from another target
@@ -70,7 +111,20 @@ func (c *Config) GetSourcePath(importName string) string {
 		}
 	}
 
-	log.WithField("import", importName).Warn("Unknown import - not found in sources or targets, using import name as path")
+	// Rate-limit warnings to prevent log spam on repeated calls
+	warnedImportsMu.RLock()
+	alreadyWarned := warnedImports[importName]
+	warnedImportsMu.RUnlock()
+
+	if !alreadyWarned {
+		warnedImportsMu.Lock()
+		// Double-check after acquiring write lock
+		if !warnedImports[importName] {
+			warnedImports[importName] = true
+			log.WithField("import", importName).Warn("Unknown import - not found in sources or targets, using import name as path")
+		}
+		warnedImportsMu.Unlock()
+	}
 	return importName
 }
 

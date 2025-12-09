@@ -504,9 +504,14 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 
 	// Normalize basePath to prevent double-slash issues
 	basePath = strings.TrimSuffix(basePath, "/")
+	
+	// Use index-based queue to avoid O(n²) slice reallocation on dequeue
+	// Instead of queue = queue[1:] which allocates on each dequeue,
+	// we advance an index and let GC handle the old references
 	queue := []string{basePath}
+	queueIdx := 0
 
-	for len(queue) > 0 {
+	for queueIdx < len(queue) {
 		// Check for context cancellation
 		select {
 		case <-ctx.Done():
@@ -514,8 +519,14 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 		default:
 		}
 
-		currentPath := queue[0]
-		queue = queue[1:]
+		currentPath := queue[queueIdx]
+		queueIdx++
+		
+		// Periodically compact queue to free memory on very large traversals
+		if queueIdx > 1000 && queueIdx > len(queue)/2 {
+			queue = queue[queueIdx:]
+			queueIdx = 0
+		}
 
 		// Skip if already visited to prevent infinite loops
 		if visited[currentPath] {

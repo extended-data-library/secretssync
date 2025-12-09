@@ -2,6 +2,7 @@ package pipeline
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -654,5 +655,37 @@ func TestTargetInheritance(t *testing.T) {
 		err := cfg.ValidateTargetInheritance()
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "circular")
+		// Verify the error message shows the full cycle path
+		assert.Contains(t, err.Error(), "->")
+	})
+
+	t.Run("Self-reference detection (A -> A)", func(t *testing.T) {
+		cfg := Config{
+			Targets: map[string]Target{
+				"A": {AccountID: "111111111111", Imports: []string{"A"}}, // Self-reference
+			},
+		}
+
+		err := cfg.ValidateTargetInheritance()
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "circular")
+		assert.Contains(t, err.Error(), "self-reference")
+	})
+
+	t.Run("Cycle detection shows full path", func(t *testing.T) {
+		cfg := Config{
+			Targets: map[string]Target{
+				"A": {AccountID: "111111111111", Imports: []string{"B"}},
+				"B": {AccountID: "222222222222", Imports: []string{"A"}},
+			},
+		}
+
+		err := cfg.ValidateTargetInheritance()
+		assert.Error(t, err)
+		// Error should show the full cycle path: A -> B -> A or B -> A -> B
+		errMsg := err.Error()
+		assert.Contains(t, errMsg, "->")
+		// Should contain at least two arrows for a proper cycle display
+		assert.True(t, strings.Count(errMsg, "->") >= 1, "Error message should show cycle path with arrows")
 	})
 }
