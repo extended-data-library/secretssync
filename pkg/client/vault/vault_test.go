@@ -834,3 +834,124 @@ func TestVaultClient_ListSecretsOnce_ErrorHandling(t *testing.T) {
 		})
 	}
 }
+
+// TestVaultClient_ListSecretsRecursive_PathTraversalPrevention tests that malicious path inputs are rejected
+func TestVaultClient_ListSecretsRecursive_PathTraversalPrevention(t *testing.T) {
+	ctx := context.Background()
+
+	// Malicious keys that should be filtered out
+	maliciousKeys := []string{
+		"../../../etc/passwd",   // Directory traversal
+		"valid\x00byte",         // Null byte injection
+		"//double//slash",       // Double slashes
+		"/absolute/path",        // Absolute path
+	}
+
+	// Create mock that returns both malicious and valid keys
+	mockLogical := &mockLogical{
+		listWithContextFunc: func(ctx context.Context, path string) (*api.Secret, error) {
+			// Return a mix of malicious and valid keys
+			if path == "secret/metadata/test/" {
+				return &api.Secret{
+					Data: map[string]interface{}{
+						"keys": []interface{}{
+							maliciousKeys[0], // ../../../etc/passwd
+							maliciousKeys[1], // valid\x00byte
+							"valid_key",      // This should pass
+							maliciousKeys[2], // //double//slash
+						},
+					},
+				}, nil
+			}
+			// For the valid_key, return no subdirectories (it's a leaf)
+			if path == "secret/metadata/test/valid_key/" {
+				return &api.Secret{
+					Data: map[string]interface{}{
+						"keys": []interface{}{},
+					},
+				}, nil
+			}
+			return nil, nil
+		},
+	}
+
+	client := &VaultClient{}
+	client.SetLogicalClient(mockLogical)
+
+	secrets, err := client.listSecretsRecursive(ctx, "secret/test")
+
+	// Should succeed without error - malicious keys are filtered, not errored
+	require.NoError(t, err)
+
+	// Should only have the valid key
+	assert.Len(t, secrets, 1)
+	assert.Equal(t, "secret/test/valid_key", secrets[0])
+
+	// Verify malicious keys were NOT included
+	for _, secret := range secrets {
+		assert.NotContains(t, secret, "..")
+		assert.NotContains(t, secret, "\x00")
+		assert.NotContains(t, secret, "//")
+		assert.False(t, strings.HasPrefix(secret, "/"), "secret should not start with /")
+	}
+}
+
+// TestVaultClient_getMetadataPath_PathValidation tests that getMetadataPath rejects malicious inputs
+func TestVaultClient_getMetadataPath_PathValidation(t *testing.T) {
+	client := &VaultClient{}
+
+	tests := []struct {
+		name      string
+		path      string
+		wantErr   bool
+		errSubstr string
+	}{
+		{
+			name:      "Valid path",
+			path:      "secret/test",
+			wantErr:   false,
+			errSubstr: "",
+		},
+		{
+			name:      "Path traversal with ..",
+			path:      "secret/../admin/secrets",
+			wantErr:   true,
+			errSubstr: "forbidden characters",
+		},
+		{
+			name:      "Null byte injection",
+			path:      "secret/test\x00admin",
+			wantErr:   true,
+			errSubstr: "forbidden characters",
+		},
+		{
+			name:      "Double slash",
+			path:      "secret//test",
+			wantErr:   true,
+			errSubstr: "forbidden characters",
+		},
+		{
+			name:      "Absolute path",
+			path:      "/secret/test",
+			wantErr:   true,
+			errSubstr: "forbidden characters",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result, err := client.getMetadataPath(tt.path)
+
+			if tt.wantErr {
+				require.Error(t, err)
+				assert.Contains(t, err.Error(), tt.errSubstr)
+				assert.Empty(t, result)
+			} else {
+				require.NoError(t, err)
+				assert.NotEmpty(t, result)
+				// Verify result contains "metadata"
+				assert.Contains(t, result, "metadata")
+			}
+		})
+	}
+}

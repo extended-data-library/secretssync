@@ -10,10 +10,8 @@ import (
 
 // warnedImports tracks imports that have already been warned about
 // to prevent log spam on repeated calls to GetSourcePath
-var (
-	warnedImports   = make(map[string]bool)
-	warnedImportsMu sync.RWMutex
-)
+// Using sync.Map for atomic operations without explicit locking
+var warnedImports sync.Map
 
 // ValidateTargetInheritance checks for circular dependencies in target inheritance chains
 func (c *Config) ValidateTargetInheritance() error {
@@ -112,18 +110,10 @@ func (c *Config) GetSourcePath(importName string) string {
 	}
 
 	// Rate-limit warnings to prevent log spam on repeated calls
-	warnedImportsMu.RLock()
-	alreadyWarned := warnedImports[importName]
-	warnedImportsMu.RUnlock()
-
-	if !alreadyWarned {
-		warnedImportsMu.Lock()
-		// Double-check after acquiring write lock
-		if !warnedImports[importName] {
-			warnedImports[importName] = true
-			log.WithField("import", importName).Warn("Unknown import - not found in sources or targets, using import name as path")
-		}
-		warnedImportsMu.Unlock()
+	// LoadOrStore atomically stores and returns whether the value was loaded (existed)
+	if _, loaded := warnedImports.LoadOrStore(importName, true); !loaded {
+		// This is the first time we're seeing this import - log a warning
+		log.WithField("import", importName).Warn("Unknown import - not found in sources or targets, using import name as path")
 	}
 	return importName
 }

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/jbcom/secretsync/pkg/driver"
 	"github.com/jbcom/secretsync/pkg/utils"
@@ -108,6 +109,7 @@ func (vc *VaultClient) NewClient(ctx context.Context) (*api.Client, error) {
 	log.Tracef("vault.NewClient")
 	config := &api.Config{
 		Address: vc.Address,
+		Timeout: 30 * time.Second, // Prevent hung connections
 	}
 	var err error
 	vc.Client, err = api.NewClient(config)
@@ -498,7 +500,8 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 	})
 	l.Debug("vault.ListSecretsRecursive")
 
-	const maxDepth = 100 // Safety limit to prevent infinite loops
+	const maxDepth = 100            // Safety limit to prevent infinite loops
+	const maxSecretsPerMount = 100000 // Limit total secrets to prevent DoS/OOM attacks
 	var allSecrets []string
 	visited := make(map[string]bool)
 
@@ -598,6 +601,10 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 			} else {
 				// It's a secret - add to results
 				allSecrets = append(allSecrets, fullPath)
+				// Check if we've exceeded the maximum secrets limit to prevent DoS/OOM
+				if len(allSecrets) > maxSecretsPerMount {
+					return nil, fmt.Errorf("mount contains more than %d secrets (possible DoS attack)", maxSecretsPerMount)
+				}
 			}
 		}
 	}
@@ -607,6 +614,12 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 
 // getMetadataPath converts a KV path to its metadata equivalent
 func (vc *VaultClient) getMetadataPath(path string) (string, error) {
+	// Validate path BEFORE any manipulation to prevent path traversal attacks
+	if strings.Contains(path, "..") || strings.Contains(path, "\x00") ||
+		strings.Contains(path, "//") || strings.HasPrefix(path, "/") {
+		return "", fmt.Errorf("invalid path: contains forbidden characters")
+	}
+
 	// Normalize path by trimming trailing slashes to prevent empty segments
 	path = strings.TrimSuffix(path, "/")
 	pp := strings.Split(path, "/")

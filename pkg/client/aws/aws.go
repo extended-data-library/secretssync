@@ -3,6 +3,7 @@ package aws
 import (
 	"context"
 	"encoding/json"
+	"net/http"
 	"strings"
 	"sync"
 	"time"
@@ -140,7 +141,13 @@ func (c *AwsClient) CreateClientWithEndpoint(ctx context.Context, endpoint strin
 		"endpoint": endpoint,
 	})
 	l.Trace("start")
-	awscfg, err := config.LoadDefaultConfig(ctx)
+
+	// Configure HTTP client with timeout to prevent hung connections
+	httpClient := &http.Client{
+		Timeout: 30 * time.Second,
+	}
+
+	awscfg, err := config.LoadDefaultConfig(ctx, config.WithHTTPClient(httpClient))
 	if err != nil {
 		l.Debugf("error: %v", err)
 		return err
