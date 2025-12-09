@@ -17,14 +17,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// Vault traversal configuration constants
+// Vault traversal configuration defaults
 const (
-	// maxVaultTraversalDepth prevents infinite loops in recursive listing
-	maxVaultTraversalDepth = 100
-	// maxSecretsPerMount prevents DoS/OOM attacks from very large mounts
-	maxSecretsPerMount = 100000
-	// queueCompactionThreshold triggers queue memory cleanup during large traversals
-	queueCompactionThreshold = 1000
+	// defaultMaxTraversalDepth prevents infinite loops in recursive listing
+	defaultMaxTraversalDepth = 100
+	// defaultMaxSecretsPerMount prevents DoS/OOM attacks from very large mounts
+	defaultMaxSecretsPerMount = 100000
+	// defaultQueueCompactionThreshold triggers queue memory cleanup during large traversals
+	defaultQueueCompactionThreshold = 1000
 )
 
 // LogicalClient defines the interface for Vault logical operations needed for secret listing
@@ -43,6 +43,11 @@ type VaultClient struct {
 	Merge      bool   `yaml:"merge,omitempty" json:"merge,omitempty"`
 
 	Role string `yaml:"role,omitempty" json:"role,omitempty"`
+
+	// Configurable traversal limits (0 = use defaults)
+	MaxTraversalDepth       int `yaml:"maxTraversalDepth,omitempty" json:"maxTraversalDepth,omitempty"`
+	MaxSecretsPerMount      int `yaml:"maxSecretsPerMount,omitempty" json:"maxSecretsPerMount,omitempty"`
+	QueueCompactionThreshold int `yaml:"queueCompactionThreshold,omitempty" json:"queueCompactionThreshold,omitempty"`
 
 	Client        *api.Client   `yaml:"-" json:"-"`
 	logicalClient LogicalClient `yaml:"-" json:"-"` // For dependency injection in tests
@@ -331,13 +336,20 @@ func (vc *VaultClient) WriteSecret(ctx context.Context, meta metav1.ObjectMeta, 
 	if vc.Merge {
 		sec, err := vc.GetSecret(ctx, s)
 		if err != nil {
-			// Secret doesn't exist yet, that's fine for merge
-			l.WithError(err).Debug("No existing secret to merge with, creating new")
+			// Distinguish between "secret doesn't exist" (404) vs actual errors
+			var respErr *api.ResponseError
+			if errors.As(err, &respErr) && respErr.StatusCode == 404 {
+				// Secret doesn't exist yet, that's fine for merge - we'll create it
+				l.WithError(err).Debug("no existing secret to merge with, creating new")
+			} else {
+				// Network, authentication, or other errors should fail the operation
+				return nil, fmt.Errorf("failed to check for existing secret during merge: %w", err)
+			}
 		} else {
 			var existingData map[string]interface{}
 			err = json.Unmarshal(sec, &existingData)
 			if err != nil {
-				l.WithError(err).Warn("Failed to parse existing secret as JSON, will override")
+				l.WithError(err).Warn("failed to parse existing secret as JSON, will override")
 			} else {
 				// Use proper deepmerge: existing + new data
 				// This matches Python deepmerge.Merger behavior:
@@ -345,7 +357,7 @@ func (vc *VaultClient) WriteSecret(ctx context.Context, meta metav1.ObjectMeta, 
 				// - Dicts: recursive merge
 				// - Scalars/conflicts: override
 				data = utils.DeepMerge(existingData, data)
-				l.Debug("Applied deepmerge to existing secret")
+				l.Debug("applied deepmerge to existing secret")
 			}
 		}
 	}
@@ -484,6 +496,30 @@ func (vc *VaultClient) DeleteSecret(ctx context.Context, p string) error {
 	return nil
 }
 
+// getMaxTraversalDepth returns the configured max depth or the default
+func (vc *VaultClient) getMaxTraversalDepth() int {
+	if vc.MaxTraversalDepth > 0 {
+		return vc.MaxTraversalDepth
+	}
+	return defaultMaxTraversalDepth
+}
+
+// getMaxSecretsPerMount returns the configured max secrets or the default
+func (vc *VaultClient) getMaxSecretsPerMount() int {
+	if vc.MaxSecretsPerMount > 0 {
+		return vc.MaxSecretsPerMount
+	}
+	return defaultMaxSecretsPerMount
+}
+
+// getQueueCompactionThreshold returns the configured threshold or the default
+func (vc *VaultClient) getQueueCompactionThreshold() int {
+	if vc.QueueCompactionThreshold > 0 {
+		return vc.QueueCompactionThreshold
+	}
+	return defaultQueueCompactionThreshold
+}
+
 func (vc *VaultClient) ListSecretsOnce(ctx context.Context, p string) ([]string, error) {
 	if vc == nil || vc.Client == nil {
 		return nil, errors.New("vault client not initialized")
@@ -495,7 +531,7 @@ func (vc *VaultClient) ListSecretsOnce(ctx context.Context, p string) ([]string,
 	if len(pp) < 2 {
 		return nil, errors.New("secret path must be in kv/path/to/secret format")
 	}
-	
+
 	// Use BFS to recursively discover all secrets
 	return vc.listSecretsRecursive(ctx, p)
 }
@@ -516,6 +552,11 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 	// Normalize basePath to prevent double-slash issues
 	basePath = strings.TrimSuffix(basePath, "/")
 
+	// Get configured limits
+	maxDepth := vc.getMaxTraversalDepth()
+	maxSecrets := vc.getMaxSecretsPerMount()
+	compactionThreshold := vc.getQueueCompactionThreshold()
+
 	// Use index-based queue to avoid O(n²) slice reallocation on dequeue
 	// Instead of queue = queue[1:] which allocates on each dequeue,
 	// we advance an index and let GC handle the old references
@@ -534,7 +575,7 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 		queueIdx++
 
 		// Periodically compact queue to free memory on very large traversals
-		if queueIdx > queueCompactionThreshold && queueIdx > len(queue)/2 {
+		if queueIdx > compactionThreshold && queueIdx > len(queue)/2 {
 			queue = queue[queueIdx:]
 			queueIdx = 0
 		}
@@ -547,15 +588,15 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 
 		// Check depth limit as safety measure
 		depth := strings.Count(strings.TrimPrefix(currentPath, basePath), "/")
-		if depth > maxVaultTraversalDepth {
+		if depth > maxDepth {
 			return nil, fmt.Errorf("max traversal depth %d exceeded at path %q (base: %q, found %d secrets so far)",
-				maxVaultTraversalDepth, currentPath, basePath, len(allSecrets))
+				maxDepth, currentPath, basePath, len(allSecrets))
 		}
 
 		// Get the metadata path for listing
 		metadataPath, err := vc.getMetadataPath(currentPath)
 		if err != nil {
-			l.WithError(err).Warnf("Failed to get metadata path for %s", currentPath)
+			l.WithError(err).Warnf("failed to get metadata path for %s", currentPath)
 			continue
 		}
 
@@ -589,7 +630,7 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 			// - leading "/" : absolute path that could escape context
 			if strings.Contains(key, "..") || strings.Contains(key, "\x00") ||
 				strings.Contains(key, "//") || strings.HasPrefix(key, "/") {
-				l.Warnf("Skipping key with invalid path characters: %s", key)
+				l.Warnf("skipping key with invalid path characters: %s", key)
 				continue
 			}
 
@@ -612,9 +653,9 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 				// It's a secret - add to results
 				allSecrets = append(allSecrets, fullPath)
 				// Check if we've exceeded the maximum secrets limit to prevent DoS/OOM
-				if len(allSecrets) > maxSecretsPerMount {
+				if len(allSecrets) > maxSecrets {
 					return nil, fmt.Errorf("mount %q contains more than %d secrets at depth %d (possible DoS attack or misconfiguration)",
-						basePath, maxSecretsPerMount, depth)
+						basePath, maxSecrets, depth)
 				}
 			}
 		}

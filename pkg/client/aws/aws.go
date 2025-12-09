@@ -37,7 +37,13 @@ type AwsClient struct {
 	SkipUnchanged bool `yaml:"skipUnchanged,omitempty" json:"skipUnchanged,omitempty"`
 
 	// CacheTTL configures how long to cache ListSecrets results (default: 5 minutes)
-	// Set to 0 to disable caching
+	// Set to 0 to disable caching.
+	//
+	// Cache Behavior:
+	// - Automatically cleared on Write/Delete operations to this client
+	// - External modifications (via AWS console, other tools) won't be detected until TTL expires
+	// - Use ClearCache() to manually invalidate if needed
+	// - Failed write/delete operations do NOT clear the cache to avoid hiding errors
 	CacheTTL time.Duration `yaml:"cacheTTL,omitempty" json:"cacheTTL,omitempty"`
 
 	client *secretsmanager.Client `yaml:"-" json:"-"`
