@@ -17,7 +17,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssoadmin v1.36.10
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.2
 	github.com/aws/smithy-go v1.24.0
-	github.com/google/uuid v1.6.0
 	github.com/hashicorp/vault/api v1.22.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.10.2

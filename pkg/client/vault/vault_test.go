@@ -897,6 +897,70 @@ func TestVaultClient_ListSecretsRecursive_PathTraversalPrevention(t *testing.T) 
 	}
 }
 
+// TestVaultClient_getQueueCompactionThreshold tests the adaptive queue compaction threshold logic
+func TestVaultClient_getQueueCompactionThreshold(t *testing.T) {
+	tests := []struct {
+		name                     string
+		queueCompactionThreshold int
+		maxSecretsPerMount       int
+		expected                 int
+	}{
+		{
+			name:                     "Explicit threshold set",
+			queueCompactionThreshold: 500,
+			maxSecretsPerMount:       100000,
+			expected:                 500,
+		},
+		{
+			name:                     "Adaptive threshold - default maxSecrets (100000)",
+			queueCompactionThreshold: 0,
+			maxSecretsPerMount:       0, // Will use default 100000
+			expected:                 1000,
+		},
+		{
+			name:                     "Adaptive threshold - small deployment (1000 secrets)",
+			queueCompactionThreshold: 0,
+			maxSecretsPerMount:       1000,
+			expected:                 10,
+		},
+		{
+			name:                     "Adaptive threshold - medium deployment (50000 secrets)",
+			queueCompactionThreshold: 0,
+			maxSecretsPerMount:       50000,
+			expected:                 500,
+		},
+		{
+			name:                     "Adaptive threshold - large deployment (200000 secrets)",
+			queueCompactionThreshold: 0,
+			maxSecretsPerMount:       200000,
+			expected:                 1000, // Capped at max default
+		},
+		{
+			name:                     "Adaptive threshold - very small deployment (50 secrets)",
+			queueCompactionThreshold: 0,
+			maxSecretsPerMount:       50,
+			expected:                 1, // Minimum threshold
+		},
+		{
+			name:                     "Adaptive threshold - exactly at default (100000 secrets)",
+			queueCompactionThreshold: 0,
+			maxSecretsPerMount:       100000,
+			expected:                 1000,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			client := &VaultClient{
+				QueueCompactionThreshold: tt.queueCompactionThreshold,
+				MaxSecretsPerMount:       tt.maxSecretsPerMount,
+			}
+			result := client.getQueueCompactionThreshold()
+			assert.Equal(t, tt.expected, result)
+		})
+	}
+}
+
 // TestVaultClient_getMetadataPath_PathValidation tests that getMetadataPath rejects malicious inputs
 func TestVaultClient_getMetadataPath_PathValidation(t *testing.T) {
 	client := &VaultClient{}

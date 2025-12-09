@@ -24,6 +24,12 @@ type VaultConfig struct {
 	Address   string          `mapstructure:"address" yaml:"address"`
 	Namespace string          `mapstructure:"namespace" yaml:"namespace"`
 	Auth      VaultAuthConfig `mapstructure:"auth" yaml:"auth"`
+	
+	// Traversal configuration for recursive secret listing
+	// These settings control memory usage and performance during large Vault traversals
+	MaxTraversalDepth        int `mapstructure:"max_traversal_depth" yaml:"max_traversal_depth,omitempty"`
+	MaxSecretsPerMount       int `mapstructure:"max_secrets_per_mount" yaml:"max_secrets_per_mount,omitempty"`
+	QueueCompactionThreshold int `mapstructure:"queue_compaction_threshold" yaml:"queue_compaction_threshold,omitempty"`
 }
 
 // VaultAuthConfig supports multiple authentication methods
@@ -139,6 +145,12 @@ type VaultSource struct {
 	Namespace string   `mapstructure:"namespace" yaml:"namespace"`
 	Mount     string   `mapstructure:"mount" yaml:"mount"`
 	Paths     []string `mapstructure:"paths" yaml:"paths"`
+	
+	// Traversal configuration for recursive secret listing
+	// These settings control memory usage and performance during large Vault traversals
+	MaxTraversalDepth        int `mapstructure:"max_traversal_depth" yaml:"max_traversal_depth,omitempty"`
+	MaxSecretsPerMount       int `mapstructure:"max_secrets_per_mount" yaml:"max_secrets_per_mount,omitempty"`
+	QueueCompactionThreshold int `mapstructure:"queue_compaction_threshold" yaml:"queue_compaction_threshold,omitempty"`
 }
 
 // AWSSource imports secrets from AWS Secrets Manager
