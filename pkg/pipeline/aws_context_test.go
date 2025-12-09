@@ -45,9 +45,11 @@ func TestAccountInfoTagsField(t *testing.T) {
 		},
 	}
 
-	// Verify tags are stored correctly
+	// Verify all fields are stored correctly
 	assert.Equal(t, "123456789012", acct.ID)
 	assert.Equal(t, "TestAccount", acct.Name)
+	assert.Equal(t, "test@example.com", acct.Email)
+	assert.Equal(t, "ACTIVE", acct.Status)
 	assert.NotNil(t, acct.Tags)
 	assert.Equal(t, "production", acct.Tags["Environment"])
 	assert.Equal(t, "platform", acct.Tags["Team"])

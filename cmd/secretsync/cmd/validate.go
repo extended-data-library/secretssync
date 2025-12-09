@@ -50,7 +50,7 @@ func runValidate(cmd *cobra.Command, args []string) error {
 	fmt.Println("✅ Config file parsed successfully")
 
 	// Validate config structure
-	if err := cfg.Validate(); err != nil {
+	if err = cfg.Validate(); err != nil {
 		fmt.Printf("❌ Config validation failed: %v\n", err)
 		return err
 	}

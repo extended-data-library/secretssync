@@ -334,22 +334,22 @@ func (vc *VaultClient) WriteSecret(ctx context.Context, meta metav1.ObjectMeta, 
 	}
 	var secrets map[string]interface{}
 	if vc.Merge {
-		sec, err := vc.GetSecret(ctx, s)
-		if err != nil {
+		sec, getErr := vc.GetSecret(ctx, s)
+		if getErr != nil {
 			// Distinguish between "secret doesn't exist" (404) vs actual errors
 			var respErr *api.ResponseError
-			if errors.As(err, &respErr) && respErr.StatusCode == 404 {
+			if errors.As(getErr, &respErr) && respErr.StatusCode == 404 {
 				// Secret doesn't exist yet, that's fine for merge - we'll create it
-				l.WithError(err).Debug("no existing secret to merge with, creating new")
+				l.WithError(getErr).Debug("no existing secret to merge with, creating new")
 			} else {
 				// Network, authentication, or other errors should fail the operation
-				return nil, fmt.Errorf("failed to check for existing secret during merge: %w", err)
+				return nil, fmt.Errorf("failed to check for existing secret during merge: %w", getErr)
 			}
 		} else {
 			var existingData map[string]interface{}
-			err = json.Unmarshal(sec, &existingData)
-			if err != nil {
-				l.WithError(err).Warn("failed to parse existing secret as JSON, will override")
+			unmarshalErr := json.Unmarshal(sec, &existingData)
+			if unmarshalErr != nil {
+				l.WithError(unmarshalErr).Warn("failed to parse existing secret as JSON, will override")
 			} else {
 				// Use proper deepmerge: existing + new data
 				// This matches Python deepmerge.Merger behavior:

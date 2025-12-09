@@ -35,8 +35,8 @@ func (d *DiscoveryService) DiscoverTargets() (map[string]Target, error) {
 	discoveredTargets := make(map[string]Target)
 
 	for dynamicName, dynamicTarget := range d.config.DynamicTargets {
-		l := l.WithField("dynamicTarget", dynamicName)
-		l.Debug("Processing dynamic target")
+		dtLog := l.WithField("dynamicTarget", dynamicName)
+		dtLog.Debug("Processing dynamic target")
 
 		var accounts []AccountInfo
 		var err error
@@ -45,7 +45,7 @@ func (d *DiscoveryService) DiscoverTargets() (map[string]Target, error) {
 		if dynamicTarget.Discovery.IdentityCenter != nil {
 			accounts, err = d.discoverFromIdentityCenter(dynamicTarget.Discovery.IdentityCenter)
 			if err != nil {
-				l.WithError(err).Warn("Failed to discover from Identity Center")
+				dtLog.WithError(err).Warn("Failed to discover from Identity Center")
 				continue
 			}
 		}
@@ -54,7 +54,7 @@ func (d *DiscoveryService) DiscoverTargets() (map[string]Target, error) {
 		if dynamicTarget.Discovery.Organizations != nil {
 			orgAccounts, err := d.discoverFromOrganizations(dynamicTarget.Discovery.Organizations)
 			if err != nil {
-				l.WithError(err).Warn("Failed to discover from Organizations")
+				dtLog.WithError(err).Warn("Failed to discover from Organizations")
 				continue
 			}
 			accounts = append(accounts, orgAccounts...)
@@ -64,7 +64,7 @@ func (d *DiscoveryService) DiscoverTargets() (map[string]Target, error) {
 		if dynamicTarget.Discovery.AccountsList != nil {
 			listAccounts, err := d.discoverFromAccountsList(dynamicTarget.Discovery.AccountsList)
 			if err != nil {
-				l.WithError(err).Warn("Failed to discover from accounts list")
+				dtLog.WithError(err).Warn("Failed to discover from accounts list")
 				continue
 			}
 			accounts = append(accounts, listAccounts...)
@@ -83,7 +83,7 @@ func (d *DiscoveryService) DiscoverTargets() (map[string]Target, error) {
 		for _, acct := range accounts {
 			// Check exclusions
 			if isExcluded(acct.ID, dynamicTarget.Exclude) {
-				l.WithField("accountID", acct.ID).Debug("Account excluded")
+				dtLog.WithField("accountID", acct.ID).Debug("Account excluded")
 				continue
 			}
 
@@ -129,7 +129,7 @@ func (d *DiscoveryService) DiscoverTargets() (map[string]Target, error) {
 				RoleARN:      roleARN,
 			}
 
-			l.WithFields(log.Fields{
+			dtLog.WithFields(log.Fields{
 				"targetName":    targetName,
 				"accountID":     acct.ID,
 				"region":        region,

@@ -302,6 +302,9 @@ func TestResolvedResource_String(t *testing.T) {
 		MatchConfidence: MatchExact,
 	}
 
+	// Verify all fields are correct
+	assert.Equal(t, "analytics-staging", r.OriginalName)
+	assert.Equal(t, "analytics-staging", r.ResolvedName)
 	assert.Equal(t, "111111111111", r.AccountID)
 	assert.Equal(t, ResourceTypeAWSAccount, r.Type)
 	assert.Equal(t, MatchExact, r.MatchConfidence)

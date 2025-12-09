@@ -4,19 +4,19 @@ version: "2"
 linters:
   disable:
     - errcheck  # Many Close() calls without error checking
-
-linters-settings:
-  govet:
-    enable-all: true
-    disable:
-      - fieldalignment  # Too noisy for this codebase
+  settings:
+    govet:
+      enable-all: true
+      disable:
+        - fieldalignment  # Too noisy for this codebase
 
 output:
   formats:
-    colored-line-number:
+    text:
       path: stdout
-  print-issued-lines: true
-  print-linter-name: true
+      print-issued-lines: true
+      print-linter-name: true
+      colors: true
 
 issues:
   max-issues-per-linter: 0
