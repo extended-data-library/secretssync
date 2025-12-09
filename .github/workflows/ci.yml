@@ -28,38 +28,6 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
 
-    services:
-      # LocalStack for AWS Secrets Manager emulation
-      localstack:
-        image: localstack/localstack:latest
-        ports:
-          - 4566:4566
-        env:
-          SERVICES: secretsmanager
-          DEBUG: 0
-          EAGER_SERVICE_LOADING: 1
-        options: >-
-          --health-cmd "curl -sS http://localhost:4566/_localstack/health | grep -q running"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-      # HashiCorp Vault in dev mode
-      vault:
-        image: hashicorp/vault:latest
-        ports:
-          - 8200:8200
-        env:
-          VAULT_DEV_ROOT_TOKEN_ID: test-root-token
-          VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
-          VAULT_ADDR: http://0.0.0.0:8200
-        options: >-
-          --cap-add IPC_LOCK
-          --health-cmd "vault status || exit 0"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       # actions/checkout v6.0.1
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
@@ -73,7 +41,15 @@ jobs:
       - name: Download dependencies
         run: go mod download
 
-      - name: Wait for services
+      # hoverkraft-tech/compose-action v2.0.2
+      - name: Start test services
+        uses: hoverkraft-tech/compose-action@v2.0.2
+        with:
+          compose-file: docker-compose.test.yml
+          services: localstack,vault
+          up-flags: "-d --wait"
+
+      - name: Wait for services to be ready
         run: |
           echo "Waiting for LocalStack..."
           for i in {1..30}; do
@@ -81,7 +57,6 @@ jobs:
               echo "LocalStack is ready!"
               break
             fi
-            echo "Waiting for LocalStack... ($i/30)"
             sleep 2
           done
 
@@ -91,33 +66,15 @@ jobs:
               echo "Vault is ready!"
               break
             fi
-            echo "Waiting for Vault... ($i/30)"
             sleep 2
           done
 
-      - name: Initialize Vault test data
-        env:
-          VAULT_ADDR: http://localhost:8200
-          VAULT_TOKEN: test-root-token
-        run: |
-          # Install vault CLI
-          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          sudo apt-get update && sudo apt-get install -y vault
-
-          # Enable KV v2 and create test data
-          vault secrets enable -path=secret kv-v2 || true
-          vault kv put secret/test-app/config database_url="postgres://localhost:5432/testdb" api_key="test-key"
-          vault kv put secret/test-app/nested/level1/config nested_secret="nested-value"
-
       - name: Run tests
         env:
-          # AWS LocalStack configuration
           AWS_ENDPOINT_URL: http://localhost:4566
           AWS_ACCESS_KEY_ID: test
           AWS_SECRET_ACCESS_KEY: test
           AWS_REGION: us-east-1
-          # Vault configuration
           VAULT_ADDR: http://localhost:8200
           VAULT_TOKEN: test-root-token
         run: go test -v -race -coverprofile=coverage.out ./...
