@@ -5,6 +5,7 @@ package integration
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"os"
 	"testing"
 
@@ -104,182 +105,58 @@ func setupAWSClient(t *testing.T, ctx context.Context) *secretsmanager.Client {
 	})
 }
 
-// seedVaultSecrets creates test secrets in Vault simulating multi-source pattern
-// with realistic complexity: deep nesting, mixed types, team/env/service patterns
+// seedVaultSecrets creates generic test fixtures that exercise the merge patterns
 func seedVaultSecrets(t *testing.T, client *api.Client) {
 	t.Helper()
 
-	// Enable KV v2 if not already enabled
-	client.Sys().Mount("secret", &api.MountInput{
-		Type: "kv-v2",
-	})
+	client.Sys().Mount("secret", &api.MountInput{Type: "kv-v2"})
 
-	// ============================================
-	// Team-based hierarchical structure
-	// Pattern: {team}/{environment}/{service}/config
-	// ============================================
-
-	// Data team - staging
-	writeVaultSecret(t, client, "secret/data/data-team/staging/pipeline/config", map[string]interface{}{
+	// Source A: base layer
+	writeVaultSecret(t, client, "secret/data/source-a/config", map[string]interface{}{
 		"data": map[string]interface{}{
-			"warehouse_host": "warehouse-stg.internal",
-			"warehouse_port": 5439,
-			"batch_size":     1000,
-			"enabled_sources": []interface{}{"postgres", "mysql", "mongodb"},
-			"credentials": map[string]interface{}{
-				"username": "pipeline_stg",
-				"password": "stg-secret-123",
-			},
-			"retry_config": map[string]interface{}{
-				"max_attempts": 3,
-				"backoff_ms":   1000,
-			},
+			"scalar":    "value-a",
+			"list":      []interface{}{"a1", "a2"},
+			"dict":      map[string]interface{}{"key1": "from-a", "key2": "from-a"},
+			"nested":    map[string]interface{}{"deep": map[string]interface{}{"value": "a"}},
 		},
 	})
 
-	// Data team - production (inherits from staging, overrides specific values)
-	writeVaultSecret(t, client, "secret/data/data-team/production/pipeline/config", map[string]interface{}{
+	// Source B: override layer (merges with A)
+	writeVaultSecret(t, client, "secret/data/source-b/config", map[string]interface{}{
 		"data": map[string]interface{}{
-			"warehouse_host": "warehouse-prod.internal",
-			"batch_size":     5000,
-			"enabled_sources": []interface{}{"s3", "kinesis"}, // APPENDS to staging sources
-			"credentials": map[string]interface{}{
-				"password": "prod-secret-456", // Override password only
-			},
-			"retry_config": map[string]interface{}{
-				"max_attempts": 5, // Override retry attempts
-			},
+			"scalar":    "value-b",                           // override
+			"list":      []interface{}{"b1"},                 // append
+			"dict":      map[string]interface{}{"key2": "from-b", "key3": "from-b"}, // merge
+			"nested":    map[string]interface{}{"deep": map[string]interface{}{"extra": "b"}},
 		},
 	})
 
-	// ============================================
-	// Service-level secrets with deep nesting
-	// Pattern: services/{service}/config/{component}
-	// ============================================
-
-	writeVaultSecret(t, client, "secret/data/services/api-gateway/config/routes", map[string]interface{}{
+	// Source C: additional layer
+	writeVaultSecret(t, client, "secret/data/source-c/other", map[string]interface{}{
 		"data": map[string]interface{}{
-			"routes": []interface{}{
-				map[string]interface{}{"path": "/v1/users", "service": "user-svc", "timeout": 30},
-				map[string]interface{}{"path": "/v1/orders", "service": "order-svc", "timeout": 60},
-			},
-			"rate_limits": map[string]interface{}{
-				"default":    1000,
-				"premium":    10000,
-				"enterprise": -1,
-			},
+			"independent": "value-c",
 		},
 	})
 
-	writeVaultSecret(t, client, "secret/data/services/api-gateway/config/auth", map[string]interface{}{
+	// Shared: common across targets
+	writeVaultSecret(t, client, "secret/data/shared/common", map[string]interface{}{
 		"data": map[string]interface{}{
-			"jwt_secret":      "super-secret-jwt-key",
-			"token_ttl_hours": 24,
-			"allowed_issuers": []interface{}{"auth.example.com", "sso.example.com"},
-			"oauth": map[string]interface{}{
-				"client_id":     "gateway-client",
-				"client_secret": "oauth-secret-789",
-				"scopes":        []interface{}{"read", "write", "admin"},
-			},
+			"shared_key": "shared_value",
 		},
 	})
 
-	writeVaultSecret(t, client, "secret/data/services/api-gateway/config/tls/certificates", map[string]interface{}{
-		"data": map[string]interface{}{
-			"cert_pem": "-----BEGIN CERTIFICATE-----\nMIIC...\n-----END CERTIFICATE-----",
-			"key_pem":  "-----BEGIN PRIVATE KEY-----\nMIIE...\n-----END PRIVATE KEY-----",
-			"ca_chain": []interface{}{
-				"-----BEGIN CERTIFICATE-----\nROOT...\n-----END CERTIFICATE-----",
-				"-----BEGIN CERTIFICATE-----\nINTER...\n-----END CERTIFICATE-----",
-			},
-		},
-	})
+	// Nested paths for recursive listing
+	for i := 1; i <= 5; i++ {
+		path := "secret/data/nested"
+		for j := 1; j <= i; j++ {
+			path += fmt.Sprintf("/level%d", j)
+		}
+		writeVaultSecret(t, client, path, map[string]interface{}{
+			"data": map[string]interface{}{"depth": i},
+		})
+	}
 
-	// ============================================
-	// Infrastructure secrets
-	// Pattern: infra/{provider}/{resource}
-	// ============================================
-
-	writeVaultSecret(t, client, "secret/data/infra/aws/rds/main-cluster", map[string]interface{}{
-		"data": map[string]interface{}{
-			"endpoint":        "main-cluster.abc123.us-east-1.rds.amazonaws.com",
-			"port":            5432,
-			"master_username": "admin",
-			"master_password": "rds-master-password",
-			"databases": []interface{}{
-				map[string]interface{}{"name": "users", "owner": "app_user"},
-				map[string]interface{}{"name": "orders", "owner": "app_order"},
-				map[string]interface{}{"name": "analytics", "owner": "app_analytics"},
-			},
-		},
-	})
-
-	writeVaultSecret(t, client, "secret/data/infra/aws/elasticache/redis-cluster", map[string]interface{}{
-		"data": map[string]interface{}{
-			"primary_endpoint":      "redis.abc123.cache.amazonaws.com",
-			"reader_endpoint":       "redis-ro.abc123.cache.amazonaws.com",
-			"port":                  6379,
-			"auth_token":            "redis-auth-token-xyz",
-			"transit_encryption":    true,
-			"at_rest_encryption":    true,
-			"snapshot_retention":    7,
-			"maintenance_window":    "sun:05:00-sun:06:00",
-		},
-	})
-
-	// ============================================
-	// Shared/common secrets (imported by multiple targets)
-	// ============================================
-
-	writeVaultSecret(t, client, "secret/data/shared/monitoring", map[string]interface{}{
-		"data": map[string]interface{}{
-			"datadog_api_key": "dd-api-key-123",
-			"datadog_app_key": "dd-app-key-456",
-			"pagerduty_token": "pd-token-789",
-			"slack_webhook":   "https://hooks.slack.com/services/XXX/YYY/ZZZ",
-			"alert_channels":  []interface{}{"#ops-alerts", "#on-call"},
-		},
-	})
-
-	writeVaultSecret(t, client, "secret/data/shared/external-apis", map[string]interface{}{
-		"data": map[string]interface{}{
-			"stripe_secret_key":    "sk_live_xxx",
-			"stripe_webhook_secret": "whsec_xxx",
-			"sendgrid_api_key":     "SG.xxx",
-			"twilio_account_sid":   "ACxxx",
-			"twilio_auth_token":    "xxx",
-		},
-	})
-
-	// ============================================
-	// Edge cases
-	// ============================================
-
-	// Empty-ish secret (only metadata)
-	writeVaultSecret(t, client, "secret/data/edge-cases/minimal", map[string]interface{}{
-		"data": map[string]interface{}{
-			"key": "value",
-		},
-	})
-
-	// Secret with special characters in values
-	writeVaultSecret(t, client, "secret/data/edge-cases/special-chars", map[string]interface{}{
-		"data": map[string]interface{}{
-			"connection_string": "postgres://user:p@ss=word!@host:5432/db?sslmode=require&application_name=my-app",
-			"json_blob":         `{"key": "value", "nested": {"array": [1, 2, 3]}}`,
-			"multiline":         "line1\nline2\nline3",
-			"unicode":           "こんにちは世界 🌍",
-		},
-	})
-
-	// Deeply nested path (7 levels)
-	writeVaultSecret(t, client, "secret/data/org/division/team/project/env/service/component", map[string]interface{}{
-		"data": map[string]interface{}{
-			"deep_secret": "found-at-depth-7",
-		},
-	})
-
-	t.Log("Seeded Vault with realistic test secrets")
+	t.Log("Seeded generic test fixtures")
 }
 
 func writeVaultSecret(t *testing.T, client *api.Client, path string, data map[string]interface{}) {
@@ -291,16 +168,16 @@ func writeVaultSecret(t *testing.T, client *api.Client, path string, data map[st
 func validateVaultSecrets(t *testing.T, client *api.Client) {
 	t.Helper()
 
-	// Validate base/database exists
-	secret, err := client.Logical().Read("secret/data/base/database")
+	// Validate source-a exists
+	secret, err := client.Logical().Read("secret/data/source-a/config")
 	require.NoError(t, err)
 	require.NotNil(t, secret)
 
 	data := secret.Data["data"].(map[string]interface{})
-	assert.Equal(t, "db.example.com", data["host"])
+	assert.Equal(t, "value-a", data["scalar"])
 
-	// Validate nested secret exists (tests recursive listing)
-	nested, err := client.Logical().Read("secret/data/base/nested/level1/config")
+	// Validate nested secrets exist (tests recursive listing)
+	nested, err := client.Logical().Read("secret/data/nested/level1/level2/level3")
 	require.NoError(t, err)
 	require.NotNil(t, nested)
 
@@ -308,45 +185,49 @@ func validateVaultSecrets(t *testing.T, client *api.Client) {
 }
 
 // runMergePhase simulates the merge pattern:
-// Target imports: base, overrides, shared
-// Expected: deepmerge with list append, dict merge
+// Target imports: source-a, source-b, source-c, shared
+// Expected: deepmerge with list append, dict merge, scalar override
 func runMergePhase(t *testing.T, client *api.Client) map[string]map[string]interface{} {
 	t.Helper()
 
 	merged := make(map[string]map[string]interface{})
 
-	// Read all source secrets
-	baseDB := readVaultSecretData(t, client, "secret/data/base/database")
-	baseAPI := readVaultSecretData(t, client, "secret/data/base/api-keys")
-	overridesDB := readVaultSecretData(t, client, "secret/data/overrides/database")
+	// Read sources
+	sourceA := readVaultSecretData(t, client, "secret/data/source-a/config")
+	sourceB := readVaultSecretData(t, client, "secret/data/source-b/config")
+	sourceC := readVaultSecretData(t, client, "secret/data/source-c/other")
 	shared := readVaultSecretData(t, client, "secret/data/shared/common")
-	nested := readVaultSecretData(t, client, "secret/data/base/nested/level1/config")
 
-	// Simulate deepmerge for database config
-	// base/database + overrides/database
-	mergedDB := deepMerge(baseDB, overridesDB)
-	merged["database"] = mergedDB
+	// Merge A + B (B overrides A)
+	mergedConfig := deepMerge(sourceA, sourceB)
+	merged["config"] = mergedConfig
 
-	// api-keys pass through (no merge needed)
-	merged["api-keys"] = baseAPI
-
-	// shared pass through
+	// Pass-through
+	merged["other"] = sourceC
 	merged["common"] = shared
 
-	// nested pass through
-	merged["nested/level1/config"] = nested
-
 	// Validate merge results
-	// Users should be: ["readonly", "admin", "dev1", "dev2"] (list append)
-	users := mergedDB["users"].([]interface{})
-	assert.Len(t, users, 4, "Expected 4 users after list append merge")
 
-	// Settings should have both timeout/pool_size AND debug (dict merge)
-	settings := mergedDB["settings"].(map[string]interface{})
-	assert.Contains(t, settings, "timeout", "Expected timeout from base")
-	assert.Contains(t, settings, "debug", "Expected debug from overrides")
+	// Scalar: B overrides A
+	assert.Equal(t, "value-b", mergedConfig["scalar"], "scalar should be overridden by source-b")
 
-	t.Log("Merge phase completed with deepmerge validation")
+	// List: A + B appended
+	list := mergedConfig["list"].([]interface{})
+	assert.Len(t, list, 3, "list should have 3 items (a1, a2, b1)")
+
+	// Dict: merged (key1 from A, key2 from B, key3 from B)
+	dict := mergedConfig["dict"].(map[string]interface{})
+	assert.Equal(t, "from-a", dict["key1"], "key1 should be from source-a")
+	assert.Equal(t, "from-b", dict["key2"], "key2 should be overridden by source-b")
+	assert.Equal(t, "from-b", dict["key3"], "key3 should be from source-b")
+
+	// Nested dict merge
+	nested := mergedConfig["nested"].(map[string]interface{})
+	deep := nested["deep"].(map[string]interface{})
+	assert.Equal(t, "a", deep["value"], "nested.deep.value from source-a")
+	assert.Equal(t, "b", deep["extra"], "nested.deep.extra from source-b")
+
+	t.Log("Merge phase validated: scalar override, list append, dict merge")
 	return merged
 }
 
@@ -455,9 +336,11 @@ func cleanup(t *testing.T, ctx context.Context, vaultClient *api.Client, awsClie
 
 	// Delete Vault secrets
 	paths := []string{
-		"secret/metadata/base",
-		"secret/metadata/overrides",
+		"secret/metadata/source-a",
+		"secret/metadata/source-b",
+		"secret/metadata/source-c",
 		"secret/metadata/shared",
+		"secret/metadata/nested",
 	}
 	for _, path := range paths {
 		vaultClient.Logical().Delete(path)
@@ -465,10 +348,9 @@ func cleanup(t *testing.T, ctx context.Context, vaultClient *api.Client, awsClie
 
 	// Delete AWS secrets
 	secretNames := []string{
-		"test-sync/database",
-		"test-sync/api-keys",
+		"test-sync/config",
+		"test-sync/other",
 		"test-sync/common",
-		"test-sync/nested/level1/config",
 	}
 	for _, name := range secretNames {
 		awsClient.DeleteSecret(ctx, &secretsmanager.DeleteSecretInput{
@@ -614,38 +496,32 @@ func TestDeepMergeStrategies(t *testing.T) {
 
 // TestTargetInheritanceChain validates inheritance resolution
 func TestTargetInheritanceChain(t *testing.T) {
-	// This test validates the inheritance resolution logic
-	// without needing emulators
+	// Validates topological ordering: parents must be processed before children
 
 	targets := map[string]struct {
 		imports  []string
 		inherits string
 	}{
-		"staging":    {imports: []string{"base", "shared"}, inherits: ""},
-		"production": {imports: []string{"staging"}, inherits: "staging"},
-		"demo":       {imports: []string{"production"}, inherits: "production"},
+		"target-a": {imports: []string{"source-a", "shared"}, inherits: ""},
+		"target-b": {imports: []string{"target-a"}, inherits: "target-a"},
+		"target-c": {imports: []string{"target-b"}, inherits: "target-b"},
 	}
 
 	// Validate inheritance detection
-	assert.Empty(t, targets["staging"].inherits, "staging should not inherit")
-	assert.Equal(t, "staging", targets["production"].inherits, "production should inherit from staging")
-	assert.Equal(t, "production", targets["demo"].inherits, "demo should inherit from production")
+	assert.Empty(t, targets["target-a"].inherits)
+	assert.Equal(t, "target-a", targets["target-b"].inherits)
+	assert.Equal(t, "target-b", targets["target-c"].inherits)
 
-	// Validate topological order (dependencies resolved first)
-	order := []string{"staging", "production", "demo"}
+	// Validate topological order
+	order := []string{"target-a", "target-b", "target-c"}
 	for i, target := range order {
-		if targets[target].inherits != "" {
-			// Find parent in order
-			parentIdx := -1
+		if parent := targets[target].inherits; parent != "" {
 			for j, tgt := range order {
-				if tgt == targets[target].inherits {
-					parentIdx = j
+				if tgt == parent {
+					assert.Less(t, j, i, "parent %s must come before %s", parent, target)
 					break
 				}
 			}
-			assert.Less(t, parentIdx, i, "%s should be processed after %s", target, targets[target].inherits)
 		}
 	}
-
-	t.Log("Target inheritance chain validated")
 }
