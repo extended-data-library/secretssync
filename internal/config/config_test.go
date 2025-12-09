@@ -103,14 +103,14 @@ metrics:
 }
 
 func TestSetFromEnv(t *testing.T) {
-	t.Setenv("VSS_LOG_LEVEL", "debug")
-	t.Setenv("VSS_EVENTS_ENABLED", "true")
-	t.Setenv("VSS_EVENTS_PORT", "8080")
-	t.Setenv("VSS_OPERATOR_ENABLED", "true")
-	t.Setenv("VSS_OPERATOR_BACKEND_TYPE", "kubernetes")
-	t.Setenv("VSS_STORES_VAULT_ADDRESS", "http://127.0.0.1:8200")
-	t.Setenv("VSS_QUEUE_TYPE", "memory")
-	t.Setenv("VSS_METRICS_PORT", "9090")
+	t.Setenv("SECRETSYNC_LOG_LEVEL", "debug")
+	t.Setenv("SECRETSYNC_EVENTS_ENABLED", "true")
+	t.Setenv("SECRETSYNC_EVENTS_PORT", "8080")
+	t.Setenv("SECRETSYNC_OPERATOR_ENABLED", "true")
+	t.Setenv("SECRETSYNC_OPERATOR_BACKEND_TYPE", "kubernetes")
+	t.Setenv("SECRETSYNC_STORES_VAULT_ADDRESS", "http://127.0.0.1:8200")
+	t.Setenv("SECRETSYNC_QUEUE_TYPE", "memory")
+	t.Setenv("SECRETSYNC_METRICS_PORT", "9090")
 
 	var cfg ConfigFile
 	err := cfg.SetFromEnv()
