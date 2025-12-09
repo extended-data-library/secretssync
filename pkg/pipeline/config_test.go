@@ -459,3 +459,185 @@ func TestConfigValidateAccountIDFormat(t *testing.T) {
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "invalid account_id format")
 }
+
+// TestTargetInheritance tests the target inheritance detection and resolution
+func TestTargetInheritance(t *testing.T) {
+	t.Run("IsInheritedTarget - detect inherited targets", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "analytics"}},
+				"common":    {Vault: &VaultSource{Mount: "common"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics", "common"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"}, // Inherits from another target
+				},
+				"Direct": {
+					AccountID: "333333333333",
+					Imports:   []string{"analytics"}, // Only sources, no inheritance
+				},
+			},
+		}
+		
+		// Prod inherits from Stg (another target)
+		assert.True(t, cfg.IsInheritedTarget("Prod"), "Prod should be detected as inherited")
+		
+		// Stg and Direct only import from sources, not targets
+		assert.False(t, cfg.IsInheritedTarget("Stg"), "Stg should not be detected as inherited")
+		assert.False(t, cfg.IsInheritedTarget("Direct"), "Direct should not be detected as inherited")
+		
+		// Non-existent target
+		assert.False(t, cfg.IsInheritedTarget("NonExistent"), "Non-existent target should return false")
+	})
+	
+	t.Run("Multi-level inheritance chain", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "analytics"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"},
+				},
+				"ProdCA": {
+					AccountID: "333333333333",
+					Imports:   []string{"Prod"}, // Inherits from Prod which inherits from Stg
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				Vault: &MergeStoreVault{Mount: "merged-secrets"},
+			},
+		}
+		
+		// Verify inheritance detection
+		assert.False(t, cfg.IsInheritedTarget("Stg"))
+		assert.True(t, cfg.IsInheritedTarget("Prod"))
+		assert.True(t, cfg.IsInheritedTarget("ProdCA"))
+	})
+	
+	t.Run("GetSourcePath - resolve paths correctly", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "kv/analytics"}},
+				"common":    {Vault: &VaultSource{Mount: "kv/common"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"},
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				Vault: &MergeStoreVault{Mount: "merged-secrets"},
+			},
+		}
+		
+		// Direct source should return mount path
+		assert.Equal(t, "kv/analytics", cfg.GetSourcePath("analytics"))
+		assert.Equal(t, "kv/common", cfg.GetSourcePath("common"))
+		
+		// Inherited target should return merge store path
+		assert.Equal(t, "merged-secrets/Stg", cfg.GetSourcePath("Stg"))
+		assert.Equal(t, "merged-secrets/Prod", cfg.GetSourcePath("Prod"))
+		
+		// Non-existent should return the name itself
+		assert.Equal(t, "nonexistent", cfg.GetSourcePath("nonexistent"))
+	})
+	
+	t.Run("GetSourcePath with S3 merge store", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "kv/analytics"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"},
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				S3: &MergeStoreS3{Bucket: "secrets-bucket", Prefix: "merged/"},
+			},
+		}
+		
+		// With S3 merge store, inherited targets still return the import name
+		// The S3 path is resolved separately in the S3 store implementation
+		assert.Equal(t, "Stg", cfg.GetSourcePath("Stg"))
+	})
+	
+	t.Run("Mixed imports - sources and targets", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "kv/analytics"}},
+				"common":    {Vault: &VaultSource{Mount: "kv/common"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics", "common"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg", "common"}, // Mix of target and source
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				Vault: &MergeStoreVault{Mount: "merged"},
+			},
+		}
+		
+		// Prod imports from both a target (Stg) and a source (common)
+		// It should be detected as inherited because it has at least one target import
+		assert.True(t, cfg.IsInheritedTarget("Prod"))
+	})
+	
+	t.Run("Inheritance order matters for merge", func(t *testing.T) {
+		// This test documents the expected behavior for merge order
+		// When Prod imports ["Stg", "common"], it should:
+		// 1. Read merged state of Stg from merge store
+		// 2. Read common from source
+		// 3. Deep merge them in order
+		
+		cfg := Config{
+			Sources: map[string]Source{
+				"base": {Vault: &VaultSource{Mount: "kv/base"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"base"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"},
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				Vault: &MergeStoreVault{Mount: "merged"},
+			},
+		}
+		
+		// Verify that Stg must be processed before Prod (topological ordering)
+		// This is handled by the graph package
+		assert.True(t, cfg.IsInheritedTarget("Prod"))
+		assert.False(t, cfg.IsInheritedTarget("Stg"))
+	})
+}
