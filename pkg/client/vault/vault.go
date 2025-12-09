@@ -495,9 +495,19 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 	const maxDepth = 100 // Safety limit to prevent infinite loops
 	var allSecrets []string
 	visited := make(map[string]bool)
+
+	// Normalize basePath to prevent double-slash issues
+	basePath = strings.TrimSuffix(basePath, "/")
 	queue := []string{basePath}
 
 	for len(queue) > 0 {
+		// Check for context cancellation
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		default:
+		}
+
 		currentPath := queue[0]
 		queue = queue[1:]
 
@@ -594,12 +604,18 @@ func (vc *VaultClient) getLogicalClient() LogicalClient {
 	if vc.logicalClient != nil {
 		return vc.logicalClient
 	}
+	if vc.Client == nil {
+		return nil
+	}
 	return vc.Client.Logical()
 }
 
 // listPathContents performs the actual Vault LIST operation
 func (vc *VaultClient) listPathContents(ctx context.Context, metadataPath string) ([]string, error) {
 	logical := vc.getLogicalClient()
+	if logical == nil {
+		return nil, errors.New("vault client not initialized")
+	}
 	secret, err := logical.ListWithContext(ctx, metadataPath)
 	if err != nil {
 		return nil, err
