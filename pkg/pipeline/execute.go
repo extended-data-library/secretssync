@@ -4,15 +4,25 @@ import (
 	"context"
 	"fmt"
 	"sync"
+	"time"
 
+	reqctx "github.com/jbcom/secretsync/pkg/context"
+	"github.com/jbcom/secretsync/pkg/observability"
 	log "github.com/sirupsen/logrus"
 )
 
 // runMerge executes only the merge phase
 func (p *Pipeline) runMerge(ctx context.Context, targets []string, opts Options) ([]Result, error) {
+	startTime := time.Now()
+	requestID := reqctx.GetRequestID(ctx)
+	defer func() {
+		observability.RecordDuration(observability.PipelineExecutionDuration, startTime, "merge", string(opts.Operation))
+	}()
+
 	l := log.WithFields(log.Fields{
-		"action":  "Pipeline.runMerge",
-		"targets": targets,
+		"action":     "Pipeline.runMerge",
+		"targets":    targets,
+		"request_id": requestID,
 	})
 	l.Info("Starting merge phase")
 
@@ -25,9 +35,16 @@ func (p *Pipeline) runMerge(ctx context.Context, targets []string, opts Options)
 
 // runSync executes only the sync phase
 func (p *Pipeline) runSync(ctx context.Context, targets []string, opts Options) ([]Result, error) {
+	startTime := time.Now()
+	requestID := reqctx.GetRequestID(ctx)
+	defer func() {
+		observability.RecordDuration(observability.PipelineExecutionDuration, startTime, "sync", string(opts.Operation))
+	}()
+
 	l := log.WithFields(log.Fields{
-		"action":  "Pipeline.runSync",
-		"targets": targets,
+		"action":     "Pipeline.runSync",
+		"targets":    targets,
+		"request_id": requestID,
 	})
 	l.Info("Starting sync phase")
 
@@ -40,9 +57,11 @@ func (p *Pipeline) runSync(ctx context.Context, targets []string, opts Options) 
 
 // runPipeline executes both merge and sync phases
 func (p *Pipeline) runPipeline(ctx context.Context, targets []string, opts Options) ([]Result, error) {
+	requestID := reqctx.GetRequestID(ctx)
 	l := log.WithFields(log.Fields{
-		"action":  "Pipeline.runPipeline",
-		"targets": targets,
+		"action":     "Pipeline.runPipeline",
+		"targets":    targets,
+		"request_id": requestID,
 	})
 	l.Info("Starting full pipeline (merge + sync)")
 
@@ -112,9 +131,13 @@ func (p *Pipeline) executeMergePhase(ctx context.Context, targets []string, opts
 
 		results = append(results, levelResults...)
 
-		// Check for errors
+		// Check for errors and record metrics
 		for _, r := range levelResults {
-			if !r.Success {
+			if r.Success {
+				observability.PipelineTargetsProcessed.WithLabelValues("merge", "success").Inc()
+			} else {
+				observability.PipelineTargetsProcessed.WithLabelValues("merge", "error").Inc()
+				observability.PipelineErrors.WithLabelValues("merge", "target_error").Inc()
 				lastErr = r.Error
 				if !opts.ContinueOnError {
 					return results, lastErr
@@ -134,7 +157,11 @@ func (p *Pipeline) executeSyncPhase(ctx context.Context, targets []string, opts 
 
 	var lastErr error
 	for _, r := range results {
-		if !r.Success {
+		if r.Success {
+			observability.PipelineTargetsProcessed.WithLabelValues("sync", "success").Inc()
+		} else {
+			observability.PipelineTargetsProcessed.WithLabelValues("sync", "error").Inc()
+			observability.PipelineErrors.WithLabelValues("sync", "target_error").Inc()
 			lastErr = r.Error
 			if !opts.ContinueOnError {
 				return results, lastErr
@@ -168,9 +195,14 @@ func (p *Pipeline) executeParallel(ctx context.Context, targets []string, maxPar
 		}
 
 		wg.Add(1)
+		observability.PipelineParallelWorkers.WithLabelValues("execute").Inc()
+
 		go func(idx int, t string) {
 			defer wg.Done()
-			defer func() { <-sem }()
+			defer func() {
+				<-sem
+				observability.PipelineParallelWorkers.WithLabelValues("execute").Dec()
+			}()
 			results[idx] = fn(t)
 		}(i, target)
 	}

@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "name": "Documentation Consistency Checker",
+  "description": "Monitors documentation files and code changes to ensure consistency between code and documentation, API examples are valid, and documentation follows standards",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*.md",
+      "**/*.go",
+      "**/examples/**/*.yaml",
+      "**/docs/**/*"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Documentation or code files have been modified. Check for consistency and quality:\n\n1. **Code-Documentation Alignment**: If code changed, check if related documentation needs updates:\n   - README.md usage examples match current CLI flags\n   - API documentation matches actual function signatures\n   - Configuration examples use current YAML schema\n   - Error messages in docs match actual error strings\n\n2. **Example Validity**: If examples exist, verify:\n   - YAML syntax is valid\n   - Configuration keys match actual config struct tags\n   - Example values are realistic (not placeholder XXX)\n   - Commented sections explain purpose clearly\n   - Examples demonstrate best practices\n\n3. **Link Integrity**: Check for:\n   - Broken internal links (references to non-existent files)\n   - Outdated external links\n   - Anchor links that point to removed sections\n\n4. **Completeness**: Verify documentation covers:\n   - New CLI flags are documented in --help and README\n   - New configuration options have examples\n   - Error conditions explain cause and resolution\n   - Security considerations are noted where relevant\n\n5. **Consistency**: Check for:\n   - Consistent terminology (don't mix 'secret' and 'credential')\n   - Consistent formatting (code blocks use same style)\n   - Version numbers are up to date\n   - Copyright/license headers are present\n\n6. **Clarity**: Identify areas where:\n   - Technical jargon needs explanation\n   - Steps are missing from procedures\n   - Prerequisites are not stated\n   - Assumptions are not documented\n\n7. **Markdown Quality**: For .md files:\n   - Headings use proper hierarchy (no skipping levels)\n   - Code blocks specify language for syntax highlighting\n   - Tables are properly formatted\n   - Lists use consistent formatting\n\n8. **Security Documentation**: If security-related:\n   - Sensitive data handling is documented\n   - Authentication requirements are clear\n   - Permission requirements are specified\n   - No credentials in examples (use placeholders)\n\nProvide specific feedback such as:\n- \"README.md line 45: Flag --timeout shown as deprecated, but code still uses it\"\n- \"examples/config.yaml line 12: Key 'vault_url' doesn't exist in Config struct, should be 'vault_address'\"\n- \"docs/ARCHITECTURE.md: Broken link to pkg/pipeline/README.md (file doesn't exist)\"\n- \"Function ExportSecrets() added but not documented in API reference\"\n\nFocus on actionable improvements that enhance documentation quality and accuracy."
+  }
+}
+

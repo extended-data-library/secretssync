@@ -18,9 +18,12 @@ func (p *Pipeline) fetchVaultSecrets(ctx context.Context, path string) (map[stri
 	})
 
 	vaultClient := &vault.VaultClient{
-		Address:   p.config.Vault.Address,
-		Namespace: p.config.Vault.Namespace,
-		Path:      path,
+		Address:                  p.config.Vault.Address,
+		Namespace:                p.config.Vault.Namespace,
+		Path:                     path,
+		MaxTraversalDepth:        p.config.Vault.MaxTraversalDepth,
+		MaxSecretsPerMount:       p.config.Vault.MaxSecretsPerMount,
+		QueueCompactionThreshold: p.config.Vault.QueueCompactionThreshold,
 	}
 
 	if err := vaultClient.Init(ctx); err != nil {

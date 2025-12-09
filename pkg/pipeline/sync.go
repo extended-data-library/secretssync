@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	reqctx "github.com/jbcom/secretsync/pkg/context"
 	"github.com/jbcom/secretsync/pkg/client/aws"
 	"github.com/jbcom/secretsync/pkg/client/vault"
 	log "github.com/sirupsen/logrus"
@@ -21,10 +22,12 @@ import (
 // Flow: MergeStore[bundle_path] → AWS[target_account]
 func (p *Pipeline) syncTarget(ctx context.Context, targetName string, dryRun bool) Result {
 	start := time.Now()
+	requestID := reqctx.GetRequestID(ctx)
 	l := log.WithFields(log.Fields{
-		"action": "syncTarget",
-		"target": targetName,
-		"dryRun": dryRun,
+		"action":     "syncTarget",
+		"target":     targetName,
+		"dryRun":     dryRun,
+		"request_id": requestID,
 	})
 
 	target, ok := p.config.Targets[targetName]

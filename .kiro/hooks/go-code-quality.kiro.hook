@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "Go Code Quality Analyzer",
+  "description": "Monitors Go source files for code quality issues including error handling, context usage, testing practices, and idiomatic Go patterns",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*.go"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A Go source file has been modified. Review code quality focusing on:\n\n1. **Error Handling**: Check all error returns are handled. Look for `err` values being ignored with `_`. Verify errors are wrapped with context using `fmt.Errorf(\"...: %w\", err)`. Ensure custom error types implement `error` interface correctly.\n\n2. **Context Propagation**: Check I/O functions accept `context.Context` as first parameter. Verify context is passed through call chains. Look for operations that should respect context cancellation but don't check `ctx.Done()`.\n\n3. **Resource Cleanup**: Check `defer` statements for cleanup of resources (files, connections, locks). Verify mutexes are unlocked with `defer mu.Unlock()`. Check goroutines have proper shutdown mechanisms.\n\n4. **Nil Checks**: Look for potential nil pointer dereferences. Check pointer receivers, interface values, and map lookups are checked before use.\n\n5. **Goroutine Leaks**: Check goroutines have termination conditions. Verify channels are closed when no longer needed. Look for goroutines without context cancellation.\n\n6. **Variable Shadowing**: Check for variables that shadow outer scope variables, especially `err`. This can hide errors.\n\n7. **Unused Code**: Identify unused imports, variables, or functions. Check for commented-out code that should be removed.\n\n8. **Complexity**: Identify functions with high cyclomatic complexity (> 15). Suggest breaking complex functions into smaller, testable units.\n\n9. **Naming Conventions**: Verify exported symbols start with uppercase. Check for descriptive variable names (avoid single letters except for short loops). Verify interface names follow Go conventions (Reader, Writer, Closer).\n\n10. **Testing**: If this is a test file, verify:\n    - Test names start with `Test` and describe what they test\n    - Table-driven tests use `t.Run()` for subtests\n    - Test helpers use `t.Helper()`\n    - Cleanup uses `t.Cleanup()` or `defer`\n    - Assertions use testify for clarity\n\nProvide specific suggestions such as:\n- \"Line 34: Error ignored - add `if err != nil` check\"\n- \"Line 56: Function takes 8 parameters - consider using config struct\"\n- \"Line 78: Goroutine may leak - add context cancellation\"\n- \"Line 92: Variable 'err' shadows outer scope - use different name\"\n\nBe constructive and focus on improvements that enhance maintainability, not stylistic preferences."
+  }
+}
+
