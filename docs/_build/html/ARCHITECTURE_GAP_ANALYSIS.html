@@ -1,0 +1,786 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture Gap Analysis: Terraform Pipeline vs secretsync &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Architecture Gap Analysis: Terraform Pipeline vs secretsync</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ARCHITECTURE_GAP_ANALYSIS.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture-gap-analysis-terraform-pipeline-vs-secretsync">
+<h1>Architecture Gap Analysis: Terraform Pipeline vs secretsync<a class="headerlink" href="#architecture-gap-analysis-terraform-pipeline-vs-secretsync" title="Link to this heading"></a></h1>
+<p>This document provides a comprehensive analysis of the requirements from the original Terraform-based <code class="docutils literal notranslate"><span class="pre">terraform-aws-secretsmanager</span></code> pipeline compared to the current <code class="docutils literal notranslate"><span class="pre">secretsync</span></code> implementation.</p>
+<section id="executive-summary">
+<h2>Executive Summary<a class="headerlink" href="#executive-summary" title="Link to this heading"></a></h2>
+<p>The current implementation has a solid foundation but has <strong>critical gaps</strong> in the merge semantics that would cause behavioral differences from the original pipeline. These must be addressed before the PR can be considered complete.</p>
+</section>
+<hr class="docutils" />
+<section id="part-1-core-pipeline-behavior-analysis">
+<h2>Part 1: Core Pipeline Behavior Analysis<a class="headerlink" href="#part-1-core-pipeline-behavior-analysis" title="Link to this heading"></a></h2>
+<section id="deepmerge-strategy">
+<h3>1.1 Deepmerge Strategy<a class="headerlink" href="#deepmerge-strategy" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 1):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">merger</span> <span class="o">=</span> <span class="n">Merger</span><span class="p">(</span>
+    <span class="p">[(</span><span class="nb">list</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;append&quot;</span><span class="p">]),</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;merge&quot;</span><span class="p">]),</span> <span class="p">(</span><span class="nb">set</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;union&quot;</span><span class="p">])],</span>
+    <span class="p">[</span><span class="s2">&quot;override&quot;</span><span class="p">],</span>  <span class="c1"># fallback</span>
+    <span class="p">[</span><span class="s2">&quot;override&quot;</span><span class="p">],</span>  <span class="c1"># type conflict</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Lists</strong>: APPEND (new items added, not replaced)</p></li>
+<li><p><strong>Dicts</strong>: MERGE (recursive deep merge)</p></li>
+<li><p><strong>Sets</strong>: UNION (combined)</p></li>
+<li><p><strong>Conflicts</strong>: OVERRIDE (later values win)</p></li>
+</ul>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">stores/vault/vault.go:298-312</span></code>):</strong></p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="nx">vc</span><span class="p">.</span><span class="nx">Merge</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">sec</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">vc</span><span class="p">.</span><span class="nx">GetSecret</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">k</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">secd</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">v</span><span class="w">  </span><span class="c1">// SIMPLE OVERRIDE - NOT DEEPMERGE</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">secd</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>GAP: CRITICAL</strong> ❌</p>
+<ul>
+<li><p>Current merge does simple key override: <code class="docutils literal notranslate"><span class="pre">secd[k]</span> <span class="pre">=</span> <span class="pre">v</span></code></p></li>
+<li><p>Does NOT append lists</p></li>
+<li><p>Does NOT recursively merge nested dicts</p></li>
+<li><p>This will cause different behavior for secrets like:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="c1">// Source 1: {&quot;tags&quot;: [&quot;prod&quot;], &quot;config&quot;: {&quot;a&quot;: 1}}</span>
+<span class="c1">// Source 2: {&quot;tags&quot;: [&quot;v2&quot;], &quot;config&quot;: {&quot;b&quot;: 2}}</span>
+<span class="c1">// Expected: {&quot;tags&quot;: [&quot;prod&quot;, &quot;v2&quot;], &quot;config&quot;: {&quot;a&quot;: 1, &quot;b&quot;: 2}}</span>
+<span class="c1">// Current:  {&quot;tags&quot;: [&quot;v2&quot;], &quot;config&quot;: {&quot;b&quot;: 2}}  // WRONG</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>Required Fix:</strong></p>
+<ul class="simple">
+<li><p>Implement proper deepmerge function with list append, dict merge, set union semantics</p></li>
+<li><p>Apply in <code class="docutils literal notranslate"><span class="pre">VaultClient.WriteSecret</span></code> when <code class="docutils literal notranslate"><span class="pre">Merge:</span> <span class="pre">true</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="vault-secret-listing">
+<h3>1.2 Vault Secret Listing<a class="headerlink" href="#vault-secret-listing" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 1):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BFS traversal using deque</span>
+<span class="c1"># Paths stored WITHOUT leading slash: &quot;api-keys/stripe&quot; not &quot;/api-keys/stripe&quot;</span>
+<span class="c1"># Directories end with &quot;/&quot;</span>
+<span class="c1"># Uses KV2 API (secrets.kv.v2)</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">stores/vault/vault.go:448-505</span></code>):</strong></p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">vc</span><span class="w"> </span><span class="o">*</span><span class="nx">VaultClient</span><span class="p">)</span><span class="w"> </span><span class="nx">ListSecretsOnce</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Uses metadata path correctly</span>
+<span class="w">    </span><span class="nx">pp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">insertSliceString</span><span class="p">(</span><span class="nx">pp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;metadata&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// Returns keys from listing</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>GAP: MINOR</strong> ⚠️</p>
+<ul class="simple">
+<li><p>Current implementation lists secrets but doesn’t do recursive BFS traversal</p></li>
+<li><p>The sync framework handles recursion via regex patterns, but direct listing is flat</p></li>
+<li><p>Path format handling appears consistent (no leading slash)</p></li>
+</ul>
+<p><strong>Required Fix:</strong></p>
+<ul class="simple">
+<li><p>Verify path normalization in all code paths</p></li>
+<li><p>Consider adding recursive listing helper if needed for direct API usage</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="aws-secrets-manager-listing">
+<h3>1.3 AWS Secrets Manager Listing<a class="headerlink" href="#aws-secrets-manager-listing" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 1):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">list_aws_account_secrets</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">filters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">get_secrets</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">no_empty_secrets</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Skip empty/null secrets</span>
+    <span class="n">execution_role_arn</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="c1"># Paginated listing with IncludePlannedDeletion=False</span>
+    <span class="c1"># Skip empty secrets if requested</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">stores/aws/aws.go:283-312</span></code>):</strong></p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">g</span><span class="w"> </span><span class="o">*</span><span class="nx">AwsClient</span><span class="p">)</span><span class="w"> </span><span class="nx">ListSecrets</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">params</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">secretsmanager</span><span class="p">.</span><span class="nx">ListSecretsInput</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">NextToken</span><span class="p">:</span><span class="w"> </span><span class="nx">nextToken</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// Pagination: YES ✓</span>
+<span class="w">    </span><span class="c1">// IncludePlannedDeletion: NOT SET</span>
+<span class="w">    </span><span class="c1">// Filters: NOT SUPPORTED</span>
+<span class="w">    </span><span class="c1">// no_empty_secrets: NOT SUPPORTED</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>GAP: MEDIUM</strong> ⚠️</p>
+<ul class="simple">
+<li><p>Missing <code class="docutils literal notranslate"><span class="pre">IncludePlannedDeletion:</span> <span class="pre">false</span></code> parameter</p></li>
+<li><p>Missing <code class="docutils literal notranslate"><span class="pre">Filters</span></code> support</p></li>
+<li><p>Missing <code class="docutils literal notranslate"><span class="pre">no_empty_secrets</span></code> option to skip null/empty values</p></li>
+<li><p>These can cause sync of deleted/empty secrets</p></li>
+</ul>
+<p><strong>Required Fix:</strong></p>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">IncludePlannedDeletion:</span> <span class="pre">aws.Bool(false)</span></code> to ListSecretsInput</p></li>
+<li><p>Add optional <code class="docutils literal notranslate"><span class="pre">Filters</span></code> parameter</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">no_empty_secrets</span></code> logic when fetching values</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="import-source-determination">
+<h3>1.4 Import Source Determination<a class="headerlink" href="#import-source-determination" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 1 &amp; 3):</strong></p>
+<div class="highlight-hcl notranslate"><div class="highlight"><pre><span></span><span class="c1"># NULL execution_role_arn → Vault mount</span>
+<span class="c1"># Non-NULL execution_role_arn → AWS account</span>
+<span class="nb">imports_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="err">for</span><span class="w"> </span><span class="err">import_source</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">imports_raw_config</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="na">import_source</span><span class="w"> </span><span class="o">=</span><span class="err">&gt;</span>
+<span class="w">  </span><span class="nf">try</span><span class="p">(</span><span class="nf">coalesce</span><span class="p">(</span><span class="nv">local.accounts_data[import_source</span><span class="p">][</span><span class="s2">&quot;execution_role_arn&quot;</span><span class="p">]),</span><span class="w"> </span><span class="kt">null</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">pkg/pipeline/config.go:466-482</span></code>):</strong></p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Config</span><span class="p">)</span><span class="w"> </span><span class="nx">GetSourcePath</span><span class="p">(</span><span class="nx">importName</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Check if it&#39;s a direct source</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">src</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Sources</span><span class="p">[</span><span class="nx">importName</span><span class="p">];</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">src</span><span class="p">.</span><span class="nx">Vault</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">src</span><span class="p">.</span><span class="nx">Vault</span><span class="p">.</span><span class="nx">Mount</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// Check if it&#39;s another target (inheritance)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Targets</span><span class="p">[</span><span class="nx">importName</span><span class="p">];</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">importName</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>GAP: MEDIUM</strong> ⚠️</p>
+<ul class="simple">
+<li><p>Current implementation distinguishes Source vs Target</p></li>
+<li><p>Does NOT distinguish based on presence of <code class="docutils literal notranslate"><span class="pre">execution_role_arn</span></code></p></li>
+<li><p>The Source struct has both <code class="docutils literal notranslate"><span class="pre">Vault</span></code> and <code class="docutils literal notranslate"><span class="pre">AWS</span></code> fields, but resolution logic doesn’t use execution_role_arn as the discriminator</p></li>
+</ul>
+<p><strong>Required Fix:</strong></p>
+<ul class="simple">
+<li><p>Add logic to check if import source has associated AWS account (via accounts lookup)</p></li>
+<li><p>If has execution_role_arn → read from AWS SM</p></li>
+<li><p>If no execution_role_arn → read from Vault mount</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="target-inheritance-model">
+<h3>1.5 Target Inheritance Model<a class="headerlink" href="#target-inheritance-model" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 1):</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Serverless_Prod</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Serverless_Stg</span><span class="w">  </span><span class="c1"># AWS account! Inherits CURRENT state from AWS</span>
+
+<span class="c1"># For secretsync using merge store:</span>
+<span class="c1"># 1. Merge: analytics + analytics-engineers → merged-secrets/Serverless_Stg/</span>
+<span class="c1"># 2. Merge: merged-secrets/Serverless_Stg/ → merged-secrets/Serverless_Prod/</span>
+<span class="c1"># 3. Sync: merged-secrets/Serverless_Stg/ → AWS Serverless_Stg</span>
+<span class="c1"># 4. Sync: merged-secrets/Serverless_Prod/ → AWS Serverless_Prod</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">pkg/pipeline/config.go:451-463</span></code>):</strong></p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Config</span><span class="p">)</span><span class="w"> </span><span class="nx">IsInheritedTarget</span><span class="p">(</span><span class="nx">targetName</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">target</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Targets</span><span class="p">[</span><span class="nx">targetName</span><span class="p">]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">imp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">target</span><span class="p">.</span><span class="nx">Imports</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">isTarget</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Targets</span><span class="p">[</span><span class="nx">imp</span><span class="p">];</span><span class="w"> </span><span class="nx">isTarget</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span><span class="c1">// Correctly identifies inheritance</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>GAP: MINOR</strong> ✓</p>
+<ul class="simple">
+<li><p>Inheritance detection is implemented correctly</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GetSourcePath</span></code> correctly returns merge store path for inherited targets</p></li>
+<li><p>Dependency graph correctly orders operations</p></li>
+</ul>
+<p><strong>Status: IMPLEMENTED</strong> ✓</p>
+</section>
+<hr class="docutils" />
+<section id="path-conflict-handling-foo-vs-foo">
+<h3>1.6 Path Conflict Handling (/foo vs foo)<a class="headerlink" href="#path-conflict-handling-foo-vs-foo" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 1):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sync_secret</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">secret_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">secret_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+    <span class="c1"># Handle path conflicts (with and without leading /)</span>
+    <span class="n">alternate_path</span> <span class="o">=</span> <span class="n">secret_name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">secret_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;/</span><span class="si">{</span><span class="n">secret_name</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_deleted_secret</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">alternate_path</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">safe_delete_secret</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">alternate_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation:</strong></p>
+<ul class="simple">
+<li><p>No explicit path conflict handling found in <code class="docutils literal notranslate"><span class="pre">stores/aws/aws.go</span></code></p></li>
+<li><p>No normalization of leading slash</p></li>
+</ul>
+<p><strong>GAP: MEDIUM</strong> ⚠️</p>
+<ul class="simple">
+<li><p>Secrets could be duplicated with different path formats</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/prod/database</span></code> and <code class="docutils literal notranslate"><span class="pre">prod/database</span></code> would be treated as different secrets</p></li>
+</ul>
+<p><strong>Required Fix:</strong></p>
+<ul class="simple">
+<li><p>Add path normalization function</p></li>
+<li><p>Before creating secret, check for alternate path format</p></li>
+<li><p>Delete conflicting alternate if exists</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="json-aware-comparison-idempotency">
+<h3>1.7 JSON-Aware Comparison (Idempotency)<a class="headerlink" href="#json-aware-comparison-idempotency" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 1):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compare_secret_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">existing</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compare as JSON if possible, otherwise string compare&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">existing</span><span class="p">)</span> <span class="o">==</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">existing</span> <span class="o">==</span> <span class="n">new</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation:</strong></p>
+<ul class="simple">
+<li><p>Sync always writes without comparison</p></li>
+<li><p>No idempotency check found</p></li>
+</ul>
+<p><strong>GAP: MEDIUM</strong> ⚠️</p>
+<ul class="simple">
+<li><p>Unnecessary writes to AWS SM</p></li>
+<li><p>Could trigger change events unnecessarily</p></li>
+<li><p>Higher API costs</p></li>
+</ul>
+<p><strong>Required Fix:</strong></p>
+<ul class="simple">
+<li><p>Before WriteSecret, compare existing value with new value</p></li>
+<li><p>Use JSON-aware comparison for dict/list secrets</p></li>
+<li><p>Skip write if values are equivalent</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="part-2-tm-cli-interface-analysis">
+<h2>Part 2: tm_cli Interface Analysis<a class="headerlink" href="#part-2-tm-cli-interface-analysis" title="Link to this heading"></a></h2>
+<section id="vault-authentication">
+<h3>2.1 Vault Authentication<a class="headerlink" href="#vault-authentication" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 2):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Try token auth first</span>
+<span class="k">if</span> <span class="n">vault_token</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vault_client</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">():</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vault_client</span>
+<span class="c1"># Fallback to AppRole</span>
+<span class="k">if</span> <span class="n">role_id</span> <span class="ow">and</span> <span class="n">secret_id</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_vault_client</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">approle</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">stores/vault/vault.go:186-208</span></code>):</strong></p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">vc</span><span class="w"> </span><span class="o">*</span><span class="nx">VaultClient</span><span class="p">)</span><span class="w"> </span><span class="nx">NewToken</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;VAULT_TOKEN&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">vc</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">SetToken</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;VAULT_TOKEN&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">vc</span><span class="p">.</span><span class="nx">Login</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>GAP: MINOR</strong> ✓</p>
+<ul class="simple">
+<li><p>Token auth supported via VAULT_TOKEN env var</p></li>
+<li><p>Kubernetes auth supported</p></li>
+<li><p>AppRole not directly visible but can be added via AuthMethod</p></li>
+</ul>
+<p><strong>Status: MOSTLY IMPLEMENTED</strong> ✓</p>
+<ul class="simple">
+<li><p>Could add explicit AppRole support if needed</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="allowlist-denylist-filtering">
+<h3>2.2 Allowlist/Denylist Filtering<a class="headerlink" href="#allowlist-denylist-filtering" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 2):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">allowlist</span><span class="p">:</span>
+    <span class="n">merged_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">merged_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">allowlist</span><span class="p">}</span>
+<span class="k">if</span> <span class="n">denylist</span><span class="p">:</span>
+    <span class="n">merged_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">merged_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">denylist</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">internal/transforms/filter.go</span></code>):</strong></p>
+<ul class="simple">
+<li><p>Filter transforms exist for include/exclude patterns</p></li>
+<li><p>Applied at sync level via SecretSync spec</p></li>
+</ul>
+<p><strong>GAP: MINOR</strong> ✓</p>
+<ul class="simple">
+<li><p>Filtering available via transforms</p></li>
+<li><p>Syntax different but equivalent functionality</p></li>
+</ul>
+<p><strong>Status: IMPLEMENTED</strong> ✓ (via transforms)</p>
+</section>
+<hr class="docutils" />
+<section id="error-handling-resilience">
+<h3>2.3 Error Handling (Resilience)<a class="headerlink" href="#error-handling-resilience" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 2):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">except</span> <span class="n">InvalidPath</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid secret path </span><span class="si">{</span><span class="n">current_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Continues to next secret, doesn&#39;t fail entire operation</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">pkg/pipeline/pipeline.go:425-433</span></code>):</strong></p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">levelResults</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">r</span><span class="p">.</span><span class="nx">Success</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">lastErr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">Error</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">opts</span><span class="p">.</span><span class="nx">ContinueOnError</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">results</span><span class="p">,</span><span class="w"> </span><span class="nx">lastErr</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>GAP: MINOR</strong> ✓</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ContinueOnError</span></code> option exists</p></li>
+<li><p>Errors logged and tracked</p></li>
+<li><p>Pipeline continues on failure if configured</p></li>
+</ul>
+<p><strong>Status: IMPLEMENTED</strong> ✓</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="part-3-configuration-format-analysis">
+<h2>Part 3: Configuration Format Analysis<a class="headerlink" href="#part-3-configuration-format-analysis" title="Link to this heading"></a></h2>
+<section id="config-file-formats">
+<h3>3.1 Config File Formats<a class="headerlink" href="#config-file-formats" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 3):</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Two syntax formats:</span>
+<span class="c1"># 1. Explicit: target: {imports: [list]}</span>
+<span class="c1"># 2. Shorthand: target: [list]  # list IS the imports</span>
+
+<span class="nt">Serverless_Stg</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">    </span>
+<span class="nt">Serverless_Prod</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Serverless_Stg</span><span class="w">  </span><span class="c1"># Shorthand</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">pkg/pipeline/config.go</span></code>):</strong></p>
+<ul class="simple">
+<li><p>Only supports explicit format: <code class="docutils literal notranslate"><span class="pre">imports:</span> <span class="pre">[...]</span></code></p></li>
+<li><p>YAML unmarshaling doesn’t handle shorthand</p></li>
+</ul>
+<p><strong>GAP: MEDIUM</strong> ⚠️</p>
+<ul class="simple">
+<li><p>Migration from terraform-aws-secretsmanager configs won’t work directly</p></li>
+<li><p>Users must manually convert shorthand to explicit format</p></li>
+</ul>
+<p><strong>Required Fix:</strong></p>
+<ul class="simple">
+<li><p>Add custom YAML unmarshaler for Target struct</p></li>
+<li><p>Detect if value is list (shorthand) vs map (explicit)</p></li>
+<li><p>Convert shorthand to explicit format during load</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="accounts-by-json-key-integration">
+<h3>3.2 accounts_by_json_key Integration<a class="headerlink" href="#accounts-by-json-key-integration" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 3):</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Serverless_Stg&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;654654379445&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;execution_role_arn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;arn:aws:iam::654654379445:role/AWSControlTowerExecution&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;staging&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ou_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sandboxes/Analytics&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation:</strong></p>
+<ul class="simple">
+<li><p>No direct accounts_by_json_key lookup</p></li>
+<li><p>Account info embedded in Target struct</p></li>
+<li><p>Dynamic discovery via Organizations/Identity Center</p></li>
+</ul>
+<p><strong>GAP: MINOR</strong> ⚠️</p>
+<ul class="simple">
+<li><p>Different approach: static config vs dynamic discovery</p></li>
+<li><p>Migration command should map old format to new</p></li>
+</ul>
+<p><strong>Status: DIFFERENT APPROACH</strong> - acceptable if migrate command handles conversion</p>
+</section>
+<hr class="docutils" />
+<section id="s3-intermediate-storage">
+<h3>3.3 S3 Intermediate Storage<a class="headerlink" href="#s3-intermediate-storage" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 3):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">s3_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;secrets/</span><span class="si">{</span><span class="n">target_account_id</span><span class="si">}</span><span class="s2">.json&quot;</span>
+<span class="n">s3</span><span class="o">.</span><span class="n">put_object</span><span class="p">(</span>
+    <span class="n">Bucket</span><span class="o">=</span><span class="n">secrets_bucket</span><span class="p">,</span>
+    <span class="n">Key</span><span class="o">=</span><span class="n">s3_key</span><span class="p">,</span>
+    <span class="n">Body</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">merged_secrets</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">pkg/pipeline/s3_store.go</span></code>):</strong></p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="o">*</span><span class="nx">S3MergeStore</span><span class="p">)</span><span class="w"> </span><span class="nx">keyPath</span><span class="p">(</span><span class="nx">targetName</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Prefix</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;%s/%s.json&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">Prefix</span><span class="p">,</span><span class="w"> </span><span class="nx">targetName</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;secrets/%s.json&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">targetName</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>GAP: MINOR</strong> ✓</p>
+<ul class="simple">
+<li><p>S3 storage implemented</p></li>
+<li><p>Key format matches (<code class="docutils literal notranslate"><span class="pre">secrets/{target}.json</span></code>)</p></li>
+<li><p>Encryption supported (KMS or AES256)</p></li>
+</ul>
+<p><strong>Status: IMPLEMENTED</strong> ✓</p>
+</section>
+<hr class="docutils" />
+<section id="ssm-parameter-store-discovery">
+<h3>3.4 SSM Parameter Store Discovery<a class="headerlink" href="#ssm-parameter-store-discovery" title="Link to this heading"></a></h3>
+<p><strong>Original Requirement (Part 3):</strong></p>
+<ul class="simple">
+<li><p>External account lists from SSM Parameter Store</p></li>
+<li><p>Pattern: <code class="docutils literal notranslate"><span class="pre">ssm:/platform/analytics-engineer-sandboxes</span></code></p></li>
+</ul>
+<p><strong>Current Implementation (<code class="docutils literal notranslate"><span class="pre">pkg/pipeline/discovery.go:297-309</span></code>):</strong></p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">d</span><span class="w"> </span><span class="o">*</span><span class="nx">DiscoveryService</span><span class="p">)</span><span class="w"> </span><span class="nx">getAccountsFromSSM</span><span class="p">(</span><span class="nx">paramName</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="nx">AccountInfo</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Placeholder - returns error</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;SSM-based account discovery requires SSM client setup; parameter: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">paramName</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>GAP: MEDIUM</strong> ⚠️</p>
+<ul class="simple">
+<li><p>Feature documented but not implemented</p></li>
+<li><p>Returns placeholder error</p></li>
+</ul>
+<p><strong>Required Fix:</strong></p>
+<ul class="simple">
+<li><p>Implement SSM client in AWSExecutionContext</p></li>
+<li><p>Parse parameter value (comma-separated or JSON array)</p></li>
+<li><p>Convert to AccountInfo list</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary-gap-resolution-status">
+<h2>Summary: Gap Resolution Status<a class="headerlink" href="#summary-gap-resolution-status" title="Link to this heading"></a></h2>
+<section id="critical-resolved">
+<h3>CRITICAL - RESOLVED ✅<a class="headerlink" href="#critical-resolved" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Gap</p></th>
+<th class="head"><p>File</p></th>
+<th class="head"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><strong>Deepmerge semantics</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stores/vault/vault.go</span></code>, <code class="docutils literal notranslate"><span class="pre">pkg/utils/deepmerge.go</span></code></p></td>
+<td><p>✅ <strong>FIXED</strong> - Implemented proper deepmerge with list append, dict merge, set union</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="high-resolved">
+<h3>HIGH - RESOLVED ✅<a class="headerlink" href="#high-resolved" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Gap</p></th>
+<th class="head"><p>File</p></th>
+<th class="head"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Path conflict handling</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stores/aws/aws.go</span></code></p></td>
+<td><p>✅ <strong>FIXED</strong> - Added <code class="docutils literal notranslate"><span class="pre">getAlternatePath()</span></code> and conflict detection in <code class="docutils literal notranslate"><span class="pre">WriteSecret()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>JSON-aware comparison</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stores/aws/aws.go</span></code>, <code class="docutils literal notranslate"><span class="pre">pkg/utils/deepmerge.go</span></code></p></td>
+<td><p>✅ <strong>FIXED</strong> - Added <code class="docutils literal notranslate"><span class="pre">CompareSecretsJSON()</span></code> and <code class="docutils literal notranslate"><span class="pre">SkipUnchanged</span></code> option</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>no_empty_secrets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stores/aws/aws.go</span></code></p></td>
+<td><p>✅ <strong>FIXED</strong> - Added <code class="docutils literal notranslate"><span class="pre">NoEmptySecrets</span></code> field and <code class="docutils literal notranslate"><span class="pre">isSecretEmpty()</span></code> check</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>IncludePlannedDeletion</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stores/aws/aws.go</span></code></p></td>
+<td><p>✅ <strong>FIXED</strong> - Added <code class="docutils literal notranslate"><span class="pre">IncludePlannedDeletion:</span> <span class="pre">aws.Bool(false)</span></code> to <code class="docutils literal notranslate"><span class="pre">ListSecrets()</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="medium-resolved">
+<h3>MEDIUM - RESOLVED ✅<a class="headerlink" href="#medium-resolved" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>Gap</p></th>
+<th class="head"><p>File</p></th>
+<th class="head"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>Shorthand config format</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pkg/pipeline/config.go</span></code></p></td>
+<td><p>✅ <strong>FIXED</strong> - Added <code class="docutils literal notranslate"><span class="pre">UnmarshalYAML</span></code> custom unmarshaler for Target</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>SSM discovery</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pkg/pipeline/discovery.go</span></code>, <code class="docutils literal notranslate"><span class="pre">pkg/pipeline/aws_context.go</span></code></p></td>
+<td><p>✅ <strong>FIXED</strong> - Implemented <code class="docutils literal notranslate"><span class="pre">GetSSMParameter()</span></code> and full <code class="docutils literal notranslate"><span class="pre">getAccountsFromSSM()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>Import source resolution by execution_role_arn</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pkg/pipeline/config.go</span></code></p></td>
+<td><p>⚠️ <strong>DEFERRED</strong> - Current approach uses Source type (Vault/AWS) which is clearer</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="implementation-status">
+<h2>Implementation Status<a class="headerlink" href="#implementation-status" title="Link to this heading"></a></h2>
+<section id="phase-1-critical-fix-complete">
+<h3>Phase 1: Critical Fix ✅ COMPLETE<a class="headerlink" href="#phase-1-critical-fix-complete" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Implement proper deepmerge in Vault store</strong> ✅</p>
+<ul class="simple">
+<li><p>Created <code class="docutils literal notranslate"><span class="pre">pkg/utils/deepmerge.go</span></code> with proper semantics</p></li>
+<li><p>Lists: append ✅</p></li>
+<li><p>Dicts: recursive merge ✅</p></li>
+<li><p>Sets: union ✅</p></li>
+<li><p>Conflicts: override ✅</p></li>
+<li><p>Integrated into <code class="docutils literal notranslate"><span class="pre">VaultClient.WriteSecret</span></code> ✅</p></li>
+<li><p>Added comprehensive unit tests in <code class="docutils literal notranslate"><span class="pre">pkg/utils/deepmerge_test.go</span></code> ✅</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="phase-2-high-priority-fixes-complete">
+<h3>Phase 2: High Priority Fixes ✅ COMPLETE<a class="headerlink" href="#phase-2-high-priority-fixes-complete" title="Link to this heading"></a></h3>
+<ol class="arabic simple" start="2">
+<li><p><strong>Path normalization in AWS store</strong> ✅</p>
+<ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">getAlternatePath()</span></code> function</p></li>
+<li><p>Check for alternate format before create in <code class="docutils literal notranslate"><span class="pre">WriteSecret()</span></code></p></li>
+<li><p>Delete conflicting alternate if exists</p></li>
+</ul>
+</li>
+<li><p><strong>Idempotency with JSON comparison</strong> ✅</p>
+<ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">CompareSecretsJSON()</span></code> function in <code class="docutils literal notranslate"><span class="pre">pkg/utils/deepmerge.go</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">SkipUnchanged</span></code> option to <code class="docutils literal notranslate"><span class="pre">AwsClient</span></code></p></li>
+<li><p>Check before write, skip if equivalent</p></li>
+</ul>
+</li>
+<li><p><strong>AWS listing improvements</strong> ✅</p>
+<ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">IncludePlannedDeletion:</span> <span class="pre">aws.Bool(false)</span></code> to ListSecretsInput</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">NoEmptySecrets</span></code> option and <code class="docutils literal notranslate"><span class="pre">isSecretEmpty()</span></code> check</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="phase-3-medium-priority-fixes-complete">
+<h3>Phase 3: Medium Priority Fixes ✅ COMPLETE<a class="headerlink" href="#phase-3-medium-priority-fixes-complete" title="Link to this heading"></a></h3>
+<ol class="arabic simple" start="5">
+<li><p><strong>Shorthand config support</strong> ✅</p>
+<ul class="simple">
+<li><p>Added custom <code class="docutils literal notranslate"><span class="pre">UnmarshalYAML</span></code> for Target struct</p></li>
+<li><p>Supports both <code class="docutils literal notranslate"><span class="pre">{imports:</span> <span class="pre">[...]}</span></code> and <code class="docutils literal notranslate"><span class="pre">[list]</span></code> formats</p></li>
+</ul>
+</li>
+<li><p><strong>SSM discovery</strong> ✅</p>
+<ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">ssmClient</span></code> to AWSExecutionContext</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">GetSSMParameter()</span></code> method</p></li>
+<li><p>Implemented full <code class="docutils literal notranslate"><span class="pre">getAccountsFromSSM()</span></code> with support for:</p>
+<ul>
+<li><p>Comma-separated lists</p></li>
+<li><p>JSON string arrays</p></li>
+<li><p>JSON object arrays with id/name fields</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="verification-checklist">
+<h2>Verification Checklist<a class="headerlink" href="#verification-checklist" title="Link to this heading"></a></h2>
+<p>All items verified:</p>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Deepmerge: <code class="docutils literal notranslate"><span class="pre">{&quot;tags&quot;:</span> <span class="pre">[&quot;a&quot;]}</span></code> + <code class="docutils literal notranslate"><span class="pre">{&quot;tags&quot;:</span> <span class="pre">[&quot;b&quot;]}</span></code> = <code class="docutils literal notranslate"><span class="pre">{&quot;tags&quot;:</span> <span class="pre">[&quot;a&quot;,</span> <span class="pre">&quot;b&quot;]}</span></code> (unit test: TestDeepMerge_ListAppend)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Deepmerge: <code class="docutils literal notranslate"><span class="pre">{&quot;config&quot;:</span> <span class="pre">{&quot;x&quot;:</span> <span class="pre">1}}</span></code> + <code class="docutils literal notranslate"><span class="pre">{&quot;config&quot;:</span> <span class="pre">{&quot;y&quot;:</span> <span class="pre">2}}</span></code> = <code class="docutils literal notranslate"><span class="pre">{&quot;config&quot;:</span> <span class="pre">{&quot;x&quot;:</span> <span class="pre">1,</span> <span class="pre">&quot;y&quot;:</span> <span class="pre">2}}</span></code> (unit test: TestDeepMerge_DictMerge)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Path handling: <code class="docutils literal notranslate"><span class="pre">/foo</span></code> and <code class="docutils literal notranslate"><span class="pre">foo</span></code> don’t create duplicates (getAlternatePath + WriteSecret)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Idempotency: Unchanged secrets don’t trigger writes (SkipUnchanged + CompareSecretsJSON)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Empty secrets: Not synced when no_empty_secrets is set (NoEmptySecrets + isSecretEmpty)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Deleted secrets: Not synced (IncludePlannedDeletion=false)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Inheritance: Serverless_Prod correctly inherits from Serverless_Stg (IsInheritedTarget + GetSourcePath)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Dynamic targets: Organizations discovery works (DiscoveryService)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> S3 merge store: Secrets written to correct path (S3MergeStore)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Error resilience: Pipeline continues on single secret failure (ContinueOnError)</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> Shorthand config: Both <code class="docutils literal notranslate"><span class="pre">{imports:</span> <span class="pre">[...]}</span></code> and <code class="docutils literal notranslate"><span class="pre">[list]</span></code> formats supported</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" checked="checked" disabled="disabled" type="checkbox"> SSM discovery: Accounts can be loaded from SSM Parameter Store</p></li>
+</ul>
+</section>
+<section id="build-test-status">
+<h2>Build &amp; Test Status<a class="headerlink" href="#build-test-status" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>✅ <code class="docutils literal notranslate"><span class="pre">go</span> <span class="pre">build</span> <span class="pre">./...</span></code> - PASSED</p></li>
+<li><p>✅ <code class="docutils literal notranslate"><span class="pre">go</span> <span class="pre">test</span> <span class="pre">./...</span></code> - ALL PASSED</p></li>
+<li><p>✅ <code class="docutils literal notranslate"><span class="pre">golangci-lint</span> <span class="pre">run</span></code> - 0 ISSUES</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

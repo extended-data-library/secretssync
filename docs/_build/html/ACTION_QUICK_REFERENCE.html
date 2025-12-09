@@ -1,0 +1,454 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecretSync GitHub Action - Quick Reference &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">SecretSync GitHub Action - Quick Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ACTION_QUICK_REFERENCE.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="secretsync-github-action-quick-reference">
+<h1>SecretSync GitHub Action - Quick Reference<a class="headerlink" href="#secretsync-github-action-quick-reference" title="Link to this heading"></a></h1>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+</pre></div>
+</div>
+</section>
+<section id="minimal-example">
+<h2>Minimal Example<a class="headerlink" href="#minimal-example" title="Link to this heading"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Secrets</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">  </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">    </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+<section id="all-inputs">
+<h2>All Inputs<a class="headerlink" href="#all-inputs" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">config.yaml</span></code></p></td>
+<td><p>Path to configuration file</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">targets</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></td>
+<td><p>Comma-separated target list</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dry-run</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Run without making changes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">merge-only</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Only run merge phase</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sync-only</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Only run sync phase</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">discover</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Enable dynamic discovery</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">output-format</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">github</span></code></p></td>
+<td><p>Output format (human, json, github, compact)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute-diff</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Show diff even without dry-run</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">exit-code</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>Use exit codes (0=no changes, 1=changes, 2=errors)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">log-level</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">info</span></code></p></td>
+<td><p>Log level (debug, info, warn, error)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">log-format</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">text</span></code></p></td>
+<td><p>Log format (text, json)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="common-patterns">
+<h2>Common Patterns<a class="headerlink" href="#common-patterns" title="Link to this heading"></a></h2>
+<section id="dry-run-pr-validation">
+<h3>Dry Run (PR Validation)<a class="headerlink" href="#dry-run-pr-validation" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">    </span><span class="nt">dry-run</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">    </span><span class="nt">output-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;github&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="specific-targets">
+<h3>Specific Targets<a class="headerlink" href="#specific-targets" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">    </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Staging,Production&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="merge-only">
+<h3>Merge Only<a class="headerlink" href="#merge-only" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">    </span><span class="nt">merge-only</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="with-exit-codes">
+<h3>With Exit Codes<a class="headerlink" href="#with-exit-codes" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">    </span><span class="nt">dry-run</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">    </span><span class="nt">exit-code</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">  </span><span class="nt">continue-on-error</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+</section>
+<section id="debug-mode">
+<h3>Debug Mode<a class="headerlink" href="#debug-mode" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">    </span><span class="nt">log-level</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;debug&#39;</span>
+<span class="w">    </span><span class="nt">log-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;json&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="complete-workflow">
+<h2>Complete Workflow<a class="headerlink" href="#complete-workflow" title="Link to this heading"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Secrets</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0</span><span class="nv"> </span><span class="s">*/6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&#39;</span>
+<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Secrets</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">          </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<p>SecretSync supports all environment variables from the CLI. Common ones:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">VAULT_ADDR</span></code>: Vault address</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VAULT_TOKEN</span></code>: Vault token (alternative to AppRole)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VAULT_ROLE_ID</span></code>: AppRole role ID</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VAULT_SECRET_ID</span></code>: AppRole secret ID</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VAULT_NAMESPACE</span></code>: Vault namespace</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AWS_REGION</span></code>: AWS region</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code>: AWS access key (prefer OIDC)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code>: AWS secret (prefer OIDC)</p></li>
+</ul>
+</section>
+<section id="aws-authentication">
+<h2>AWS Authentication<a class="headerlink" href="#aws-authentication" title="Link to this heading"></a></h2>
+<section id="recommended-oidc">
+<h3>Recommended: OIDC<a class="headerlink" href="#recommended-oidc" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS Credentials</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">    </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+</pre></div>
+</div>
+</section>
+<section id="alternative-access-keys-not-recommended">
+<h3>Alternative: Access Keys (Not Recommended)<a class="headerlink" href="#alternative-access-keys-not-recommended" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">env</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">AWS_ACCESS_KEY_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_ACCESS_KEY_ID }}</span>
+<span class="w">  </span><span class="nt">AWS_SECRET_ACCESS_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_SECRET_ACCESS_KEY }}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="vault-authentication">
+<h2>Vault Authentication<a class="headerlink" href="#vault-authentication" title="Link to this heading"></a></h2>
+<section id="approle-recommended">
+<h3>AppRole (Recommended)<a class="headerlink" href="#approle-recommended" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">approle</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">role_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${VAULT_ROLE_ID}</span>
+<span class="w">      </span><span class="nt">secret_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${VAULT_SECRET_ID}</span>
+</pre></div>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">env</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">  </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+<section id="token-alternative">
+<h3>Token (Alternative)<a class="headerlink" href="#token-alternative" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">token</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${VAULT_TOKEN}</span>
+</pre></div>
+</div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">env</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">VAULT_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_TOKEN }}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="output-formats">
+<h2>Output Formats<a class="headerlink" href="#output-formats" title="Link to this heading"></a></h2>
+<section id="github-default-for-action">
+<h3><code class="docutils literal notranslate"><span class="pre">github</span></code> (Default for Action)<a class="headerlink" href="#github-default-for-action" title="Link to this heading"></a></h3>
+<p>Shows GitHub Actions annotations in workflow logs.</p>
+</section>
+<section id="json">
+<h3><code class="docutils literal notranslate"><span class="pre">json</span></code><a class="headerlink" href="#json" title="Link to this heading"></a></h3>
+<p>Machine-readable JSON output.</p>
+</section>
+<section id="compact">
+<h3><code class="docutils literal notranslate"><span class="pre">compact</span></code><a class="headerlink" href="#compact" title="Link to this heading"></a></h3>
+<p>One-line summary (good for CI status).</p>
+</section>
+<section id="human">
+<h3><code class="docutils literal notranslate"><span class="pre">human</span></code><a class="headerlink" href="#human" title="Link to this heading"></a></h3>
+<p>Colorful terminal output.</p>
+</section>
+</section>
+<section id="exit-codes">
+<h2>Exit Codes<a class="headerlink" href="#exit-codes" title="Link to this heading"></a></h2>
+<p>When <code class="docutils literal notranslate"><span class="pre">exit-code:</span> <span class="pre">'true'</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: No changes (success)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Changes detected (considered “failure” for branching)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Errors occurred (actual failure)</p></li>
+</ul>
+<p>Use with <code class="docutils literal notranslate"><span class="pre">continue-on-error:</span> <span class="pre">true</span></code> to handle:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check Changes</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dry-run</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">    </span><span class="nt">exit-code</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">  </span><span class="nt">continue-on-error</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Act on Changes</span>
+<span class="w">  </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">steps.check.outcome == &#39;failure&#39; &amp;&amp; steps.check.conclusion == &#39;success&#39;</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">echo &quot;Changes detected!&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="config-file-not-found">
+<h3>Config File Not Found<a class="headerlink" href="#config-file-not-found" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span><span class="w">  </span><span class="c1"># Must checkout first!</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/config.yaml</span><span class="w">  </span><span class="c1"># Relative to repo root</span>
+</pre></div>
+</div>
+</section>
+<section id="authentication-errors">
+<h3>Authentication Errors<a class="headerlink" href="#authentication-errors" title="Link to this heading"></a></h3>
+<p>Check that secrets are set in repository settings and environment variables are passed correctly.</p>
+</section>
+<section id="aws-assumerole-fails">
+<h3>AWS AssumeRole Fails<a class="headerlink" href="#aws-assumerole-fails" title="Link to this heading"></a></h3>
+<p>Ensure OIDC is configured correctly and trust policy allows your repository.</p>
+</section>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Full Documentation</strong>: <a class="reference internal" href="GITHUB_ACTIONS.html"><span class="std std-doc">docs/GITHUB_ACTIONS.md</span></a></p></li>
+<li><p><strong>Examples</strong>: <a class="reference internal" href="#../examples/"><span class="xref myst">examples/</span></a></p></li>
+<li><p><strong>Support</strong>: <a class="reference internal" href="SUPPORT.html"><span class="std std-doc">docs/SUPPORT.md</span></a></p></li>
+<li><p><strong>Security</strong>: <a class="reference internal" href="SECURITY.html"><span class="std std-doc">docs/SECURITY.md</span></a></p></li>
+<li><p><strong>Marketplace</strong>: <a class="reference internal" href="MARKETPLACE.html"><span class="std std-doc">docs/MARKETPLACE.md</span></a></p></li>
+</ul>
+</section>
+<section id="version-pinning">
+<h2>Version Pinning<a class="headerlink" href="#version-pinning" title="Link to this heading"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recommended: Pin to major version</span>
+<span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+
+<span class="c1"># More stable: Pin to specific version</span>
+<span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1.0.0</span>
+
+<span class="c1"># Not recommended: Latest from main</span>
+<span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@main</span>
+</pre></div>
+</div>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>MIT - See <a class="reference download internal" download="" href="_downloads/3b423627fe21976c3c06e60f78e14ae1/LICENSE"><span class="xref download myst">LICENSE</span></a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

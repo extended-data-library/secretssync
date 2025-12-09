@@ -1,0 +1,866 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Actions Usage Guide &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">GitHub Actions Usage Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/GITHUB_ACTIONS.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="github-actions-usage-guide">
+<h1>GitHub Actions Usage Guide<a class="headerlink" href="#github-actions-usage-guide" title="Link to this heading"></a></h1>
+<p>This guide shows how to use SecretSync as a GitHub Action for automated secrets synchronization in your CI/CD pipelines.</p>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Secrets</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0</span><span class="nv"> </span><span class="s">*/6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&#39;</span><span class="w">  </span><span class="c1"># Every 6 hours</span>
+<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w">  </span><span class="c1"># Required for OIDC</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS Credentials</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Secrets</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="input-parameters">
+<h2>Input Parameters<a class="headerlink" href="#input-parameters" title="Link to this heading"></a></h2>
+<p>All inputs correspond to CLI flags and are optional:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>CLI Flag</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config</span></code></p></td>
+<td><p>Path to SecretSync configuration file</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">config.yaml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--config</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">targets</span></code></p></td>
+<td><p>Comma-separated list of targets</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> (all)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--targets</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dry-run</span></code></p></td>
+<td><p>Run without making changes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--dry-run</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">merge-only</span></code></p></td>
+<td><p>Only run merge phase</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--merge-only</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sync-only</span></code></p></td>
+<td><p>Only run sync phase</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--sync-only</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">discover</span></code></p></td>
+<td><p>Enable dynamic target discovery</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--discover</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">output-format</span></code></p></td>
+<td><p>Output format (human, json, github, compact)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">github</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--output</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute-diff</span></code></p></td>
+<td><p>Show diff even without dry-run</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--diff</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">exit-code</span></code></p></td>
+<td><p>Use exit codes for CI/CD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--exit-code</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">log-level</span></code></p></td>
+<td><p>Logging level (debug, info, warn, error)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">info</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--log-level</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">log-format</span></code></p></td>
+<td><p>Log format (text, json)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">text</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--log-format</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="usage-examples">
+<h2>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading"></a></h2>
+<section id="dry-run-with-pull-request-validation">
+<h3>1. Dry Run with Pull Request Validation<a class="headerlink" href="#dry-run-with-pull-request-validation" title="Link to this heading"></a></h3>
+<p>Validate configuration changes in pull requests:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate Secrets Config</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;config.yaml&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;secrets/**&#39;</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">validate</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+<span class="w">      </span><span class="nt">pull-requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w">  </span><span class="c1"># For PR comments</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS Credentials</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate Changes (Dry Run)</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">          </span><span class="nt">dry-run</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">          </span><span class="nt">output-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;github&#39;</span>
+<span class="w">          </span><span class="nt">exit-code</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">          </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+<section id="manual-workflow-with-target-selection">
+<h3>2. Manual Workflow with Target Selection<a class="headerlink" href="#manual-workflow-with-target-selection" title="Link to this heading"></a></h3>
+<p>Allow manual execution with specific targets:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Secrets (Manual)</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">targets</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Targets</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">sync</span><span class="nv"> </span><span class="s">(comma-separated</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">&quot;all&quot;)&#39;</span>
+<span class="w">        </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;all&#39;</span>
+<span class="w">      </span><span class="nt">dry_run</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Dry</span><span class="nv"> </span><span class="s">run</span><span class="nv"> </span><span class="s">mode&#39;</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS Credentials</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Secrets</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">          </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.event.inputs.targets != &#39;all&#39; &amp;&amp; github.event.inputs.targets || &#39;&#39; }}</span>
+<span class="w">          </span><span class="nt">dry-run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.event.inputs.dry_run }}</span>
+<span class="w">          </span><span class="nt">output-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;github&#39;</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">          </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+<section id="scheduled-sync-with-merge-only">
+<h3>3. Scheduled Sync with Merge Only<a class="headerlink" href="#scheduled-sync-with-merge-only" title="Link to this heading"></a></h3>
+<p>Merge secrets from sources without syncing to AWS (useful for testing):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Merge Secrets Only</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0</span><span class="nv"> </span><span class="s">2</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&#39;</span><span class="w">  </span><span class="c1"># Daily at 2 AM UTC</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">merge</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Merge Secrets</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">          </span><span class="nt">merge-only</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">          </span><span class="nt">log-level</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;debug&#39;</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">          </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+<section id="dynamic-target-discovery">
+<h3>4. Dynamic Target Discovery<a class="headerlink" href="#dynamic-target-discovery" title="Link to this heading"></a></h3>
+<p>Automatically discover and sync to accounts from AWS Organizations:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync with Dynamic Discovery</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0</span><span class="nv"> </span><span class="s">*/4</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&#39;</span><span class="w">  </span><span class="c1"># Every 4 hours</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS Credentials</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync with Discovery</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">          </span><span class="nt">discover</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">          </span><span class="nt">output-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;github&#39;</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">          </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+<section id="ci-cd-with-exit-codes">
+<h3>5. CI/CD with Exit Codes<a class="headerlink" href="#ci-cd-with-exit-codes" title="Link to this heading"></a></h3>
+<p>Use exit codes to control pipeline behavior:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secrets Pipeline</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">main</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;config.yaml&#39;</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">check</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS Credentials</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check for Changes</span>
+<span class="w">        </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">          </span><span class="nt">dry-run</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">          </span><span class="nt">exit-code</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">          </span><span class="nt">output-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;compact&#39;</span>
+<span class="w">        </span><span class="nt">continue-on-error</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">          </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Apply Changes</span>
+<span class="w">        </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">steps.check.outcome == &#39;failure&#39;</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">          </span><span class="nt">output-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;github&#39;</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">          </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+<section id="multiple-environments">
+<h3>6. Multiple Environments<a class="headerlink" href="#multiple-environments" title="Link to this heading"></a></h3>
+<p>Sync different configurations for different environments:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Multi-Environment Sync</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Environment</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">sync&#39;</span>
+<span class="w">        </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">choice</span>
+<span class="w">        </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">development</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.event.inputs.environment }}</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS Credentials</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Secrets</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configs/${{ github.event.inputs.environment }}.yaml</span>
+<span class="w">          </span><span class="nt">output-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;github&#39;</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">          </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-file">
+<h2>Configuration File<a class="headerlink" href="#configuration-file" title="Link to this heading"></a></h2>
+<p>Your repository should include a SecretSync configuration file. Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># config.yaml</span>
+<span class="nt">vault</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://vault.example.com</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">approle</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">role_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${VAULT_ROLE_ID}</span>
+<span class="w">      </span><span class="nt">secret_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${VAULT_SECRET_ID}</span>
+
+<span class="nt">aws</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">  </span><span class="nt">control_tower</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">execution_role</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AWSControlTowerExecution</span>
+
+<span class="nt">sources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">analytics</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">mount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">      </span><span class="nt">paths</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;*&#39;</span><span class="p p-Indicator">]</span>
+
+<span class="nt">merge_store</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">mount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged-secrets</span>
+
+<span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Staging</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;111111111111&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">Production</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;222222222222&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Staging</span>
+</pre></div>
+</div>
+</section>
+<section id="security-best-practices">
+<h2>Security Best Practices<a class="headerlink" href="#security-best-practices" title="Link to this heading"></a></h2>
+<section id="use-oidc-instead-of-long-lived-credentials">
+<h3>1. Use OIDC Instead of Long-Lived Credentials<a class="headerlink" href="#use-oidc-instead-of-long-lived-credentials" title="Link to this heading"></a></h3>
+<p><strong>Recommended:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS Credentials</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">    </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+</pre></div>
+</div>
+<p><strong>Not Recommended:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">env</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">AWS_ACCESS_KEY_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_ACCESS_KEY_ID }}</span>
+<span class="w">  </span><span class="nt">AWS_SECRET_ACCESS_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_SECRET_ACCESS_KEY }}</span>
+</pre></div>
+</div>
+</section>
+<section id="minimal-permissions">
+<h3>2. Minimal Permissions<a class="headerlink" href="#minimal-permissions" title="Link to this heading"></a></h3>
+<p>Use GitHub Actions permissions to grant only what’s needed:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w">    </span><span class="c1"># For OIDC</span>
+<span class="w">  </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span><span class="w">     </span><span class="c1"># To checkout code</span>
+<span class="w">  </span><span class="c1"># Don&#39;t grant unnecessary permissions</span>
+</pre></div>
+</div>
+</section>
+<section id="environment-protection-rules">
+<h3>3. Environment Protection Rules<a class="headerlink" href="#environment-protection-rules" title="Link to this heading"></a></h3>
+<p>Use GitHub Environments for production deployments:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sync-production</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span><span class="w">  </span><span class="c1"># Requires approval</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production.yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="secrets-scoping">
+<h3>4. Secrets Scoping<a class="headerlink" href="#secrets-scoping" title="Link to this heading"></a></h3>
+<p>Store secrets at the appropriate scope:</p>
+<ul class="simple">
+<li><p><strong>Repository secrets</strong>: For repository-specific credentials</p></li>
+<li><p><strong>Environment secrets</strong>: For environment-specific credentials</p></li>
+<li><p><strong>Organization secrets</strong>: For shared credentials across repos</p></li>
+</ul>
+</section>
+<section id="use-environment-variables-for-sensitive-data">
+<h3>5. Use Environment Variables for Sensitive Data<a class="headerlink" href="#use-environment-variables-for-sensitive-data" title="Link to this heading"></a></h3>
+<p>Never hardcode secrets in configuration:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># ✅ Good - uses environment variables</span>
+<span class="nt">vault</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">approle</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">role_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${VAULT_ROLE_ID}</span>
+<span class="w">      </span><span class="nt">secret_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${VAULT_SECRET_ID}</span>
+
+<span class="c1"># ❌ Bad - hardcoded credentials</span>
+<span class="nt">vault</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">approle</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">role_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">abc123</span>
+<span class="w">      </span><span class="nt">secret_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xyz789</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="aws-iam-role-setup-for-oidc">
+<h2>AWS IAM Role Setup for OIDC<a class="headerlink" href="#aws-iam-role-setup-for-oidc" title="Link to this heading"></a></h2>
+<p>To use OIDC authentication with AWS:</p>
+<section id="create-oidc-provider-in-aws">
+<h3>1. Create OIDC Provider in AWS<a class="headerlink" href="#create-oidc-provider-in-aws" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>aws<span class="w"> </span>iam<span class="w"> </span>create-open-id-connect-provider<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--url<span class="w"> </span>https://token.actions.githubusercontent.com<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--client-id-list<span class="w"> </span>sts.amazonaws.com<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--thumbprint-list<span class="w"> </span>6938fd4d98bab03faadb97b34396831e3780aea1
+</pre></div>
+</div>
+</section>
+<section id="create-iam-role-with-trust-policy">
+<h3>2. Create IAM Role with Trust Policy<a class="headerlink" href="#create-iam-role-with-trust-policy" title="Link to this heading"></a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;Principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Federated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;arn:aws:iam::ACCOUNT_ID:oidc-provider/token.actions.githubusercontent.com&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sts:AssumeRoleWithWebIdentity&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;Condition&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;StringEquals&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;token.actions.githubusercontent.com:aud&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sts.amazonaws.com&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;StringLike&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;token.actions.githubusercontent.com:sub&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;repo:your-org/your-repo:*&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="attach-permissions-policy">
+<h3>3. Attach Permissions Policy<a class="headerlink" href="#attach-permissions-policy" title="Link to this heading"></a></h3>
+<p>The role needs permissions to:</p>
+<ul class="simple">
+<li><p>Assume roles in target accounts (for Control Tower pattern)</p></li>
+<li><p>Access Organizations API (for dynamic discovery)</p></li>
+<li><p>Access Identity Center API (for dynamic discovery)</p></li>
+</ul>
+<p>Example policy:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;sts:AssumeRole&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;arn:aws:iam::*:role/AWSControlTowerExecution&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;organizations:ListAccounts&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;organizations:DescribeAccount&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;organizations:ListAccountsForParent&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;sso:ListInstances&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;sso:ListAccountAssignments&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;identitystore:ListUsers&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;identitystore:ListGroups&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="action-fails-with-config-file-not-found">
+<h3>Action Fails with “Config file not found”<a class="headerlink" href="#action-fails-with-config-file-not-found" title="Link to this heading"></a></h3>
+<p>Ensure your config file is in the repository and the path is correct:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span><span class="w">  </span><span class="c1"># Required to access repository files</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path/to/config.yaml</span><span class="w">  </span><span class="c1"># Relative to repo root</span>
+</pre></div>
+</div>
+</section>
+<section id="vault-authentication-fails">
+<h3>Vault Authentication Fails<a class="headerlink" href="#vault-authentication-fails" title="Link to this heading"></a></h3>
+<p>Verify environment variables are set correctly:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config.yaml</span>
+<span class="w">    </span><span class="nt">log-level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span><span class="w">  </span><span class="c1"># Enable debug logging</span>
+<span class="w">  </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">    </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+<section id="aws-assumerole-fails">
+<h3>AWS AssumeRole Fails<a class="headerlink" href="#aws-assumerole-fails" title="Link to this heading"></a></h3>
+<p>Check:</p>
+<ol class="arabic simple">
+<li><p>OIDC provider is configured in AWS</p></li>
+<li><p>Trust policy allows your repository</p></li>
+<li><p>Role has necessary permissions</p></li>
+<li><p>Control Tower role exists in target accounts</p></li>
+</ol>
+</section>
+<section id="github-actions-annotations-not-showing">
+<h3>GitHub Actions Annotations Not Showing<a class="headerlink" href="#github-actions-annotations-not-showing" title="Link to this heading"></a></h3>
+<p>Ensure <code class="docutils literal notranslate"><span class="pre">output-format</span></code> is set to <code class="docutils literal notranslate"><span class="pre">github</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">output-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;github&#39;</span><span class="w">  </span><span class="c1"># Enables GitHub Actions annotations</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="exit-codes">
+<h2>Exit Codes<a class="headerlink" href="#exit-codes" title="Link to this heading"></a></h2>
+<p>When <code class="docutils literal notranslate"><span class="pre">exit-code:</span> <span class="pre">'true'</span></code> is enabled:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Exit Code</p></th>
+<th class="head"><p>Meaning</p></th>
+<th class="head"><p>Use Case</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>No changes detected</p></td>
+<td><p>CI passes, no action needed</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>Changes detected</p></td>
+<td><p>Trigger downstream jobs</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p>Errors occurred</p></td>
+<td><p>Fail the pipeline</p></td>
+</tr>
+</tbody>
+</table>
+<p>Example using exit codes:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check for Changes</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dry-run</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">    </span><span class="nt">exit-code</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;true&#39;</span>
+<span class="w">  </span><span class="nt">continue-on-error</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Notify on Changes</span>
+<span class="w">  </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">steps.check.outcome == &#39;failure&#39; &amp;&amp; steps.check.conclusion == &#39;success&#39;</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">echo &quot;Changes detected!&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Notify on Errors</span>
+<span class="w">  </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">steps.check.outcome == &#39;failure&#39; &amp;&amp; steps.check.conclusion == &#39;failure&#39;</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">echo &quot;Errors occurred!&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-configuration">
+<h2>Advanced Configuration<a class="headerlink" href="#advanced-configuration" title="Link to this heading"></a></h2>
+<section id="using-matrix-strategy">
+<h3>Using Matrix Strategy<a class="headerlink" href="#using-matrix-strategy" title="Link to this heading"></a></h3>
+<p>Sync multiple configurations in parallel:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">strategy</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">matrix</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">dev</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">staging</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">prod</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure AWS Credentials</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets[format(&#39;AWS_ROLE_{0}&#39;, matrix.environment)] }}</span>
+<span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Secrets</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configs/${{ matrix.environment }}.yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="conditional-execution">
+<h3>Conditional Execution<a class="headerlink" href="#conditional-execution" title="Link to this heading"></a></h3>
+<p>Run only when configuration changes:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;config.yaml&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;configs/**&#39;</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/main&#39;</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+</pre></div>
+</div>
+</section>
+<section id="composite-actions">
+<h3>Composite Actions<a class="headerlink" href="#composite-actions" title="Link to this heading"></a></h3>
+<p>Create reusable workflows:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># .github/actions/secretsync/action.yml</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;SecretSync</span><span class="nv"> </span><span class="s">Wrapper&#39;</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Configured</span><span class="nv"> </span><span class="s">SecretSync</span><span class="nv"> </span><span class="s">action&#39;</span>
+<span class="nt">inputs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">runs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">using</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">composite</span>
+<span class="w">  </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">        </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jbcom/secretsync@v1</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ inputs.config }}</span>
+<span class="w">        </span><span class="nt">output-format</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;github&#39;</span>
+<span class="w">      </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">        </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="support">
+<h2>Support<a class="headerlink" href="#support" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Documentation</strong>: <a class="reference external" href="https://github.com/jbcom/secretsync/tree/main/docs">Full docs</a></p></li>
+<li><p><strong>Issues</strong>: <a class="reference external" href="https://github.com/jbcom/secretsync/issues">GitHub Issues</a></p></li>
+<li><p><strong>Discussions</strong>: <a class="reference external" href="https://github.com/jbcom/secretsync/discussions">GitHub Discussions</a></p></li>
+</ul>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>MIT License - see <a class="reference external" href="https://github.com/jbcom/secretsync/blob/main/LICENSE">LICENSE</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

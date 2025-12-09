@@ -1,0 +1,525 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Two-Phase Pipeline Architecture &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Two-Phase Pipeline Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/TWO_PHASE_ARCHITECTURE.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="two-phase-pipeline-architecture">
+<h1>Two-Phase Pipeline Architecture<a class="headerlink" href="#two-phase-pipeline-architecture" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The secrets synchronization pipeline operates in two distinct phases:</p>
+<ol class="arabic simple">
+<li><p><strong>MERGE Phase</strong> (optional): Aggregate secrets from multiple sources into a unified pool</p></li>
+<li><p><strong>SYNC Phase</strong>: Propagate secrets from source(s) to target(s)</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌──────────────────────────────────────────────────────────────────────────────┐
+│                           PIPELINE EXECUTION                                  │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                         MERGE PHASE (Optional)                       │    │
+│  │                                                                       │    │
+│  │   ┌─────────┐                                                        │    │
+│  │   │ Source1 │──┐                                                     │    │
+│  │   │ (Vault) │  │     ┌──────────────────┐                           │    │
+│  │   └─────────┘  │     │                  │                           │    │
+│  │   ┌─────────┐  ├────▶│   MERGE STORE    │                           │    │
+│  │   │ Source2 │──┤     │   (Vault/S3)     │                           │    │
+│  │   │  (AWS)  │  │     │                  │                           │    │
+│  │   └─────────┘  │     │  • Aggregation   │                           │    │
+│  │   ┌─────────┐  │     │  • Deduplication │                           │    │
+│  │   │ Source3 │──┘     │  • Inheritance   │                           │    │
+│  │   │ (HTTP)  │        │  • DeepMerge     │                           │    │
+│  │   └─────────┘        └────────┬─────────┘                           │    │
+│  │                               │                                      │    │
+│  └───────────────────────────────┼──────────────────────────────────────┘    │
+│                                  │                                           │
+│                                  ▼ (automatic source injection)              │
+│                                                                              │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                           SYNC PHASE                                 │    │
+│  │                                                                       │    │
+│  │   ┌──────────────────┐                                               │    │
+│  │   │                  │     ┌─────────────────┐                       │    │
+│  │   │   SOURCE         │────▶│  Target1 (AWS)  │                       │    │
+│  │   │   (Merge Store   │     └─────────────────┘                       │    │
+│  │   │    or Direct)    │     ┌─────────────────┐                       │    │
+│  │   │                  │────▶│  Target2 (Vault)│                       │    │
+│  │   │                  │     └─────────────────┘                       │    │
+│  │   │                  │     ┌─────────────────┐                       │    │
+│  │   │                  │────▶│  Target3 (GCP)  │                       │    │
+│  │   └──────────────────┘     └─────────────────┘                       │    │
+│  │                                                                       │    │
+│  └───────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="phase-details">
+<h2>Phase Details<a class="headerlink" href="#phase-details" title="Link to this heading"></a></h2>
+<section id="merge-phase">
+<h3>MERGE Phase<a class="headerlink" href="#merge-phase" title="Link to this heading"></a></h3>
+<p><strong>Purpose</strong>: Construct a unified secret pool from multiple sources with inheritance and aggregation.</p>
+<p><strong>When to use</strong>:</p>
+<ul class="simple">
+<li><p>Multiple sources need to be combined</p></li>
+<li><p>Secrets have inheritance relationships (e.g., Prod inherits from Stg)</p></li>
+<li><p>DeepMerge semantics are required (list append, dict merge)</p></li>
+</ul>
+<p><strong>Supported Merge Stores</strong>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Store</p></th>
+<th class="head"><p>Use Case</p></th>
+<th class="head"><p>Advantages</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Vault KV2</strong></p></td>
+<td><p>Standard merge with versioning</p></td>
+<td><p>Native merge support, CAS writes, audit trail</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>S3</strong></p></td>
+<td><p>Large-scale or cross-region</p></td>
+<td><p>Scalable, cheap, good for large secrets</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Merge Process</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">For</span> <span class="n">each</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">topological</span> <span class="n">order</span><span class="p">:</span>
+  <span class="mf">1.</span> <span class="n">Resolve</span> <span class="n">dependencies</span> <span class="p">(</span><span class="n">inheritance</span><span class="p">)</span>
+  <span class="mf">2.</span> <span class="n">For</span> <span class="n">each</span> <span class="n">import</span><span class="p">:</span>
+     <span class="n">a</span><span class="o">.</span> <span class="n">Read</span> <span class="n">secrets</span> <span class="kn">from</span><span class="w"> </span><span class="nn">source</span>
+     <span class="n">b</span><span class="o">.</span> <span class="n">Apply</span> <span class="n">transforms</span><span class="o">/</span><span class="n">filters</span>
+     <span class="n">c</span><span class="o">.</span> <span class="n">DeepMerge</span> <span class="n">into</span> <span class="n">merge</span> <span class="n">store</span><span class="p">:</span>
+        <span class="o">-</span> <span class="n">Lists</span><span class="p">:</span> <span class="n">APPEND</span>
+        <span class="o">-</span> <span class="n">Dicts</span><span class="p">:</span> <span class="n">RECURSIVE</span> <span class="n">MERGE</span>
+        <span class="o">-</span> <span class="n">Scalars</span><span class="p">:</span> <span class="n">OVERRIDE</span>
+        <span class="o">-</span> <span class="n">Conflicts</span><span class="p">:</span> <span class="n">OVERRIDE</span>
+</pre></div>
+</div>
+</section>
+<section id="sync-phase">
+<h3>SYNC Phase<a class="headerlink" href="#sync-phase" title="Link to this heading"></a></h3>
+<p><strong>Purpose</strong>: Propagate secrets from source to target stores.</p>
+<p><strong>Source determination</strong>:</p>
+<ul class="simple">
+<li><p>If MERGE phase ran: Merge store becomes the source automatically</p></li>
+<li><p>If SYNC-only: Explicitly configured source</p></li>
+</ul>
+<p><strong>Supported Store Combinations</strong>:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Source</p></th>
+<th class="head"><p>Target</p></th>
+<th class="head"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Vault</p></td>
+<td><p>AWS Secrets Manager</p></td>
+<td><p>✅ Supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vault</p></td>
+<td><p>Vault</p></td>
+<td><p>✅ Supported</p></td>
+</tr>
+<tr class="row-even"><td><p>Vault</p></td>
+<td><p>GCP Secret Manager</p></td>
+<td><p>✅ Supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vault</p></td>
+<td><p>GitHub Secrets</p></td>
+<td><p>✅ Supported</p></td>
+</tr>
+<tr class="row-even"><td><p>Vault</p></td>
+<td><p>Kubernetes Secrets</p></td>
+<td><p>✅ Supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>AWS SM</p></td>
+<td><p>AWS SM</p></td>
+<td><p>✅ Supported</p></td>
+</tr>
+<tr class="row-even"><td><p>AWS SM</p></td>
+<td><p>Vault</p></td>
+<td><p>✅ Supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>S3</p></td>
+<td><p>AWS SM</p></td>
+<td><p>✅ Supported (via S3 merge store)</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sync Process</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">For</span> <span class="n">each</span> <span class="n">target</span> <span class="p">(</span><span class="n">parallel</span><span class="p">):</span>
+  <span class="mf">1.</span> <span class="n">Assume</span> <span class="n">execution</span> <span class="n">role</span> <span class="p">(</span><span class="k">if</span> <span class="n">cross</span><span class="o">-</span><span class="n">account</span><span class="p">)</span>
+  <span class="mf">2.</span> <span class="n">Read</span> <span class="n">secrets</span> <span class="kn">from</span><span class="w"> </span><span class="nn">source</span>
+  <span class="mf">3.</span> <span class="n">Compute</span> <span class="n">diff</span> <span class="p">(</span><span class="n">current</span> <span class="n">vs</span> <span class="n">desired</span><span class="p">)</span>
+  <span class="mf">4.</span> <span class="n">Apply</span> <span class="n">changes</span><span class="p">:</span>
+     <span class="o">-</span> <span class="n">CREATE</span> <span class="n">new</span> <span class="n">secrets</span>
+     <span class="o">-</span> <span class="n">UPDATE</span> <span class="n">modified</span> <span class="n">secrets</span>
+     <span class="o">-</span> <span class="n">DELETE</span> <span class="n">orphaned</span> <span class="n">secrets</span> <span class="p">(</span><span class="k">if</span> <span class="n">sync_delete</span><span class="o">=</span><span class="n">true</span><span class="p">)</span>
+  <span class="mf">5.</span> <span class="n">Report</span> <span class="n">diff</span> <span class="n">statistics</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-modes">
+<h2>Configuration Modes<a class="headerlink" href="#configuration-modes" title="Link to this heading"></a></h2>
+<section id="mode-1-merge-sync-full-pipeline">
+<h3>Mode 1: Merge + Sync (Full Pipeline)<a class="headerlink" href="#mode-1-merge-sync-full-pipeline" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Both phases enabled</span>
+<span class="nt">pipeline</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">merge</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">parallel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">parallel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+
+<span class="nt">merge_store</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">mount</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secret/merge&quot;</span>
+
+<span class="nt">sources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">api-keys</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secret/api-keys&quot;</span>
+
+<span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Production</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">api-keys</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123456789012&quot;</span>
+</pre></div>
+</div>
+<p><strong>Execution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml
+<span class="c1"># Phase 1: MERGE - sources → merge store</span>
+<span class="c1"># Phase 2: SYNC  - merge store → targets</span>
+</pre></div>
+</div>
+</section>
+<section id="mode-2-sync-only-direct">
+<h3>Mode 2: Sync Only (Direct)<a class="headerlink" href="#mode-2-sync-only-direct" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># No merge phase - direct source to target</span>
+<span class="nt">pipeline</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">merge</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="c1"># Source is specified directly per target or globally</span>
+<span class="nt">source</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secret/app-secrets&quot;</span>
+
+<span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Production</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123456789012&quot;</span>
+</pre></div>
+</div>
+<p><strong>Execution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--sync-only
+<span class="c1"># Only SYNC phase - source → targets directly</span>
+</pre></div>
+</div>
+</section>
+<section id="mode-3-merge-only-aggregation">
+<h3>Mode 3: Merge Only (Aggregation)<a class="headerlink" href="#mode-3-merge-only-aggregation" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Only merge phase - useful for preparing secrets</span>
+<span class="nt">pipeline</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">merge</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="nt">merge_store</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">s3</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secrets-merge-bucket&quot;</span>
+<span class="w">    </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;merged/&quot;</span>
+
+<span class="nt">sources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">team-a</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> vault</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secret/team-a&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">  </span><span class="nt">team-b</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> vault</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;secret/team-b&quot;</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+
+<span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Combined</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">team-a</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">team-b</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p><strong>Execution</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--merge-only
+<span class="c1"># Only MERGE phase - sources → merge store</span>
+<span class="c1"># Sync can be triggered later or by another process</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="diff-and-dry-run">
+<h2>Diff and Dry-Run<a class="headerlink" href="#diff-and-dry-run" title="Link to this heading"></a></h2>
+<p>Both phases support diff computation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dry-run with diff output</span>
+secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--dry-run<span class="w"> </span>--output<span class="w"> </span>json
+
+<span class="c1"># Output:</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">&quot;dry_run&quot;</span>:<span class="w"> </span>true,
+<span class="w">  </span><span class="s2">&quot;summary&quot;</span>:<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="s2">&quot;added&quot;</span>:<span class="w"> </span><span class="m">5</span>,
+<span class="w">    </span><span class="s2">&quot;modified&quot;</span>:<span class="w"> </span><span class="m">2</span>,
+<span class="w">    </span><span class="s2">&quot;removed&quot;</span>:<span class="w"> </span><span class="m">0</span>,
+<span class="w">    </span><span class="s2">&quot;unchanged&quot;</span>:<span class="w"> </span><span class="m">43</span>
+<span class="w">  </span><span class="o">}</span>,
+<span class="w">  </span><span class="s2">&quot;targets&quot;</span>:<span class="w"> </span><span class="o">[</span>...<span class="o">]</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<section id="zero-sum-validation">
+<h3>Zero-Sum Validation<a class="headerlink" href="#zero-sum-validation" title="Link to this heading"></a></h3>
+<p>For migration validation, ensure the new pipeline produces identical results:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Should return exit code 0 (no changes)</span>
+secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--dry-run<span class="w"> </span>--exit-code
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$?</span><span class="w">  </span><span class="c1"># 0 = zero-sum, 1 = changes detected, 2 = errors</span>
+</pre></div>
+</div>
+</section>
+<section id="ci-cd-integration">
+<h3>CI/CD Integration<a class="headerlink" href="#ci-cd-integration" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># GitHub Actions example</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Validate secrets pipeline</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">secretsync pipeline --config config.yaml --dry-run --output github --exit-code</span>
+<span class="w">  </span><span class="nt">continue-on-error</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check for unexpected changes</span>
+<span class="w">  </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ steps.validate.outcome == &#39;failure&#39; }}</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">echo &quot;Secrets diff detected - review required&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="inheritance-and-dependency-resolution">
+<h2>Inheritance and Dependency Resolution<a class="headerlink" href="#inheritance-and-dependency-resolution" title="Link to this heading"></a></h2>
+<p>Targets are processed in topological order based on their dependencies:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Base</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">common-secrets</span><span class="p p-Indicator">]</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">Staging</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">inherits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Base</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">staging-secrets</span><span class="p p-Indicator">]</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">Production</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">inherits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Staging</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">production-secrets</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p><strong>Processing Order</strong>:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Base</span></code> (no dependencies)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Staging</span></code> (depends on Base)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Production</span></code> (depends on Staging)</p></li>
+</ol>
+<p><strong>Merge Result for Production</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">common</span><span class="o">-</span><span class="n">secrets</span> <span class="o">+</span> <span class="n">staging</span><span class="o">-</span><span class="n">secrets</span> <span class="o">+</span> <span class="n">production</span><span class="o">-</span><span class="n">secrets</span>
+<span class="p">(</span><span class="k">with</span> <span class="n">DeepMerge</span> <span class="n">semantics</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="store-specific-behaviors">
+<h2>Store-Specific Behaviors<a class="headerlink" href="#store-specific-behaviors" title="Link to this heading"></a></h2>
+<section id="vault-as-source">
+<h3>Vault as Source<a class="headerlink" href="#vault-as-source" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Recursive listing of KV2 secrets</p></li>
+<li><p>Namespace support</p></li>
+<li><p>Token refresh handling</p></li>
+</ul>
+</section>
+<section id="vault-as-merge-store">
+<h3>Vault as Merge Store<a class="headerlink" href="#vault-as-merge-store" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>CAS (Check-and-Set) writes for safety</p></li>
+<li><p>Native merge mode (<code class="docutils literal notranslate"><span class="pre">merge:</span> <span class="pre">true</span></code>)</p></li>
+<li><p>Version history preserved</p></li>
+</ul>
+</section>
+<section id="s3-as-merge-store">
+<h3>S3 as Merge Store<a class="headerlink" href="#s3-as-merge-store" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>JSON serialization of secrets</p></li>
+<li><p>Per-target/per-import organization</p></li>
+<li><p>Manifest file for tracking</p></li>
+</ul>
+</section>
+<section id="aws-secrets-manager-as-target">
+<h3>AWS Secrets Manager as Target<a class="headerlink" href="#aws-secrets-manager-as-target" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Cross-account via STS AssumeRole</p></li>
+<li><p>Path conflict handling (<code class="docutils literal notranslate"><span class="pre">/foo</span></code> vs <code class="docutils literal notranslate"><span class="pre">foo</span></code>)</p></li>
+<li><p>Idempotent writes (JSON comparison)</p></li>
+<li><p>Planned deletion exclusion</p></li>
+</ul>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p><strong>Use MERGE phase when</strong>:</p>
+<ul class="simple">
+<li><p>Multiple sources need combining</p></li>
+<li><p>You have inheritance requirements</p></li>
+<li><p>You need an intermediate audit point</p></li>
+</ul>
+</li>
+<li><p><strong>Use SYNC-only when</strong>:</p>
+<ul class="simple">
+<li><p>Simple source-to-target replication</p></li>
+<li><p>No aggregation needed</p></li>
+<li><p>Direct 1:1 mapping</p></li>
+</ul>
+</li>
+<li><p><strong>Always use dry-run first</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--dry-run<span class="w"> </span>--output<span class="w"> </span>human
+</pre></div>
+</div>
+</li>
+<li><p><strong>For migrations, validate zero-sum</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>old-config.yaml<span class="w"> </span>--dry-run<span class="w"> </span>--exit-code
+<span class="c1"># Must return 0 before switching to new solution</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

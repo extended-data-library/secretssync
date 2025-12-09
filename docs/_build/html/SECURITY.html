@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Security</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/SECURITY.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="security">
+<h1>Security<a class="headerlink" href="#security" title="Link to this heading"></a></h1>
+<p>As this service is effectively an event bus for your various secret stores and therefore must be granted read and write access to those stores, understanding your security posture is critical. Throughout the documentation presented in this respository, every effort has been made to present both the “less-secure” and “production-grade” approaches, and to call out where security decisions must be made. With that said, as with any solution you adopt, it is critical to understand the security implications of the decisions you make. The solution is released as MIT licensed open source software, and as such, the authors and contributors cannot be held responsible for any security incidents that may occur as a result of using this software.</p>
+<section id="design-considerations">
+<h2>Design Considerations<a class="headerlink" href="#design-considerations" title="Link to this heading"></a></h2>
+<section id="secure-by-default">
+<h3>Secure by Default<a class="headerlink" href="#secure-by-default" title="Link to this heading"></a></h3>
+<p>The service is designed to be secure by default, preferrring more explicit configuration as opposed to insecure defaults. This does mean initial set up will not be one-liner fire-and-forget. That is intentional, as it forces you to think about the security implications of the decisions you are making rather than starting up the process insecurely, forgetting about it, and then being surprised when something goes wrong. If started with no configuration and no command line flags, the service will exit with an error. All components of the service default to disabled, you must explicitly enable the components you wish to use.</p>
+</section>
+<section id="segregation-of-duties">
+<h3>Segregation of Duties<a class="headerlink" href="#segregation-of-duties" title="Link to this heading"></a></h3>
+<p>By default, all components of the app default to disabled. This is to ensure that you are only enabling the components you need. To run in “single binary mode”, you must explicitly enable each component. This is to ensure that you are aware of the security implications of each component you are enabling. This also enables you to more easily deploy the service in a microservices architecture, where you can run the webhook service in one container and the sync operator in another.</p>
+</section>
+</section>
+<section id="security-configuration">
+<h2>Security Configuration<a class="headerlink" href="#security-configuration" title="Link to this heading"></a></h2>
+<section id="api-server">
+<h3>API Server<a class="headerlink" href="#api-server" title="Link to this heading"></a></h3>
+<p>The service exposes one API process, the <code class="docutils literal notranslate"><span class="pre">Event</span> <span class="pre">Server</span></code> which is responsible for handling audit log events from Vault.</p>
+<p>The API server can be secured either with mTLS, an auth token string, or both. Of course you can also - and are recommended to - further secure communication via service mesh, network policies, or other network security controls.</p>
+<p>If in doubt, it is recommended to use mTLS for all communication with the service. This will ensure that all communication is encrypted and that the client is authenticated. If you are running in a Kubernetes cluster, you can use <code class="docutils literal notranslate"><span class="pre">cert-manager</span></code> to automatically provision certificates for your services. If using token auth, the token must be passed as a <code class="docutils literal notranslate"><span class="pre">X-Vault-Secret-Sync-Token</span></code> header in the request.</p>
+</section>
+<section id="queue">
+<h3>Queue<a class="headerlink" href="#queue" title="Link to this heading"></a></h3>
+<p>If deployed in HA / microservice mode, the service will rely on a queue to communicate between the <code class="docutils literal notranslate"><span class="pre">Event</span> <span class="pre">Server</span></code> and the <code class="docutils literal notranslate"><span class="pre">Sync</span> <span class="pre">Operator</span></code>.</p>
+<p>The event server only needs to publish to the queue, and the sync operator only needs to consume from the queue. All appropriate measures should be taken to secure the queue, including network policies, authentication, and encryption.</p>
+</section>
+<section id="secret-stores">
+<h3>Secret Stores<a class="headerlink" href="#secret-stores" title="Link to this heading"></a></h3>
+<p>The service must be granted read and write access to the secret stores it is syncing to. This is a critical security consideration, as the service will be able to read and write secrets to the destination store. In a sync operation, the service will only read from the source and write to the destination.</p>
+<p>It is recommended to use a service account with the least privileges necessary to perform the sync operation. For example, if you are syncing to a Vault instance, you should create a policy that only allows the service to read and write to the paths it needs to sync.</p>
+<p>All operations performed by the service include an <code class="docutils literal notranslate"><span class="pre">X-Vault-Sync:</span> <span class="pre">true</span></code> header to identify the action as being performed by the sync service.</p>
+<p>As the operator itself is effectively <code class="docutils literal notranslate"><span class="pre">root</span></code> for lack of a better analogy, it is critical to ensure that the operator is only deployed in environments where it can be trusted. Furthermore, as the operator will dutifully do what it is told to do, it is critical to ensure proper RBAC and policy is in place around modifying operator and / or sync configurations. If deployed in a Kubernetes cluster, it is recommended to use the Kubernetes native RBAC system to limit access to the operator and sync configurations.</p>
+<p>Every sync operation will instantiate a new client to the source and destination secret store, and will close the client after the operation is complete. At no time are client objects reused between sync operations. This is to ensure that the client is not left open and vulnerable to attack.</p>
+<section id="aws">
+<h4>AWS<a class="headerlink" href="#aws" title="Link to this heading"></a></h4>
+<p>If you are running in AWS EKS, you can use IAM roles to grant the operator access to the AWS Secrets Manager. If you are running in a different environment, you can use the <code class="docutils literal notranslate"><span class="pre">AWS_ACCESS_KEY_ID</span></code> and <code class="docutils literal notranslate"><span class="pre">AWS_SECRET_ACCESS_KEY</span></code> environment variables to provide the operator with the necessary credentials. If you are using access keys, it is recommended to rotate these regularly, and utilize a project such as <a class="reference external" href="https://external-secrets.io/latest/">External Secrets Operator</a> to manage the lifecycle of the access keys into the operator.</p>
+<p>For cross-account access you must configure an IAM role in your target account which can be assumed by the identity associated with the operator.</p>
+<p>Your role will need to have the following permissions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:CreateSecret</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:UpdateSecret</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:PutSecretValue</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:DeleteSecret</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:ReplicateSecretToRegions</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:RemoveRegionsFromReplication</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:ListSecrets</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:ListSecretVersionIds</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:DescribeSecret</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretsmanager:TagResource</span></code></p></li>
+</ul>
+<p>Here is an example policy document:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:CreateSecret&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:UpdateSecret&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:PutSecretValue&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:DeleteSecret&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:ReplicateSecretToRegions&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:RemoveRegionsFromReplication&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:ListSecrets&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:ListSecretVersionIds&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:DescribeSecret&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;secretsmanager:TagResource&quot;</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and an example trusted entity configuration:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;Principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;AWS&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;arn:aws:iam::1234567890:role/secretsync&quot;</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;sts:AssumeRole&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;sts:TagSession&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="gcp">
+<h4>GCP<a class="headerlink" href="#gcp" title="Link to this heading"></a></h4>
+<p>If you are running in GCP GKE, you can use GCP service accounts to grant the operator access to GCP Secret Manager. If you are running in a different environment, you can use the <code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> environment variable to provide the operator with the necessary credentials. If you are using service accounts, it is recommended to rotate these regularly, and utilize a project such as <a class="reference external" href="https://external-secrets.io/latest/">External Secrets Operator</a> to manage the lifecycle of the service account keys into the operator.</p>
+<p>This identity associated with the operator must be granted the following permissions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.access</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.add</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.create</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.destroy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.disable</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.enable</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.get</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.list</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.restore</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.versions.update</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.secrets.access</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.secrets.addVersion</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.secrets.create</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.secrets.delete</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.secrets.get</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.secrets.list</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">secretmanager.secrets.update</span></code></p></li>
+</ul>
+</section>
+<section id="github">
+<h4>GitHub<a class="headerlink" href="#github" title="Link to this heading"></a></h4>
+<p>GitHub requires a GitHub App installed in the account with access to the level of secrets you desire. When you create your GitHub App, it will have an <code class="docutils literal notranslate"><span class="pre">installId</span></code>, <code class="docutils literal notranslate"><span class="pre">appId</span></code>, and <code class="docutils literal notranslate"><span class="pre">privateKey</span></code>. You will need to provide these to the operator to authenticate with GitHub. It is recommended to rotate the private key regularly, and utilize a project such as <a class="reference external" href="https://external-secrets.io/latest/">External Secrets Operator</a> to manage the lifecycle of the private key into the operator.</p>
+<p>Heere is an example store configuration:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">stores</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">github</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">installId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">12345</span>
+<span class="w">    </span><span class="nt">appId</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">67890</span>
+<span class="w">    </span><span class="nt">privateKeyPath</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/private/key&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="hashicorp-vault">
+<h3>HashiCorp Vault<a class="headerlink" href="#hashicorp-vault" title="Link to this heading"></a></h3>
+<p>If you are running in a Kubernetes cluster, you can use the Kubernetes auth method to authenticate the operator with Vault. If you are running in a different environment, you can use the <code class="docutils literal notranslate"><span class="pre">VAULT_TOKEN</span></code> environment variable to provide the operator with the necessary token. If you are using tokens, it is recommended to rotate these regularly, and utilize a project such as <a class="reference external" href="https://external-secrets.io/latest/">External Secrets Operator</a> to manage the lifecycle of the tokens into the operator.</p>
+</section>
+</section>
+<section id="vulnerability-reporting">
+<h2>Vulnerability Reporting<a class="headerlink" href="#vulnerability-reporting" title="Link to this heading"></a></h2>
+<p>If you believe you have found a security vulnerability in this project, please report it privately to the project maintainers. If you are unsure whether the issue is a security vulnerability, please report it anyway. We take all reports seriously and will respond promptly to your inquiry. Please do not disclose the issue publicly until we have had a chance to address it. You can report a security vulnerability by emailing <a class="reference external" href="mailto:robert&#37;&#52;&#48;lestak&#46;sh">robert<span>&#64;</span>lestak<span>&#46;</span>sh</a>. Please include the word “SECURITY” in the subject line.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

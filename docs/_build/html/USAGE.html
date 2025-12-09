@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usage &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/USAGE.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h1>
+<section id="yaml-configuration">
+<h2>YAML Configuration<a class="headerlink" href="#yaml-configuration" title="Link to this heading"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secretsync.jbcom.dev/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SecretSync</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-sync&quot;</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;default&quot;</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">dryRun</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">syncDelete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">suspend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">source</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://vault.example.com&quot;</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo/bar/(.*)&quot;</span>
+<span class="w">    </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;robertlestak/example&quot;</span>
+<span class="w">  </span><span class="nt">filters</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">regex</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;foo/bar/hello-[0-9]+&quot;</span>
+<span class="w">      </span><span class="nt">exclude</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;foo/bar/no[^abc]+&quot;</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;foo/bar/hello&quot;</span>
+<span class="w">      </span><span class="nt">exclude</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;foo/bar/no&quot;</span>
+<span class="w">  </span><span class="nt">dest</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://vault2.example.com&quot;</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;hello/world/$1&quot;</span>
+<span class="w">      </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;robertlestak/example&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://vault3.example.com&quot;</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;another/vault&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">aws</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-secret&quot;</span>
+<span class="w">      </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-west-2&quot;</span>
+<span class="w">      </span><span class="nt">roleArn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::123456789012:role/role-name&quot;</span>
+<span class="w">      </span><span class="nt">encryptionKey</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;alias/aws/secretsmanager&quot;</span>
+<span class="w">      </span><span class="nt">replicaRegions</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;us-east-1&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">github</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-repo&quot;</span>
+<span class="w">      </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;robertlestak&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">gcp</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-project&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-secret&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://example.com/my/app&quot;</span>
+<span class="w">      </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span>
+<span class="w">      </span><span class="nt">headerSecret</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;default/header-secret&quot;</span>
+<span class="w">      </span><span class="nt">headers</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/json&quot;</span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">{</span>
+<span class="w">          </span><span class="no">&quot;custom&quot;: {</span>
+<span class="w">            </span><span class="no">&quot;{{ .Key }}&quot;: &quot;{{ .Value }}&quot;</span>
+<span class="w">          </span><span class="no">}</span>
+<span class="w">        </span><span class="no">}</span>
+<span class="w">  </span><span class="nt">webhooks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">event</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">success</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://example.com/success&quot;</span>
+<span class="w">    </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span>
+<span class="w">    </span><span class="nt">headers</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/json&quot;</span>
+<span class="w">    </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">{</span>
+<span class="w">        </span><span class="no">&quot;custom&quot;: {</span>
+<span class="w">          </span><span class="no">&quot;event&quot;: &quot;{{ .Event }}&quot;,</span>
+<span class="w">          </span><span class="no">&quot;message&quot;: &quot;{{ .Message }}&quot;,</span>
+<span class="w">          </span><span class="no">&quot;name&quot;: &quot;{{ .SecretSync.Name }}&quot;</span>
+<span class="w">          </span><span class="no">&quot;source.address&quot;: &quot;{{ .SecretSync.Spec.Source.Address }}&quot;</span>
+<span class="w">        </span><span class="no">}</span>
+<span class="w">      </span><span class="no">}</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">event</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">failure</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://example.com/failure&quot;</span>
+<span class="w">    </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span>
+<span class="w">    </span><span class="nt">headers</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/json&quot;</span>
+<span class="w">    </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">{</span>
+<span class="w">        </span><span class="no">&quot;custom&quot;: {</span>
+<span class="w">          </span><span class="no">&quot;event&quot;: &quot;{{ .Event }}&quot;,</span>
+<span class="w">          </span><span class="no">&quot;message&quot;: &quot;{{ .Message }}&quot;,</span>
+<span class="w">          </span><span class="no">&quot;name&quot;: &quot;{{ .SecretSync.Name }}&quot;</span>
+<span class="w">          </span><span class="no">&quot;source.address&quot;: &quot;{{ .SecretSync.Spec.Source.Address }}&quot;</span>
+<span class="w">        </span><span class="no">}</span>
+<span class="w">      </span><span class="no">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">metadata</span></code> is that can be used to identify the sync operation. Both can be ommitted, however if <code class="docutils literal notranslate"><span class="pre">name</span></code> is omitted, to trigger a manual sync you will first need to authenticate and access the <code class="docutils literal notranslate"><span class="pre">/configs</span></code> endpoint to get the auto-generated name for your respective config.</p>
+<p><code class="docutils literal notranslate"><span class="pre">spec.source</span></code> and <code class="docutils literal notranslate"><span class="pre">spec.dest</span></code> are the source and destination of the sync operation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">authMethod</span></code> and <code class="docutils literal notranslate"><span class="pre">role</span></code> can be omitted to use the default global method and role, if defined. If they are specified, they will be used to authenticate to the Vault instance. Optionally, <code class="docutils literal notranslate"><span class="pre">token</span></code> can be provided as a mustache template referencing an environment variable. If provided, this will always override configured auth methods.</p>
+<p><code class="docutils literal notranslate"><span class="pre">path</span></code> can either be provided as a path to a single vault kv secret, or as a regex string. If regex, all matching child secrets will be synced. Wildcarding will recurse into child paths, so <code class="docutils literal notranslate"><span class="pre">foo/test/(.*)</span></code> will sync <code class="docutils literal notranslate"><span class="pre">foo/test/foo</span></code> and <code class="docutils literal notranslate"><span class="pre">foo/test/foo/bar</span></code>, but not <code class="docutils literal notranslate"><span class="pre">foo/test2/foo</span></code>. However <code class="docutils literal notranslate"><span class="pre">foo/test(.*)</span></code> will sync <code class="docutils literal notranslate"><span class="pre">foo/test</span></code> and <code class="docutils literal notranslate"><span class="pre">foo/test2</span></code>. You can also use capture groups to rewrite the path in the destination. For example, <code class="docutils literal notranslate"><span class="pre">foo/(test)/(bar)</span></code> will sync <code class="docutils literal notranslate"><span class="pre">foo/test/bar</span></code> and rewrite it to <code class="docutils literal notranslate"><span class="pre">test/bar</span></code> in the destination.</p>
+<p>If you set <code class="docutils literal notranslate"><span class="pre">source.cidr</span></code> to the CIDR in which the source vault is deployed (as seen from ingestion point - so if this is a public Vault, this will be the outbound NAT/IGW), it will enable multiple source vaults to sync through a single instance of the operator. You can also set <code class="docutils literal notranslate"><span class="pre">x-vault-tenant</span></code> header in the log shipping config to specify the source vault from which that log is coming from.</p>
+<section id="source-determination">
+<h3>Source Determination<a class="headerlink" href="#source-determination" title="Link to this heading"></a></h3>
+<p>By default, the Vault Audit log contains no contextual information about what Vault it is coming from. To enable this operator to connect to multiple vaults, multi-tenant source determination logic is used based on the following order of precendence.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X-Vault-Tenant</span></code> Header: If an <code class="docutils literal notranslate"><span class="pre">x-vault-tenant</span></code> header is set to a Vault URL (as defined in the example fluentd config below), this will be used to perform an exact lookup against configured Vault Source Addresses.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X-Forwarded-For</span></code> Header: If an <code class="docutils literal notranslate"><span class="pre">x-forwarded-for</span></code> header is set (and the <code class="docutils literal notranslate"><span class="pre">x-vault-tenant</span></code> is not), the operator will perform a source lookup by finding the <code class="docutils literal notranslate"><span class="pre">source.cidr</span></code> which contains the caller IP.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Remote</span> <span class="pre">IP</span> <span class="pre">Address</span></code>: If both the <code class="docutils literal notranslate"><span class="pre">x-vault-tenant</span></code> and <code class="docutils literal notranslate"><span class="pre">x-forwarded-for</span></code> headers do not exist, the operator will use the caller’s IP address and will perform a source lookup by finding the <code class="docutils literal notranslate"><span class="pre">source.cidr</span></code> which contains the caller IP.</p></li>
+</ul>
+</section>
+<section id="filters">
+<h3>Filters<a class="headerlink" href="#filters" title="Link to this heading"></a></h3>
+<p>Filters can be applied to the sync to include or exclude secrets based on either a regex pattern or a path pattern. The path filter is an explicit match, while the regex filter is a regex pattern match. If both filters are present, the secret must match both filters to be included in the sync.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">filters</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">regex</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;foo/bar/hello-[0-9]+&quot;</span>
+<span class="w">      </span><span class="nt">exclude</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;foo/bar/no[^abc]+&quot;</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">include</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;foo/bar/hello&quot;</span>
+<span class="w">      </span><span class="nt">exclude</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;foo/bar/no&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="destination-configuration">
+<h3>Destination Configuration<a class="headerlink" href="#destination-configuration" title="Link to this heading"></a></h3>
+<p>The destination is configured in the same way as the source, with the exception that the <code class="docutils literal notranslate"><span class="pre">driver</span></code> field can be specified. If no driver is specified, the default driver is <code class="docutils literal notranslate"><span class="pre">vault</span></code>.</p>
+<section id="vault-driver-vault">
+<h4>Vault (Driver: <code class="docutils literal notranslate"><span class="pre">vault</span></code>)<a class="headerlink" href="#vault-driver-vault" title="Link to this heading"></a></h4>
+<p>The Vault destination driver will write the secret to the target Vault instance.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">dest</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://vault.example.com&quot;</span>
+<span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo/test2/(.*)&quot;</span>
+<span class="w">      </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">      </span><span class="nt">authMethod</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">      </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">      </span><span class="nt">ttl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1m</span><span class="w"> </span><span class="c1"># optional, defaults to token default lease time</span>
+<span class="w">      </span><span class="nt">merge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"> </span><span class="c1"># optional, default false. false will overwrite existing secrets with values from vault, merge will merge the two, overwriting only the keys that are present in the new secret</span>
+</pre></div>
+</div>
+</section>
+<section id="github-driver-github">
+<h4>GitHub (Driver: <code class="docutils literal notranslate"><span class="pre">github</span></code>)<a class="headerlink" href="#github-driver-github" title="Link to this heading"></a></h4>
+<p>The GitHub destination driver will write the secret to a GitHub repository or organization.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">dest</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">github</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-repo&quot;</span>
+<span class="w">      </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a specific environment to sync to within a repo if needed</span>
+<span class="w">      </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;robertlestak&quot;</span><span class="w"> </span><span class="c1"># optional, will default to the company org</span>
+<span class="w">      </span><span class="nt">org</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"> </span><span class="c1"># optional, default false. set to true to set org secret rather than repo secret</span>
+<span class="w">      </span><span class="nt">merge</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"> </span><span class="c1"># optional, default true. false will overwrite existing secrets with values from vault, merge will merge the two</span>
+</pre></div>
+</div>
+<p>Note that since GitHub secrets do not have a concept of pathing, if you are syncing a wildcard source path, the secrets will be overwritten in the destination repository with a last-write-wins strategy.</p>
+</section>
+<section id="aws-secrets-manager-driver-aws">
+<h4>AWS Secrets Manager (Driver: <code class="docutils literal notranslate"><span class="pre">aws</span></code>)<a class="headerlink" href="#aws-secrets-manager-driver-aws" title="Link to this heading"></a></h4>
+<p>The AWS destination driver will write the secret to AWS Secrets Manager.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">dest</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">aws</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-secret&quot;</span>
+<span class="w">      </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-west-2&quot;</span><span class="w"> </span><span class="c1"># optional, default us-east-1</span>
+<span class="w">      </span><span class="nt">roleArn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::123456789012:role/role-name&quot;</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a specific role to assume when writing to secrets manager</span>
+<span class="w">      </span><span class="nt">encryptionKey</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;alias/aws/secretsmanager&quot;</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a specific KMS key to use for encryption</span>
+<span class="w">      </span><span class="nt">replicaRegions</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a list of regions to replicate the secret to</span>
+</pre></div>
+</div>
+</section>
+<section id="gcp-secret-manager-driver-gcp">
+<h4>GCP Secret Manager (Driver: <code class="docutils literal notranslate"><span class="pre">gcp</span></code>)<a class="headerlink" href="#gcp-secret-manager-driver-gcp" title="Link to this heading"></a></h4>
+<p>The GCP destination driver will write the secret to GCP Secret Manager in the specified project.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">dest</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">gcp</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-project&quot;</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-secret&quot;</span>
+<span class="w">      </span><span class="nt">replicationLocations</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a list of regions to replicate the secret to. If empty, all regions will be used</span>
+</pre></div>
+</div>
+<p>Note that since GCP Secret Manager does not support the <code class="docutils literal notranslate"><span class="pre">/</span></code> character, the sync operator will replace <code class="docutils literal notranslate"><span class="pre">/</span></code> with <code class="docutils literal notranslate"><span class="pre">-</span></code> in the secret name. This generally only applies when using a wildcard source path.</p>
+</section>
+<section id="http-driver-http">
+<h4>HTTP (Driver: <code class="docutils literal notranslate"><span class="pre">http</span></code>)<a class="headerlink" href="#http-driver-http" title="Link to this heading"></a></h4>
+<p>The HTTP destination driver will make an HTTP request to the specified URL with the secret data as the body of the request. By default this will be a POST request with a JSON body, but the method, headers, and body can be customized. Note that this will be sending your secrets in plain text to the specified URL, so ensure that the destination is within your control and secure.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">dest</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">http</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://example.com/my/app&quot;</span>
+<span class="w">      </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span><span class="w"> </span><span class="c1"># optional, default POST. Set to the HTTP method to use for the request</span>
+<span class="w">      </span><span class="nt">headerSecret</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;default/header-secret&quot;</span><span class="w"> </span><span class="c1"># optional, default empty. Set to the name of a kubernetes secret in the format namespace/name to use as the header KV pairs for the request</span>
+<span class="w">      </span><span class="nt">headers</span><span class="p">:</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a map of headers to include in the request</span>
+<span class="w">        </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/json&quot;</span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a template to use for the request body. The template is a Go template with the following variables available: .Key, .Value, .Namespace, .Path, .Secret, .Timestamp</span>
+<span class="w">        </span><span class="no">{</span>
+<span class="w">          </span><span class="no">&quot;custom&quot;: {</span>
+<span class="w">            </span><span class="no">&quot;{{ .Key }}&quot;: &quot;{{ .Value }}&quot;</span>
+<span class="w">          </span><span class="no">}</span>
+<span class="w">        </span><span class="no">}</span>
+</pre></div>
+</div>
+</section>
+<section id="webhooks">
+<h4>Webhooks<a class="headerlink" href="#webhooks" title="Link to this heading"></a></h4>
+<p>Webhooks can be configured to send a POST request to a specified URL when a sync event occurs. The event can be either <code class="docutils literal notranslate"><span class="pre">success</span></code> or <code class="docutils literal notranslate"><span class="pre">failure</span></code>, and the request will include a JSON body with information about the event. The template can be customized to include any information from the sync event.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">webhooks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">event</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">success</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://example.com/success&quot;</span>
+<span class="w">    </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span><span class="w"> </span><span class="c1"># optional, default POST. Set to the HTTP method to use for the request</span>
+<span class="w">    </span><span class="nt">headers</span><span class="p">:</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a map of headers to include in the request</span>
+<span class="w">      </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/json&quot;</span>
+<span class="w">    </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a template to use for the request body. The template is a Go template with the following variables available: .Event, .Message, .SecretSync</span>
+<span class="w">      </span><span class="no">{</span>
+<span class="w">        </span><span class="no">&quot;custom&quot;: {</span>
+<span class="w">          </span><span class="no">&quot;event&quot;: &quot;{{ .Event }}&quot;,</span>
+<span class="w">          </span><span class="no">&quot;message&quot;: &quot;{{ .Message }}&quot;,</span>
+<span class="w">          </span><span class="no">&quot;name&quot;: &quot;{{ .SecretSync.Name }}&quot;</span>
+<span class="w">          </span><span class="no">&quot;source.address&quot;: &quot;{{ .SecretSync.Spec.Source.Address }}&quot;</span>
+<span class="w">        </span><span class="no">}</span>
+<span class="w">      </span><span class="no">}</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">event</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">failure</span>
+<span class="w">    </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://example.com/failure&quot;</span>
+<span class="w">    </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;POST&quot;</span><span class="w"> </span><span class="c1"># optional, default POST. Set to the HTTP method to use for the request</span>
+<span class="w">    </span><span class="nt">headers</span><span class="p">:</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a map of headers to include in the request</span>
+<span class="w">      </span><span class="nt">Content-Type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;application/json&quot;</span>
+<span class="w">    </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"> </span><span class="c1"># optional, default empty. Set to a template to use for the request body. The template is a Go template with the following variables available: .Event, .Message, .SecretSync</span>
+<span class="w">      </span><span class="no">{</span>
+<span class="w">        </span><span class="no">&quot;custom&quot;: {</span>
+<span class="w">          </span><span class="no">&quot;event&quot;: &quot;{{ .Event }}&quot;,</span>
+<span class="w">          </span><span class="no">&quot;message&quot;: &quot;{{ .Message }}&quot;,</span>
+<span class="w">          </span><span class="no">&quot;name&quot;: &quot;{{ .SecretSync.Name }}&quot;</span>
+<span class="w">          </span><span class="no">&quot;source.address&quot;: &quot;{{ .SecretSync.Spec.Source.Address }}&quot;</span>
+<span class="w">        </span><span class="no">}</span>
+<span class="w">      </span><span class="no">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="operations">
+<h2>Operations<a class="headerlink" href="#operations" title="Link to this heading"></a></h2>
+<section id="kubernetes">
+<h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Link to this heading"></a></h3>
+<p>When deployed in Kubernetes, <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> operations are exposed through the Kubernetes API. <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resources can be created, updated, and deleted through the Kubernetes API.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">cat &lt;&lt;EOF | kubectl apply -f -</span>
+<span class="l l-Scalar l-Scalar-Plain">apiVersion</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secretsync.jbcom.dev/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SecretSync</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">source</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://vault.example.com&quot;</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;foo/bar&quot;</span>
+<span class="w">  </span><span class="nt">dest</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">github</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-repo&quot;</span>
+<span class="w">      </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;robertlestak&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">aws</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-secret&quot;</span>
+<span class="w">      </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-west-2&quot;</span>
+<span class="l l-Scalar l-Scalar-Plain">EOF</span>
+</pre></div>
+</div>
+<p>Once created, the operator will begin syncing secrets from the source to the destination. You can trigger an immediate sync by annotating the <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resource with <code class="docutils literal notranslate"><span class="pre">force-sync</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>annotate<span class="w"> </span>vaultsecretsync<span class="w"> </span>example<span class="w"> </span>force-sync<span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="w"> </span>--overwrite
+</pre></div>
+</div>
+<p>To sync all <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resources in a namespace, you can use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>vaultsecretsync<span class="w"> </span>-n<span class="w"> </span>example<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>-I<span class="w"> </span><span class="o">{}</span><span class="w"> </span>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span>example<span class="w"> </span><span class="o">{}</span><span class="w"> </span>force-sync<span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="w"> </span>--overwrite
+</pre></div>
+</div>
+<p>To sync all <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resources in all namespaces, you can use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>ns<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>ns<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d/<span class="w"> </span>-f2<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>vaultsecretsync<span class="w"> </span>-n<span class="w"> </span><span class="nv">$ns</span><span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>-I<span class="w"> </span><span class="o">{}</span><span class="w"> </span>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span><span class="nv">$ns</span><span class="w"> </span><span class="o">{}</span><span class="w"> </span>force-sync<span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="w"> </span>--overwrite<span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

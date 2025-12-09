@@ -1,13 +1,11 @@
+# Documentation dependencies for SecretSync
+# This project is written in Go, but uses Python tools for documentation
+
 [project]
-name = "secretsync"
-version = "0.0.0"  # Version managed by Git tags
-description = "Kubernetes operator for syncing secrets from HashiCorp Vault to external stores"
-authors = [
-    {name = "Jon Bogaty", email = "jon@bogaty.com"}
-]
+name = "secretsync-docs"
+version = "0.0.0"
+description = "Documentation dependencies for SecretSync"
 requires-python = ">=3.12"
-readme = "README.md"
-license = {text = "MIT"}
 
 [project.optional-dependencies]
 docs = [
@@ -16,7 +14,3 @@ docs = [
     "myst-parser>=2.0.0",
     "sphinx-autodoc-typehints>=1.25.0",
 ]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"

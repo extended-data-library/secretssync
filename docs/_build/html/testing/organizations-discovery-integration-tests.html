@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Organizations Dynamic Discovery - Integration Tests &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=7026087e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">AWS Organizations Dynamic Discovery - Integration Tests</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/testing/organizations-discovery-integration-tests.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="aws-organizations-dynamic-discovery-integration-tests">
+<h1>AWS Organizations Dynamic Discovery - Integration Tests<a class="headerlink" href="#aws-organizations-dynamic-discovery-integration-tests" title="Link to this heading"></a></h1>
+<p>This document describes how to run integration tests for AWS Organizations dynamic discovery.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<section id="aws-permissions">
+<h3>AWS Permissions<a class="headerlink" href="#aws-permissions" title="Link to this heading"></a></h3>
+<p>Your AWS execution context needs the following IAM permissions:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;organizations:DescribeOrganization&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;organizations:ListAccounts&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;organizations:ListAccountsForParent&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;organizations:ListOrganizationalUnitsForParent&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;organizations:ListTagsForResource&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;*&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="test-account-setup">
+<h3>Test Account Setup<a class="headerlink" href="#test-account-setup" title="Link to this heading"></a></h3>
+<p>For comprehensive testing, set up test accounts with the following tags:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tag test accounts for filtering</span>
+aws<span class="w"> </span>organizations<span class="w"> </span>tag-resource<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-id<span class="w"> </span><span class="m">123456789012</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tags<span class="w"> </span><span class="nv">Key</span><span class="o">=</span>Environment,Value<span class="o">=</span>production<span class="w"> </span><span class="nv">Key</span><span class="o">=</span>Team,Value<span class="o">=</span>platform
+
+aws<span class="w"> </span>organizations<span class="w"> </span>tag-resource<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-id<span class="w"> </span><span class="m">234567890123</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tags<span class="w"> </span><span class="nv">Key</span><span class="o">=</span>Environment,Value<span class="o">=</span>development<span class="w"> </span><span class="nv">Key</span><span class="o">=</span>Team,Value<span class="o">=</span>platform
+
+aws<span class="w"> </span>organizations<span class="w"> </span>tag-resource<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource-id<span class="w"> </span><span class="m">345678901234</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tags<span class="w"> </span><span class="nv">Key</span><span class="o">=</span>Environment,Value<span class="o">=</span>staging<span class="w"> </span><span class="nv">Key</span><span class="o">=</span>Team,Value<span class="o">=</span>analytics
+</pre></div>
+</div>
+</section>
+</section>
+<section id="integration-test-scenarios">
+<h2>Integration Test Scenarios<a class="headerlink" href="#integration-test-scenarios" title="Link to this heading"></a></h2>
+<section id="test-1-ou-based-discovery-non-recursive">
+<h3>Test 1: OU-Based Discovery (Non-Recursive)<a class="headerlink" href="#test-1-ou-based-discovery-non-recursive" title="Link to this heading"></a></h3>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dynamic_targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test_ou_discovery</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">organizations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ou</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ou-xxxx-development&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-secrets</span>
+</pre></div>
+</div>
+<p><strong>Expected Behavior:</strong></p>
+<ul class="simple">
+<li><p>Lists only accounts directly in the specified OU</p></li>
+<li><p>Does not traverse child OUs</p></li>
+<li><p>Accounts have ID, Name, Email, and Status populated</p></li>
+<li><p>No tag filtering applied</p></li>
+</ul>
+<p><strong>Validation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the pipeline in dry-run mode</span>
+./vss<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>test-config.yaml<span class="w"> </span>--dry-run
+
+<span class="c1"># Verify discovered targets in output</span>
+<span class="c1"># Should show accounts directly in the OU only</span>
+</pre></div>
+</div>
+</section>
+<section id="test-2-recursive-ou-traversal">
+<h3>Test 2: Recursive OU Traversal<a class="headerlink" href="#test-2-recursive-ou-traversal" title="Link to this heading"></a></h3>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dynamic_targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test_recursive_discovery</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">organizations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ou</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ou-xxxx-workloads&quot;</span>
+<span class="w">        </span><span class="nt">recursive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-secrets</span>
+</pre></div>
+</div>
+<p><strong>Expected Behavior:</strong></p>
+<ul class="simple">
+<li><p>Lists accounts in the specified OU</p></li>
+<li><p>Recursively traverses all child OUs</p></li>
+<li><p>Includes accounts from all nested OUs</p></li>
+<li><p>No tag filtering applied</p></li>
+</ul>
+<p><strong>Validation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count accounts in the OU hierarchy manually</span>
+aws<span class="w"> </span>organizations<span class="w"> </span>list-accounts-for-parent<span class="w"> </span>--parent-id<span class="w"> </span>ou-xxxx-workloads
+aws<span class="w"> </span>organizations<span class="w"> </span>list-organizational-units-for-parent<span class="w"> </span>--parent-id<span class="w"> </span>ou-xxxx-workloads
+<span class="c1"># Then check each child OU</span>
+
+<span class="c1"># Compare with discovery output</span>
+./vss<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>test-config.yaml<span class="w"> </span>--dry-run<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Discovered target&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="test-3-tag-based-filtering-all-accounts">
+<h3>Test 3: Tag-Based Filtering (All Accounts)<a class="headerlink" href="#test-3-tag-based-filtering-all-accounts" title="Link to this heading"></a></h3>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dynamic_targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test_tag_filtering</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">organizations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">Environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+<span class="w">          </span><span class="nt">Team</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">platform</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-secrets</span>
+</pre></div>
+</div>
+<p><strong>Expected Behavior:</strong></p>
+<ul class="simple">
+<li><p>Lists ALL accounts in the organization</p></li>
+<li><p>Filters to only accounts with BOTH tags matching</p></li>
+<li><p>Accounts without tags are excluded</p></li>
+<li><p>Both tag key and value must match exactly (case-sensitive)</p></li>
+</ul>
+<p><strong>Validation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Manually verify which accounts have matching tags</span>
+<span class="k">for</span><span class="w"> </span>account<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>aws<span class="w"> </span>organizations<span class="w"> </span>list-accounts<span class="w"> </span>--query<span class="w"> </span><span class="s1">&#39;Accounts[].Id&#39;</span><span class="w"> </span>--output<span class="w"> </span>text<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Account: </span><span class="nv">$account</span><span class="s2">&quot;</span>
+<span class="w">  </span>aws<span class="w"> </span>organizations<span class="w"> </span>list-tags-for-resource<span class="w"> </span>--resource-id<span class="w"> </span><span class="nv">$account</span>
+<span class="k">done</span>
+
+<span class="c1"># Compare with discovery output</span>
+./vss<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>test-config.yaml<span class="w"> </span>--dry-run
+</pre></div>
+</div>
+</section>
+<section id="test-4-combined-ou-and-tag-filtering">
+<h3>Test 4: Combined OU and Tag Filtering<a class="headerlink" href="#test-4-combined-ou-and-tag-filtering" title="Link to this heading"></a></h3>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dynamic_targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test_combined_filtering</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">organizations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ou</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ou-xxxx-production&quot;</span>
+<span class="w">        </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">Environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-secrets</span>
+</pre></div>
+</div>
+<p><strong>Expected Behavior:</strong></p>
+<ul class="simple">
+<li><p>Lists accounts in the specified OU only</p></li>
+<li><p>Filters to only accounts with matching tags</p></li>
+<li><p>Does not search other OUs</p></li>
+<li><p>Both OU membership and tags must match</p></li>
+</ul>
+<p><strong>Validation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify accounts in OU</span>
+aws<span class="w"> </span>organizations<span class="w"> </span>list-accounts-for-parent<span class="w"> </span>--parent-id<span class="w"> </span>ou-xxxx-production
+
+<span class="c1"># Check tags on those accounts</span>
+<span class="k">for</span><span class="w"> </span>account<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>aws<span class="w"> </span>organizations<span class="w"> </span>list-accounts-for-parent<span class="w"> </span>--parent-id<span class="w"> </span>ou-xxxx-production<span class="w"> </span>--query<span class="w"> </span><span class="s1">&#39;Accounts[].Id&#39;</span><span class="w"> </span>--output<span class="w"> </span>text<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Account: </span><span class="nv">$account</span><span class="s2">&quot;</span>
+<span class="w">  </span>aws<span class="w"> </span>organizations<span class="w"> </span>list-tags-for-resource<span class="w"> </span>--resource-id<span class="w"> </span><span class="nv">$account</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Environment
+<span class="k">done</span>
+
+<span class="c1"># Run discovery</span>
+./vss<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>test-config.yaml<span class="w"> </span>--dry-run
+</pre></div>
+</div>
+</section>
+<section id="test-5-recursive-ou-with-tag-filtering">
+<h3>Test 5: Recursive OU with Tag Filtering<a class="headerlink" href="#test-5-recursive-ou-with-tag-filtering" title="Link to this heading"></a></h3>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dynamic_targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test_recursive_with_tags</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">organizations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ou</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ou-xxxx-workloads&quot;</span>
+<span class="w">        </span><span class="nt">recursive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">AutoManaged</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enabled</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-secrets</span>
+</pre></div>
+</div>
+<p><strong>Expected Behavior:</strong></p>
+<ul class="simple">
+<li><p>Recursively lists accounts from OU and all child OUs</p></li>
+<li><p>Filters results by tags</p></li>
+<li><p>Combination of recursive traversal and tag filtering</p></li>
+<li><p>Most comprehensive discovery method</p></li>
+</ul>
+<p><strong>Validation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># This requires checking all accounts in the OU hierarchy</span>
+<span class="c1"># and verifying they have the required tags</span>
+./vss<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>test-config.yaml<span class="w"> </span>--dry-run<span class="w"> </span>--log-level<span class="w"> </span>debug
+</pre></div>
+</div>
+</section>
+<section id="test-6-account-name-resolution">
+<h3>Test 6: Account Name Resolution<a class="headerlink" href="#test-6-account-name-resolution" title="Link to this heading"></a></h3>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dynamic_targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">test_name_resolution</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">identity_center</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TestGroup&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test-secrets</span>
+</pre></div>
+</div>
+<p><strong>Expected Behavior:</strong></p>
+<ul class="simple">
+<li><p>Discovers accounts from Identity Center</p></li>
+<li><p>Automatically enriches with account names from Organizations API</p></li>
+<li><p>Generated target names use account names when available</p></li>
+<li><p>Falls back to account ID if name not available</p></li>
+</ul>
+<p><strong>Validation:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check that discovered targets have meaningful names</span>
+./vss<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>test-config.yaml<span class="w"> </span>--dry-run<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Discovered target&quot;</span>
+
+<span class="c1"># Names should be sanitized:</span>
+<span class="c1"># &quot;Analytics Sandbox&quot; → &quot;Analytics_Sandbox&quot;</span>
+<span class="c1"># &quot;Test (Dev)&quot; → &quot;Test_Dev&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="manual-testing-checklist">
+<h2>Manual Testing Checklist<a class="headerlink" href="#manual-testing-checklist" title="Link to this heading"></a></h2>
+<ul class="contains-task-list simple">
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> OU-based discovery (non-recursive) works</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Recursive OU traversal discovers all nested accounts</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Tag filtering correctly filters accounts</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Combined OU + tag filtering works</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Account names are resolved from Organizations</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Exclusion list correctly excludes accounts</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Multiple discovery methods combine results</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Permission errors are handled gracefully</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Invalid OU IDs produce helpful errors</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Performance is acceptable for large organizations</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Target names are sanitized correctly</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Duplicate accounts are deduplicated</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Tag keys and values are case-sensitive</p></li>
+<li class="task-list-item"><p><input class="task-list-item-checkbox" disabled="disabled" type="checkbox"> Accounts without tags are excluded when filtering by tags</p></li>
+</ul>
+</section>
+<section id="debugging-tips">
+<h2>Debugging Tips<a class="headerlink" href="#debugging-tips" title="Link to this heading"></a></h2>
+<section id="enable-debug-logging">
+<h3>Enable Debug Logging<a class="headerlink" href="#enable-debug-logging" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./vss<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--dry-run<span class="w"> </span>--log-level<span class="w"> </span>debug
+</pre></div>
+</div>
+</section>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>“no access to Organizations API”</strong></p>
+<ul class="simple">
+<li><p>Check execution context has Organizations permissions</p></li>
+<li><p>Verify running from management account or delegated admin</p></li>
+</ul>
+</li>
+<li><p><strong>Tags not being applied</strong></p>
+<ul class="simple">
+<li><p>Verify tags exist on accounts using AWS CLI</p></li>
+<li><p>Check tag keys and values match exactly (case-sensitive)</p></li>
+<li><p>Ensure accounts have the Tags field populated</p></li>
+</ul>
+</li>
+<li><p><strong>Recursive traversal not working</strong></p>
+<ul class="simple">
+<li><p>Check ListOrganizationalUnitsForParent permission</p></li>
+<li><p>Verify OU ID is correct</p></li>
+<li><p>Check debug logs for OU traversal errors</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

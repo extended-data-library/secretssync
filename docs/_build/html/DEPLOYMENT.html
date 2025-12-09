@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deployment &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Deployment</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/DEPLOYMENT.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deployment">
+<h1>Deployment<a class="headerlink" href="#deployment" title="Link to this heading"></a></h1>
+<p>This guide outlines the requirements and different deployment models for the Vault Secrets Sync service.</p>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<p>The service can be configured with either a <code class="docutils literal notranslate"><span class="pre">YAML</span></code> or <code class="docutils literal notranslate"><span class="pre">JSON</span></code> configuration file, or via environment variables. The configuration is unmarshalled into the <a class="reference internal" href="#../internal/config/config.go#L62"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">ConfigFile</span></code></span></a> struct. An example of a fully configured <code class="docutils literal notranslate"><span class="pre">YAML</span></code> file can be found in <a class="reference download internal" download="" href="_downloads/b205339a75239e1658b9b61c093b6acd/config-full.yaml"><span class="xref download myst">examples/config-full.yaml</span></a>. To configure via environment variables, you must prefix the environment variable with <code class="docutils literal notranslate"><span class="pre">SECRETSYNC_</span></code> and use <code class="docutils literal notranslate"><span class="pre">_</span></code> to denote nested fields. For example, to set the <code class="docutils literal notranslate"><span class="pre">queue.type</span></code> field, you would set the environment variable <code class="docutils literal notranslate"><span class="pre">SECRETSYNC_QUEUE_TYPE</span></code>. Note: The legacy <code class="docutils literal notranslate"><span class="pre">VSS_</span></code> prefix is still supported for backwards compatibility.</p>
+<p>While various examples are provided, the operator intentionally does not ship with a “default” configuration file. This is to ensure that you are aware of the security implications of each component you are enabling. This guide will walk you through each section, what it does, and how to configure it.</p>
+<section id="queue-configuration">
+<h3><code class="docutils literal notranslate"><span class="pre">queue</span></code> Configuration<a class="headerlink" href="#queue-configuration" title="Link to this heading"></a></h3>
+<p>The service requires a queue for communication between the <code class="docutils literal notranslate"><span class="pre">Event</span> <span class="pre">Server</span></code> and the <code class="docutils literal notranslate"><span class="pre">Sync</span> <span class="pre">Operator</span></code>. When deployed as a single binary, the <code class="docutils literal notranslate"><span class="pre">memory</span></code> queue will be used by default. This simply uses the operator’s internal memory for queuing and processing. For small to moderately sized deployments this may be sufficient, however in more production grade deployments - and when deployed in microservices mode - an external queue must be configured. In all queues, both the event server and sync operator must be able to connect to the queue, and data will only ever flow in one direction (from the outside in, never from the inside out).</p>
+<p>Currently, the following queues are supported:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">memory</span></code>: The default queue, which uses the operator’s internal memory for queuing and processing. This is only recommended for small to moderately sized deployments, and cannot be used in a microservices deployment model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">redis</span></code>: The Redis queue uses a Redis instance for queuing and processing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nats</span></code>: The NATS queue uses a NATS instance for queuing and processing.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sqs</span></code>: The SQS queue uses an AWS SQS queue for queuing and processing.</p></li>
+</ul>
+<p>An example of a fully configured <code class="docutils literal notranslate"><span class="pre">YAML</span></code> file can be found in <a class="reference download internal" download="" href="_downloads/b205339a75239e1658b9b61c093b6acd/config-full.yaml"><span class="xref download myst">examples/config-full.yaml</span></a>. Here’s an example of a minimal configuration file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">queue</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span>
+<span class="w">  </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;redis&quot;</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6379</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">    </span><span class="nt">db</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">    </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ca</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/certs/ca.crt</span>
+<span class="w">      </span><span class="nt">cert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/certs/client.crt</span>
+<span class="w">      </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/certs/client.key</span>
+</pre></div>
+</div>
+<p>Fields not required in your environment can be omitted. For example, if you are not using TLS, you can omit the <code class="docutils literal notranslate"><span class="pre">tls</span></code> field. If you are not using a password, you can omit the <code class="docutils literal notranslate"><span class="pre">password</span></code> field.</p>
+</section>
+<section id="operator-configuration">
+<h3><code class="docutils literal notranslate"><span class="pre">operator</span></code> Configuration<a class="headerlink" href="#operator-configuration" title="Link to this heading"></a></h3>
+<p>The operator is responsible for reconciling the <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> CRD and handling sync operations. Here’s an example of a minimal configuration file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">operator</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">workerPoolSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">  </span><span class="nt">numSubscriptions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">workerPoolSize</span></code> field is the number of workers that will be spawned to process the events from the queue. The <code class="docutils literal notranslate"><span class="pre">numSubscriptions</span></code> field is the number of subscriptions that will be created to the queue. The number of subscriptions should be equal to or greater than the number of workers. The <code class="docutils literal notranslate"><span class="pre">workerPoolSize</span></code> field should be set to a value that is appropriate for your environment. The default value is <code class="docutils literal notranslate"><span class="pre">10</span></code>.</p>
+</section>
+<section id="event-configuration">
+<h3><code class="docutils literal notranslate"><span class="pre">event</span></code> Configuration<a class="headerlink" href="#event-configuration" title="Link to this heading"></a></h3>
+<p>The event server is responsible for listening for audit log events from Vault. The event server is required for the service to operate. It must be accessible by the respective vault instance audit log shippers, and must be able to communicate with the queue. Here’s an example of a minimal configuration file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">event</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">  </span><span class="nt">security</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">cert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/certs/server.crt</span>
+<span class="w">      </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/certs/server.key</span>
+<span class="w">      </span><span class="nt">ca</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/certs/ca.crt</span>
+<span class="w">      </span><span class="nt">clientAuth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">require</span>
+</pre></div>
+</div>
+<p>Note that in the examples above, each service has an <code class="docutils literal notranslate"><span class="pre">enabled</span></code> field, this is where you can enable / disable particular components of the service. By default, all components are disabled. However you are still able to re-use a single configuration file across various microservice components by passing the corresponding CLI flag to enable the component rather than modifying the configuration file.</p>
+</section>
+<section id="metrics-configuration">
+<h3><code class="docutils literal notranslate"><span class="pre">metrics</span></code> Configuration<a class="headerlink" href="#metrics-configuration" title="Link to this heading"></a></h3>
+<p>The service exposes a metrics endpoint on a dedicated service metrics port (separate from the kubernetes metrics port exposed when running in kubernetes operator mode) to expose Prometheus metrics. Here’s an example of a minimal configuration file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">metrics</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8082</span>
+</pre></div>
+</div>
+<p>Note that the metrics endpoint also supports <code class="docutils literal notranslate"><span class="pre">security.tls</span></code> configuration, it has simply been omitted from the example for brevity. The metrics server also exposes a <code class="docutils literal notranslate"><span class="pre">/healthz</span></code> endpoint that can be used to check the health of the service and its dependencies.</p>
+</section>
+<section id="stores-configuration">
+<h3><code class="docutils literal notranslate"><span class="pre">stores</span></code> Configuration<a class="headerlink" href="#stores-configuration" title="Link to this heading"></a></h3>
+<p>Each <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> configuration is entirely self-contained - the <code class="docutils literal notranslate"><span class="pre">spec</span></code> contains all the fields necessary to perform the sync. However you can use the <code class="docutils literal notranslate"><span class="pre">stores</span></code> configuration to set defaults for all <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resources. This is useful if you have multiple <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resources that share the same configuration. Here’s an example of a minimal configuration file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">stores</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://vault.example.com&quot;</span>
+<span class="w">    </span>
+<span class="w">  </span><span class="nt">github</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;example-org&quot;</span>
+</pre></div>
+</div>
+<p>Fields explictly defined in the <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resource will take precedence over the defaults set in the <code class="docutils literal notranslate"><span class="pre">stores</span></code> configuration, however if a field is not provided in the <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resource, the default value from the <code class="docutils literal notranslate"><span class="pre">stores</span></code> configuration will be used. Defaults are evaluated at runtime and are not persisted back to the backend. This can be both a feature and a bug, depending on your use case. Once you set a central default, be cognizant of the fact that changing the default <em>will</em> change the behavior of existing <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resources. For this reason it’s generally recommended to not set global defaults and instead rely on fields being explicitly declared on the <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resources themselves, unless you know for certain that you want to change the behavior of all resources at once.</p>
+<p>With this said, the fields defined will only work if the operator has the proper access to the stores. For more details on how to configure the operator to access the stores, see the <a class="reference internal" href="SECURITY.html"><span class="std std-doc">Security</span></a> documentation.</p>
+</section>
+</section>
+<section id="deploying-in-kubernetes">
+<h2>Deploying in Kubernetes<a class="headerlink" href="#deploying-in-kubernetes" title="Link to this heading"></a></h2>
+<p>The service can be deployed in Kubernetes using the provided Helm chart. The Helm chart is located in the <code class="docutils literal notranslate"><span class="pre">deploy/charts</span></code> directory of the repository. The chart is designed to be as flexible as possible, and allows you to configure the service using a <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> file. The chart is designed to be deployed in a microservices architecture, where the webhook service is deployed in one container and the sync operator is deployed in another, however it does support a monolithic deployment as well. The chart also deploys a CRD to enable configuration of the sync service through native Kubernetes resources.</p>
+<p>Once you have your <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> file configured, you can deploy the service using the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>install<span class="w"> </span>-n<span class="w"> </span>secretsync<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>secretsync<span class="w"> </span>./deploy/charts/secretsync<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>/path/to/values.yaml
+</pre></div>
+</div>
+<p>Note this will install the <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> CRD by default. While recommended to use the CRD when deploying in Kubernetes it is <em>technically</em> not required, and so if you do not want to install the CRDs with the rest of the chart, you can pass the <code class="docutils literal notranslate"><span class="pre">--skip-crds</span></code> flag to the <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">install</span></code> command.</p>
+<p>The chart will deploy one <code class="docutils literal notranslate"><span class="pre">Service</span></code> object for the event service with a <code class="docutils literal notranslate"><span class="pre">ClusterIP</span></code> type. This must be made accessible from the Vault audit log shipper(s) in whatever manner suits your environment.</p>
+<p>You can mount volumes, secrets, and env vars to any of the components through the values file, so if you need to mount a secret to the event server, you can do so through the <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> file.</p>
+<p>If you’re not a fan of using Helm to manage your resources, you can always replace <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">install</span></code> with <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">template</span></code> and pipe the output to <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span> <span class="pre">-f</span> <span class="pre">-</span></code> to apply the resources directly to your cluster.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>template<span class="w"> </span>-n<span class="w"> </span>secretsync<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>secretsync<span class="w"> </span>./deploy/charts/secretsync<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>/path/to/values.yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-
+</pre></div>
+</div>
+</section>
+<section id="shipping-logs">
+<h2>Shipping Logs<a class="headerlink" href="#shipping-logs" title="Link to this heading"></a></h2>
+<p>This service relies on the audit logs as shipped by HashiCorp Vault. You must have an <a class="reference external" href="https://developer.hashicorp.com/vault/docs/audit">audit device</a> configured in your Vault instance to ship logs to the service. You must configure the webhook endpoint in your audit device to point to the <code class="docutils literal notranslate"><span class="pre">/events</span></code> endpoint of the service. It is recommended to include the <code class="docutils literal notranslate"><span class="pre">X-Vault-Tenant</span></code> header in the request to the service to identify the source of the event. This is especially important if you are syncing secrets from multiple Vault instances. This is discussed more in <a class="reference internal" href="USAGE.html#source-determination"><span class="std std-ref">Usage - Source Determination</span></a>. Below is a sample Fluentd configuration that ships logs to the service. If you have event server token-based security enabled, you will also need to include the <code class="docutils literal notranslate"><span class="pre">X-SecretSync-Token</span></code> header in the request. While your security posture may vary, it’s generally recommended to use multiple layers of security, such as internal networking, IP whitelisting, service mesh RBAC, and token-based security.</p>
+<section id="fluentd-configuration-example">
+<h3>Fluentd Configuration Example<a class="headerlink" href="#fluentd-configuration-example" title="Link to this heading"></a></h3>
+<p><strong>Token based auth</strong></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;store&gt;</span>
+<span class="w">  </span>@type<span class="w"> </span>http
+<span class="w">  </span>endpoint<span class="w"> </span>https://secretsync/events
+<span class="w">  </span>headers<span class="w"> </span>{&quot;x-vault-tenant&quot;:<span class="w"> </span>&quot;https://vault.example.com&quot;,<span class="w"> </span>&quot;x-secretsync-token&quot;:<span class="w"> </span>&quot;99CFF209-9E67-4B22-880F-E15DAC3C1CEE&quot;}
+<span class="w">  </span>open_timeout<span class="w"> </span>2
+<span class="w">  </span><span class="nt">&lt;format&gt;</span>
+<span class="w">    </span>@type<span class="w"> </span>json
+<span class="w">  </span><span class="nt">&lt;/format&gt;</span>
+<span class="w">  </span><span class="nt">&lt;buffer&gt;</span>
+<span class="w">    </span>flush_interval<span class="w"> </span>10s
+<span class="w">  </span><span class="nt">&lt;/buffer&gt;</span>
+<span class="nt">&lt;/store&gt;</span>
+</pre></div>
+</div>
+<p><strong>TLS Client Cert Auth</strong></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;store&gt;</span>
+<span class="w">  </span>@type<span class="w"> </span>http
+<span class="w">  </span>endpoint<span class="w"> </span>https://secretsync/events
+<span class="w">  </span>headers<span class="w"> </span>{&quot;x-vault-tenant&quot;:<span class="w"> </span>&quot;https://vault.example.com&quot;}
+<span class="w">  </span>tls_ca_cert_path<span class="w"> </span>/path/to/ca.crt
+<span class="w">  </span>tls_client_cert_path<span class="w"> </span>/path/to/client.crt
+<span class="w">  </span>tls_private_key_path<span class="w"> </span>/path/to/client.key
+<span class="w">  </span>open_timeout<span class="w"> </span>2
+<span class="w">  </span><span class="nt">&lt;format&gt;</span>
+<span class="w">    </span>@type<span class="w"> </span>json
+<span class="w">  </span><span class="nt">&lt;/format&gt;</span>
+<span class="w">  </span><span class="nt">&lt;buffer&gt;</span>
+<span class="w">    </span>flush_interval<span class="w"> </span>10s
+<span class="w">  </span><span class="nt">&lt;/buffer&gt;</span>
+
+
+<span class="w">  </span>Once<span class="w"> </span>your<span class="w"> </span>fluentd<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span>and<span class="w"> </span>running,<span class="w"> </span>configure<span class="w"> </span>your<span class="w"> </span>vault<span class="w"> </span>audit<span class="w"> </span>device<span class="w"> </span>to<span class="w"> </span>ship<span class="w"> </span>logs<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>fluentd<span class="w"> </span>endpoint.
+
+
+```bash
+vault<span class="w"> </span>audit<span class="w"> </span>enable<span class="w"> </span>socket<span class="w"> </span>address=fluentd:24224<span class="w"> </span>socket_type=tcp
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

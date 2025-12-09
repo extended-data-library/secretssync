@@ -1,0 +1,156 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ARCHITECTURE.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Link to this heading"></a></h1>
+<section id="high-level-architecture">
+<h2>High Level Architecture<a class="headerlink" href="#high-level-architecture" title="Link to this heading"></a></h2>
+<p><img alt="High Level Architecture" src="_images/HLA.drawio.png" /></p>
+<p>Before we discuss how to technically deploy the solution, it is important to understand the high-level architecture of the service. The above reference architecture can be viewed as a “logical” architecture, as the service can be deployed in a variety of ways. Conceptually, the operator exposes a REST webhook endpoint at <code class="docutils literal notranslate"><span class="pre">/events</span></code> that listens for HashiCorp Vault audit log events. When an event is received, the operator will evaluate it against the configured <code class="docutils literal notranslate"><span class="pre">SecretSync</span></code> resources and sync the secret to the respective destination secret store(s).</p>
+<p>In the most basic deployment model, the operator can be deployed as a single process / docker container / pod. In this mode, the container both exposes the webhook server as well as performs the actual sync operation. This may not be ideal for a more security-conscious environment, as the exposed webhook service would need to be granted access to the backend secret stores and therefore could be a potential attack vector. For this reason, it is generally recommended to deploy the solution as a set of decoupled microservices, where the webhook service is deployed in a separate container / pod from the sync operator. This then allows you to enforce more strict network policies and security controls around the webhook service which then queues the work to be consumed by the operator service deeper in the network.</p>
+</section>
+<section id="deployment-models">
+<h2>Deployment Models<a class="headerlink" href="#deployment-models" title="Link to this heading"></a></h2>
+<p>While this documentation generally focuses on Kubernetes-based deployments, do know that the service is not coupled to Kubernetes and therefore the same models discussed below can be followed to deploy the service in other environments, either as a set of docker containers, standalone processes, or a single binary.</p>
+<section id="single-binary">
+<h3>Single Binary<a class="headerlink" href="#single-binary" title="Link to this heading"></a></h3>
+<p>The simplest deployment model is to deploy the service as a single binary, as shown in the High Level Diagram above. This is the easiest way to get started with the service, but is not recommended for production deployments. In this model, the service will run as a single process that both listens for webhook events and performs the sync operation. The upside of this model is the ease of deployment, however the downside is that you must grant the exposed webhook service access to the backend secret stores, which may not be ideal from a security perspective.</p>
+</section>
+<section id="microservices">
+<h3>Microservices<a class="headerlink" href="#microservices" title="Link to this heading"></a></h3>
+<p>The recommended deployment model is to decouple the microservices and rely on a queue to provide inter-service communication. In this model, the webhook service is deployed as a separate process / container / pod from the sync operator. The webhook service listens for audit log events, filters out irrelevant events, and then queues the relevant events to be consumed by the sync operator. The sync operator then runs in a separate process / container / pod and consumes the queued events, syncing the secrets to the destination secret store(s). In this model, the webhook service only needs to be granted limited access to the queue, and the sync operator only needs to be granted access to the destination secret store(s). Besides the optional Kubernetes metrics endpoint, the sync operator does not expose any other services, and all communication is done through the queue.</p>
+<p><img alt="Microservices Deployment" src="_images/HLA-microservice.drawio.png" /></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

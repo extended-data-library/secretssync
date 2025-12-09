@@ -1,0 +1,668 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipeline Configuration Guide &mdash; PACKAGE_NAME Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PACKAGE_NAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-pypi">Install from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#install-from-source">Install from Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html#module-index">Module Index</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/modules.html">Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#building-documentation">Building Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#pull-request-process">Pull Request Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PACKAGE_NAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Pipeline Configuration Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/PIPELINE.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pipeline-configuration-guide">
+<h1>Pipeline Configuration Guide<a class="headerlink" href="#pipeline-configuration-guide" title="Link to this heading"></a></h1>
+<p>The Pipeline feature provides a unified configuration format for multi-account secrets management, with native support for AWS Control Tower and Organizations patterns.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>Traditional secrets syncing requires separate configs for each source-to-destination pair. The Pipeline feature introduces:</p>
+<ul class="simple">
+<li><p><strong>Unified Configuration</strong>: Single YAML file defining sources, targets, and inheritance</p></li>
+<li><p><strong>AWS Control Tower Awareness</strong>: Native support for Control Tower execution roles</p></li>
+<li><p><strong>Organizations Integration</strong>: Run from management account or delegated administrator</p></li>
+<li><p><strong>Inheritance Hierarchies</strong>: Dev → Staging → Production secret propagation</p></li>
+<li><p><strong>Dynamic Target Discovery</strong>: AWS Identity Center / Organizations-based account discovery</p></li>
+</ul>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<section id="basic-configuration">
+<h3>Basic Configuration<a class="headerlink" href="#basic-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># config.yaml</span>
+<span class="nt">vault</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://vault.example.com/</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eng/data-platform</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">approle</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">role_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${VAULT_ROLE_ID}</span>
+<span class="w">      </span><span class="nt">secret_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${VAULT_SECRET_ID}</span>
+
+<span class="nt">aws</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">  </span><span class="nt">control_tower</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">execution_role</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AWSControlTowerExecution</span>
+
+<span class="nt">sources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">analytics</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">mount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">  </span><span class="nt">analytics-engineers</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">mount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics-engineers</span>
+
+<span class="nt">merge_store</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">mount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged-secrets</span>
+
+<span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Serverless_Stg</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;111111111111&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics-engineers</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">Serverless_Prod</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;222222222222&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Serverless_Stg</span><span class="w">  </span><span class="c1"># Inherits from Stg!</span>
+</pre></div>
+</div>
+</section>
+<section id="running-the-pipeline">
+<h3>Running the Pipeline<a class="headerlink" href="#running-the-pipeline" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Full pipeline (merge + sync)</span>
+secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml
+
+<span class="c1"># Dry run</span>
+secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--dry-run
+
+<span class="c1"># Specific targets</span>
+secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--targets<span class="w"> </span>Serverless_Stg
+
+<span class="c1"># Merge only (no AWS sync)</span>
+secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--merge-only
+
+<span class="c1"># Validate configuration</span>
+secretsync<span class="w"> </span>validate<span class="w"> </span>--config<span class="w"> </span>config.yaml
+
+<span class="c1"># Show dependency graph</span>
+secretsync<span class="w"> </span>graph<span class="w"> </span>--config<span class="w"> </span>config.yaml
+</pre></div>
+</div>
+</section>
+</section>
+<section id="aws-execution-context">
+<h2>AWS Execution Context<a class="headerlink" href="#aws-execution-context" title="Link to this heading"></a></h2>
+<section id="understanding-execution-context">
+<h3>Understanding Execution Context<a class="headerlink" href="#understanding-execution-context" title="Link to this heading"></a></h3>
+<p>The pipeline needs to run FROM an AWS account that can assume roles INTO target accounts. There are three supported patterns:</p>
+<section id="management-account-not-recommended">
+<h4>1. Management Account (Not Recommended)<a class="headerlink" href="#management-account-not-recommended" title="Link to this heading"></a></h4>
+<p>The AWS Organizations management account has implicit trust from all member accounts via <code class="docutils literal notranslate"><span class="pre">OrganizationAccountAccessRole</span></code>.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">aws</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">execution_context</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">management_account</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123456789012&quot;</span>
+</pre></div>
+</div>
+<p>⚠️ <strong>Warning</strong>: Running from the management account is not recommended for security reasons.</p>
+</section>
+<section id="delegated-administrator-recommended">
+<h4>2. Delegated Administrator (Recommended)<a class="headerlink" href="#delegated-administrator-recommended" title="Link to this heading"></a></h4>
+<p>A member account that has been granted delegated administrator permissions.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">aws</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">execution_context</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">delegated_admin</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;987654321098&quot;</span>
+<span class="w">    </span><span class="nt">delegation</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">services</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sso.amazonaws.com</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">organizations.amazonaws.com</span>
+</pre></div>
+</div>
+<p>To set up delegation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># From management account</span>
+aws<span class="w"> </span>organizations<span class="w"> </span>register-delegated-administrator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--account-id<span class="w"> </span><span class="m">987654321098</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--service-principal<span class="w"> </span>sso.amazonaws.com
+</pre></div>
+</div>
+</section>
+<section id="hub-account-custom">
+<h4>3. Hub Account (Custom)<a class="headerlink" href="#hub-account-custom" title="Link to this heading"></a></h4>
+<p>A designated “secrets hub” account with custom cross-account roles.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">aws</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">execution_context</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hub_account</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;111111111111&quot;</span>
+<span class="w">    </span><span class="nt">custom_role_pattern</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::{{.AccountID}}:role/SecretsHubAccess&quot;</span>
+</pre></div>
+</div>
+<p>This requires deploying custom roles to all target accounts (via StackSets, AFT, etc.).</p>
+</section>
+</section>
+<section id="control-tower-integration">
+<h3>Control Tower Integration<a class="headerlink" href="#control-tower-integration" title="Link to this heading"></a></h3>
+<p>When running in a Control Tower environment:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">aws</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">control_tower</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">execution_role</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AWSControlTowerExecution</span><span class="w">  </span><span class="c1"># Default</span>
+<span class="w">      </span><span class="c1"># Or custom role:</span>
+<span class="w">      </span><span class="c1"># name: CustomSecretsRole</span>
+<span class="w">      </span><span class="c1"># path: /secrets/</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">account_factory</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">on_account_creation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Sync secrets when new accounts are created</span>
+</pre></div>
+</div>
+<p>Control Tower provides the <code class="docutils literal notranslate"><span class="pre">AWSControlTowerExecution</span></code> role in all enrolled accounts, which is automatically trusted by the management account.</p>
+</section>
+</section>
+<section id="inheritance-model">
+<h2>Inheritance Model<a class="headerlink" href="#inheritance-model" title="Link to this heading"></a></h2>
+<section id="how-inheritance-works">
+<h3>How Inheritance Works<a class="headerlink" href="#how-inheritance-works" title="Link to this heading"></a></h3>
+<p>Targets can import from:</p>
+<ol class="arabic simple">
+<li><p><strong>Sources</strong>: Direct Vault mounts or AWS accounts</p></li>
+<li><p><strong>Other Targets</strong>: Inheriting merged secrets from another target</p></li>
+</ol>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Base target - imports from Vault sources</span>
+<span class="w">  </span><span class="nt">Serverless_Stg</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;111111111111&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span><span class="w">           </span><span class="c1"># Source</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics-engineers</span><span class="w"> </span><span class="c1"># Source</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1"># Derived target - inherits from Stg</span>
+<span class="w">  </span><span class="nt">Serverless_Prod</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;222222222222&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Serverless_Stg</span><span class="w">      </span><span class="c1"># Inherits ALL secrets from Stg</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1"># Further inheritance</span>
+<span class="w">  </span><span class="nt">livequery_demos</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;333333333333&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Serverless_Prod</span><span class="w">     </span><span class="c1"># Inherits ALL secrets from Prod</span>
+</pre></div>
+</div>
+</section>
+<section id="inheritance-flow">
+<h3>Inheritance Flow<a class="headerlink" href="#inheritance-flow" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>analytics ─────────────┐
+                       ├──► Serverless_Stg ──► Serverless_Prod ──► livequery_demos
+analytics-engineers ───┘
+</pre></div>
+</div>
+</section>
+<section id="execution-order">
+<h3>Execution Order<a class="headerlink" href="#execution-order" title="Link to this heading"></a></h3>
+<p>The pipeline automatically determines the correct execution order:</p>
+<ol class="arabic simple">
+<li><p><strong>Level 0</strong>: Sources (no processing needed)</p></li>
+<li><p><strong>Level 1</strong>: Targets that import only from sources (Serverless_Stg)</p></li>
+<li><p><strong>Level 2</strong>: Targets that import from Level 1 (Serverless_Prod)</p></li>
+<li><p><strong>Level 3</strong>: Targets that import from Level 2 (livequery_demos)</p></li>
+</ol>
+<p>Within each level, targets can be processed in parallel.</p>
+</section>
+</section>
+<section id="merge-store">
+<h2>Merge Store<a class="headerlink" href="#merge-store" title="Link to this heading"></a></h2>
+<p>The merge store is an intermediate location where secrets are aggregated before syncing to targets.</p>
+<section id="vault-merge-store-recommended">
+<h3>Vault Merge Store (Recommended)<a class="headerlink" href="#vault-merge-store-recommended" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">merge_store</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">mount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged-secrets</span>
+</pre></div>
+</div>
+<p>Secrets for target “Serverless_Stg” are stored at <code class="docutils literal notranslate"><span class="pre">merged-secrets/Serverless_Stg/*</span></code>.</p>
+</section>
+<section id="s3-merge-store">
+<h3>S3 Merge Store<a class="headerlink" href="#s3-merge-store" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">merge_store</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">s3</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-secrets-bucket</span>
+<span class="w">    </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged/</span>
+<span class="w">    </span><span class="nt">kms_key_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alias/secrets-key</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="dynamic-target-discovery">
+<h2>Dynamic Target Discovery<a class="headerlink" href="#dynamic-target-discovery" title="Link to this heading"></a></h2>
+<p>Dynamic targets are discovered at runtime from AWS Organizations and Identity Center.
+They support <strong>all the same options as static targets</strong> plus discovery configuration.</p>
+<section id="identity-center-discovery">
+<h3>Identity Center Discovery<a class="headerlink" href="#identity-center-discovery" title="Link to this heading"></a></h3>
+<p>Discover accounts based on permission set assignments or group membership:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dynamic_targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">analytics_engineer_sandboxes</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">identity_center</span><span class="p">:</span>
+<span class="w">        </span><span class="c1"># Recommended: Permission sets map directly to accounts</span>
+<span class="w">        </span><span class="nt">permission_set</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AnalyticsEngineerAccess&quot;</span>
+<span class="w">        </span><span class="c1"># Or by group membership:</span>
+<span class="w">        </span><span class="c1"># group: &quot;Analytics Engineers&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics-engineers</span>
+<span class="w">    </span><span class="nt">exclude</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;123456789012&quot;</span><span class="w">  </span><span class="c1"># Exclude production accounts</span>
+<span class="w">    </span><span class="c1"># All static target options are supported:</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-west-2</span>
+<span class="w">    </span><span class="nt">secret_prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/sandbox/</span>
+<span class="w">    </span><span class="nt">role_arn</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;arn:aws:iam::{{.AccountID}}:role/SecretsAccess&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="organizations-discovery">
+<h3>Organizations Discovery<a class="headerlink" href="#organizations-discovery" title="Link to this heading"></a></h3>
+<p>Discover accounts in specific OUs or with specific tags:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dynamic_targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">dev_accounts</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">organizations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ou</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ou-xxxx-development&quot;</span>
+<span class="w">        </span><span class="nt">recursive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">  </span><span class="c1"># Include accounts in child OUs</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev-secrets</span>
+
+<span class="w">  </span><span class="nt">sandbox_accounts</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">organizations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">Environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sandbox</span>
+<span class="w">          </span><span class="nt">Team</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">    </span><span class="nt">exclude</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;111111111111&quot;</span><span class="w">  </span><span class="c1"># Exclude specific accounts</span>
+</pre></div>
+</div>
+</section>
+<section id="external-account-list-discovery">
+<h3>External Account List Discovery<a class="headerlink" href="#external-account-list-discovery" title="Link to this heading"></a></h3>
+<p>Discover accounts from an external source (e.g., SSM Parameter Store):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dynamic_targets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">managed_accounts</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">discovery</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">accounts_list</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ssm:/platform/managed-account-ids&quot;</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shared-secrets</span>
+</pre></div>
+</div>
+</section>
+<section id="dynamic-target-options">
+<h3>Dynamic Target Options<a class="headerlink" href="#dynamic-target-options" title="Link to this heading"></a></h3>
+<p>Dynamic targets support all static target options:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">region</span></code></p></td>
+<td><p>Override AWS region for all discovered accounts</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">secret_prefix</span></code></p></td>
+<td><p>Prefix for secrets in target accounts</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">role_arn</span></code></p></td>
+<td><p>Custom role ARN (supports <code class="docutils literal notranslate"><span class="pre">{{.AccountID}}</span></code> template)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">exclude</span></code></p></td>
+<td><p>List of account IDs to exclude from discovery</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="pipeline-settings">
+<h2>Pipeline Settings<a class="headerlink" href="#pipeline-settings" title="Link to this heading"></a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">pipeline</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">merge</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">parallel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">           </span><span class="c1"># Max concurrent merge operations per level</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">parallel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">           </span><span class="c1"># Max concurrent sync operations</span>
+<span class="w">    </span><span class="nt">delete_orphans</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"> </span><span class="c1"># Remove secrets not in source</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">dry_run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">          </span><span class="c1"># Can be overridden with --dry-run</span>
+<span class="w">  </span><span class="nt">continue_on_error</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"> </span><span class="c1"># Don&#39;t fail entire pipeline on single target failure</span>
+</pre></div>
+</div>
+</section>
+<section id="ci-cd-integration">
+<h2>CI/CD Integration<a class="headerlink" href="#ci-cd-integration" title="Link to this heading"></a></h2>
+<section id="github-actions">
+<h3>GitHub Actions<a class="headerlink" href="#github-actions" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secrets</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">schedule</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cron</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;0,30</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&#39;</span>
+<span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">inputs</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">targets</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;Targets</span><span class="nv"> </span><span class="s">(comma-separated</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">&quot;all&quot;)&#39;</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;all&#39;</span>
+<span class="w">      </span><span class="nt">dry_run</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sync</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-actions/configure-aws-credentials@v4</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">role-to-assume</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.AWS_OIDC_ROLE_ARN }}</span>
+<span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install secretsync</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">curl -sL https://github.com/jbcom/secretsync/releases/latest/download/secretsync_linux_amd64 \</span>
+<span class="w">            </span><span class="no">-o /usr/local/bin/secretsync &amp;&amp; chmod +x /usr/local/bin/secretsync</span>
+<span class="w">      </span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Pipeline</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">VAULT_ROLE_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_ROLE_ID }}</span>
+<span class="w">          </span><span class="nt">VAULT_SECRET_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.VAULT_SECRET_ID }}</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">secretsync pipeline \</span>
+<span class="w">            </span><span class="no">--config config.yaml \</span>
+<span class="w">            </span><span class="no">--targets &quot;${{ inputs.targets || &#39;all&#39; }}&quot; \</span>
+<span class="w">            </span><span class="no">${{ inputs.dry_run &amp;&amp; &#39;--dry-run&#39; || &#39;&#39; }}</span>
+</pre></div>
+</div>
+</section>
+<section id="gitlab-ci">
+<h3>GitLab CI<a class="headerlink" href="#gitlab-ci" title="Link to this heading"></a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">secrets-sync</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">stage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alpine</span>
+<span class="w">  </span><span class="nt">before_script</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wget -O /usr/local/bin/secretsync https://github.com/jbcom/secretsync/releases/latest/download/secretsync_linux_amd64</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">chmod +x /usr/local/bin/secretsync</span>
+<span class="w">  </span><span class="nt">script</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secretsync pipeline --config config.yaml</span>
+<span class="w">  </span><span class="nt">only</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">schedules</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<section id="validate-configuration">
+<h3>Validate Configuration<a class="headerlink" href="#validate-configuration" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>secretsync<span class="w"> </span>validate<span class="w"> </span>--config<span class="w"> </span>config.yaml
+secretsync<span class="w"> </span>validate<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--check-aws
+</pre></div>
+</div>
+</section>
+<section id="view-dependency-graph">
+<h3>View Dependency Graph<a class="headerlink" href="#view-dependency-graph" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>secretsync<span class="w"> </span>graph<span class="w"> </span>--config<span class="w"> </span>config.yaml
+secretsync<span class="w"> </span>graph<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--format<span class="w"> </span>dot<span class="w"> </span><span class="p">|</span><span class="w"> </span>dot<span class="w"> </span>-Tpng<span class="w"> </span>-o<span class="w"> </span>graph.png
+</pre></div>
+</div>
+</section>
+<section id="check-aws-context">
+<h3>Check AWS Context<a class="headerlink" href="#check-aws-context" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>secretsync<span class="w"> </span>context
+secretsync<span class="w"> </span>context<span class="w"> </span>--config<span class="w"> </span>config.yaml
+</pre></div>
+</div>
+</section>
+<section id="debug-logging">
+<h3>Debug Logging<a class="headerlink" href="#debug-logging" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>secretsync<span class="w"> </span>pipeline<span class="w"> </span>--config<span class="w"> </span>config.yaml<span class="w"> </span>--log-level<span class="w"> </span>debug<span class="w"> </span>--log-format<span class="w"> </span>json
+</pre></div>
+</div>
+</section>
+<section id="common-issues">
+<h3>Common Issues<a class="headerlink" href="#common-issues" title="Link to this heading"></a></h3>
+<ol class="arabic">
+<li><p><strong>Circular Dependency Error</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span><span class="p">:</span> <span class="n">circular</span> <span class="n">dependency</span> <span class="n">detected</span> <span class="n">involving</span> <span class="s2">&quot;TargetA&quot;</span>
+</pre></div>
+</div>
+<p>Check your target imports for cycles.</p>
+</li>
+<li><p><strong>Role Assumption Failed</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span><span class="p">:</span> <span class="n">failed</span> <span class="n">to</span> <span class="n">assume</span> <span class="n">role</span> <span class="n">arn</span><span class="p">:</span><span class="n">aws</span><span class="p">:</span><span class="n">iam</span><span class="p">::</span><span class="mi">123456789012</span><span class="p">:</span><span class="n">role</span><span class="o">/</span><span class="n">AWSControlTowerExecution</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Verify the role exists in the target account</p></li>
+<li><p>Check trust policy allows assumption from your execution account</p></li>
+<li><p>Verify Control Tower enrollment status</p></li>
+</ul>
+</li>
+<li><p><strong>Identity Center Access Denied</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span><span class="p">:</span> <span class="n">no</span> <span class="n">access</span> <span class="n">to</span> <span class="n">Identity</span> <span class="n">Center</span> <span class="kn">from</span><span class="w"> </span><span class="nn">this</span> <span class="n">execution</span> <span class="n">context</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>You need to run from management account or delegated SSO admin</p></li>
+<li><p>Set up delegation: <code class="docutils literal notranslate"><span class="pre">aws</span> <span class="pre">organizations</span> <span class="pre">register-delegated-administrator</span> <span class="pre">--service-principal</span> <span class="pre">sso.amazonaws.com</span></code></p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="migration-from-terraform-aws-secretsmanager">
+<h2>Migration from terraform-aws-secretsmanager<a class="headerlink" href="#migration-from-terraform-aws-secretsmanager" title="Link to this heading"></a></h2>
+<p>If you’re migrating from the Terraform-based pipeline, use the <code class="docutils literal notranslate"><span class="pre">secretsync</span> <span class="pre">migrate</span></code> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Migrate from terraform-aws-secretsmanager format</span>
+secretsync<span class="w"> </span>migrate<span class="w"> </span>--from<span class="w"> </span>terraform-secretsmanager<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--targets<span class="w"> </span>config/targets.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--secrets<span class="w"> </span>config/secrets.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--accounts<span class="w"> </span>config/accounts.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--output<span class="w"> </span>pipeline-config.yaml
+
+<span class="c1"># Optional: specify Vault address and merge mount</span>
+secretsync<span class="w"> </span>migrate<span class="w"> </span>--from<span class="w"> </span>terraform-secretsmanager<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--targets<span class="w"> </span>config/targets.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--secrets<span class="w"> </span>config/secrets.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--accounts<span class="w"> </span>config/accounts.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--vault-addr<span class="w"> </span>https://vault.example.com<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--vault-merge-mount<span class="w"> </span>secret/merged<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--output<span class="w"> </span>pipeline-config.yaml
+</pre></div>
+</div>
+<section id="expected-input-format">
+<h3>Expected Input Format<a class="headerlink" href="#expected-input-format" title="Link to this heading"></a></h3>
+<p><strong>targets.yaml</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">targets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Production account</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics_secrets</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shared_config</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span>
+<span class="w">    </span><span class="nt">imports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+<span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging_overrides</span>
+</pre></div>
+</div>
+<p><strong>secrets.yaml</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics_secrets</span>
+<span class="w">    </span><span class="nt">vault_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics/config</span>
+<span class="w">    </span><span class="nt">vault_mount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">secret</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shared_config</span>
+<span class="w">    </span><span class="nt">vault_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shared/settings</span>
+</pre></div>
+</div>
+<p><strong>accounts.yaml</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">accounts</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">production</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123456789012&quot;</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span>
+<span class="w">    </span><span class="nt">account_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;234567890123&quot;</span>
+<span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-west-2</span>
+</pre></div>
+</div>
+</section>
+<section id="post-migration-steps">
+<h3>Post-Migration Steps<a class="headerlink" href="#post-migration-steps" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Review the generated config file</p></li>
+<li><p>Add Vault authentication (token, AppRole, etc.)</p></li>
+<li><p>Validate: <code class="docutils literal notranslate"><span class="pre">secretsync</span> <span class="pre">validate</span> <span class="pre">--config</span> <span class="pre">pipeline-config.yaml</span></code></p></li>
+<li><p>Dry run: <code class="docutils literal notranslate"><span class="pre">secretsync</span> <span class="pre">pipeline</span> <span class="pre">--config</span> <span class="pre">pipeline-config.yaml</span> <span class="pre">--dry-run</span></code></p></li>
+</ol>
+<p>Key differences from the Terraform-based approach:</p>
+<ul class="simple">
+<li><p>No Terraform state required</p></li>
+<li><p>No Lambda functions needed</p></li>
+<li><p>Vault merge store eliminates intermediate S3 storage (or use S3 merge store if preferred)</p></li>
+<li><p>Single binary, runs anywhere</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jon Bogaty.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
