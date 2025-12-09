@@ -373,3 +373,234 @@ func TestDeepMerge_MultipleImports(t *testing.T) {
 		t.Errorf("expected [analytics, engineers], got %v", tags)
 	}
 }
+
+// TestDeepMerge_FSCCompatibility tests specific FSC use cases for FlipsideCrypto compatibility
+func TestDeepMerge_FSCCompatibility(t *testing.T) {
+	t.Run("3+ level deep nesting", func(t *testing.T) {
+		// FSC has deeply nested config structures
+		dst := map[string]interface{}{
+			"aws": map[string]interface{}{
+				"services": map[string]interface{}{
+					"rds": map[string]interface{}{
+						"instances": map[string]interface{}{
+							"prod": map[string]interface{}{
+								"host": "prod.example.com",
+								"port": float64(5432),
+							},
+						},
+					},
+				},
+			},
+		}
+		
+		src := map[string]interface{}{
+			"aws": map[string]interface{}{
+				"services": map[string]interface{}{
+					"rds": map[string]interface{}{
+						"instances": map[string]interface{}{
+							"prod": map[string]interface{}{
+								"username": "admin",
+								"database": "analytics",
+							},
+							"staging": map[string]interface{}{
+								"host": "staging.example.com",
+							},
+						},
+					},
+				},
+			},
+		}
+		
+		result := DeepMerge(dst, src)
+		
+		// Navigate to nested structure
+		aws := result["aws"].(map[string]interface{})
+		services := aws["services"].(map[string]interface{})
+		rds := services["rds"].(map[string]interface{})
+		instances := rds["instances"].(map[string]interface{})
+		prod := instances["prod"].(map[string]interface{})
+		staging := instances["staging"].(map[string]interface{})
+		
+		// Verify prod merged correctly
+		if prod["host"] != "prod.example.com" {
+			t.Errorf("expected prod.host preserved, got %v", prod["host"])
+		}
+		if prod["port"] != float64(5432) {
+			t.Errorf("expected prod.port preserved, got %v", prod["port"])
+		}
+		if prod["username"] != "admin" {
+			t.Errorf("expected prod.username added, got %v", prod["username"])
+		}
+		if prod["database"] != "analytics" {
+			t.Errorf("expected prod.database added, got %v", prod["database"])
+		}
+		
+		// Verify staging added
+		if staging["host"] != "staging.example.com" {
+			t.Errorf("expected staging.host added, got %v", staging["host"])
+		}
+	})
+	
+	t.Run("list append with complex objects", func(t *testing.T) {
+		// FSC appends lists of configuration objects
+		dst := map[string]interface{}{
+			"security_groups": []interface{}{
+				map[string]interface{}{
+					"id":   "sg-123",
+					"name": "web-tier",
+				},
+			},
+		}
+		
+		src := map[string]interface{}{
+			"security_groups": []interface{}{
+				map[string]interface{}{
+					"id":   "sg-456",
+					"name": "app-tier",
+				},
+			},
+		}
+		
+		result := DeepMerge(dst, src)
+		
+		sgs := result["security_groups"].([]interface{})
+		if len(sgs) != 2 {
+			t.Fatalf("expected 2 security groups, got %d", len(sgs))
+		}
+		
+		sg0 := sgs[0].(map[string]interface{})
+		sg1 := sgs[1].(map[string]interface{})
+		
+		if sg0["id"] != "sg-123" || sg0["name"] != "web-tier" {
+			t.Errorf("expected first sg preserved, got %v", sg0)
+		}
+		if sg1["id"] != "sg-456" || sg1["name"] != "app-tier" {
+			t.Errorf("expected second sg appended, got %v", sg1)
+		}
+	})
+	
+	t.Run("empty list merging", func(t *testing.T) {
+		dst := map[string]interface{}{
+			"tags": []interface{}{},
+		}
+		src := map[string]interface{}{
+			"tags": []interface{}{"new-tag"},
+		}
+		
+		result := DeepMerge(dst, src)
+		tags := result["tags"].([]interface{})
+		
+		if len(tags) != 1 || tags[0] != "new-tag" {
+			t.Errorf("expected [new-tag], got %v", tags)
+		}
+	})
+	
+	t.Run("nil value handling", func(t *testing.T) {
+		// nil in src should preserve dst value (not override)
+		dst := map[string]interface{}{
+			"keep": "original",
+		}
+		src := map[string]interface{}{
+			"keep": nil,
+		}
+		
+		result := DeepMerge(dst, src)
+		
+		if result["keep"] != "original" {
+			t.Errorf("expected nil to preserve dst value, got %v", result["keep"])
+		}
+	})
+	
+	t.Run("mixed types - override behavior", func(t *testing.T) {
+		// When types conflict, src overrides dst
+		testCases := []struct {
+			name string
+			dst  interface{}
+			src  interface{}
+			want interface{}
+		}{
+			{
+				name: "list to string",
+				dst:  []interface{}{"a", "b"},
+				src:  "new-value",
+				want: "new-value",
+			},
+			{
+				name: "map to string",
+				dst:  map[string]interface{}{"key": "value"},
+				src:  "override",
+				want: "override",
+			},
+			{
+				name: "string to list",
+				dst:  "old-value",
+				src:  []interface{}{"new"},
+				want: []interface{}{"new"},
+			},
+		}
+		
+		for _, tc := range testCases {
+			t.Run(tc.name, func(t *testing.T) {
+				dst := map[string]interface{}{"field": tc.dst}
+				src := map[string]interface{}{"field": tc.src}
+				
+				result := DeepMerge(dst, src)
+				
+				if !DeepEqual(result["field"], tc.want) {
+					t.Errorf("expected %v, got %v", tc.want, result["field"])
+				}
+			})
+		}
+	})
+	
+	t.Run("JSON round-trip compatibility", func(t *testing.T) {
+		// Verify that merging works correctly through JSON serialization
+		dstJSON := []byte(`{
+			"api_keys": {"stripe": "sk_test_123"},
+			"features": ["auth", "payments"],
+			"config": {
+				"timeout": 30,
+				"retries": 3
+			}
+		}`)
+		
+		srcJSON := []byte(`{
+			"api_keys": {"datadog": "dd_456"},
+			"features": ["analytics"],
+			"config": {
+				"debug": true
+			}
+		}`)
+		
+		resultJSON, err := DeepMergeJSON(dstJSON, srcJSON)
+		if err != nil {
+			t.Fatalf("DeepMergeJSON failed: %v", err)
+		}
+		
+		var result map[string]interface{}
+		if err := json.Unmarshal(resultJSON, &result); err != nil {
+			t.Fatalf("Failed to unmarshal result: %v", err)
+		}
+		
+		// Verify api_keys merged
+		apiKeys := result["api_keys"].(map[string]interface{})
+		if apiKeys["stripe"] != "sk_test_123" || apiKeys["datadog"] != "dd_456" {
+			t.Errorf("api_keys not merged correctly: %v", apiKeys)
+		}
+		
+		// Verify features appended
+		features := result["features"].([]interface{})
+		if len(features) != 3 {
+			t.Errorf("expected 3 features, got %d: %v", len(features), features)
+		}
+		
+		// Verify config merged
+		config := result["config"].(map[string]interface{})
+		if config["timeout"] != float64(30) {
+			t.Errorf("expected timeout preserved")
+		}
+		if config["debug"] != true {
+			t.Errorf("expected debug added")
+		}
+	})
+}

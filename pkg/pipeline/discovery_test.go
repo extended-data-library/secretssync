@@ -128,22 +128,30 @@ func TestFilterAccountsByTags(t *testing.T) {
 	}
 
 	t.Run("filter by single tag", func(t *testing.T) {
-		result := filterAccountsByTags(accounts, map[string]string{"Environment": "production"})
+		result := filterAccountsByTags(accounts, map[string][]string{"Environment": {"production"}})
 		assert.Len(t, result, 1)
 		assert.Equal(t, "111111111111", result[0].ID)
 	})
 
 	t.Run("filter by multiple tags", func(t *testing.T) {
-		result := filterAccountsByTags(accounts, map[string]string{
-			"Environment": "development",
-			"Team":        "platform",
+		result := filterAccountsByTags(accounts, map[string][]string{
+			"Environment": {"development"},
+			"Team":        {"platform"},
 		})
 		assert.Len(t, result, 1)
 		assert.Equal(t, "222222222222", result[0].ID)
 	})
 
 	t.Run("no matches", func(t *testing.T) {
-		result := filterAccountsByTags(accounts, map[string]string{"Environment": "sandbox"})
+		result := filterAccountsByTags(accounts, map[string][]string{"Environment": {"sandbox"}})
 		assert.Len(t, result, 0)
+	})
+
+	t.Run("multiple values OR match", func(t *testing.T) {
+		// Tags now support multiple values - match if ANY value matches
+		result := filterAccountsByTags(accounts, map[string][]string{
+			"Environment": {"production", "staging"},
+		})
+		assert.Len(t, result, 2) // Should match both production and staging accounts
 	})
 }

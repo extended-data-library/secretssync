@@ -13,12 +13,12 @@ This document provides information for listing SecretSync on the GitHub Marketpl
 
 ### Description
 
-SecretSync provides fully automated, real-time secret synchronization across multiple cloud providers and secret stores. Perfect for multi-account AWS environments, HashiCorp Vault users, and organizations managing secrets across multiple platforms.
+SecretSync provides fully automated, real-time secret synchronization between HashiCorp Vault and AWS. Perfect for multi-account AWS environments, HashiCorp Vault users, and organizations managing secrets across AWS Organizations.
 
 **Key Features:**
 - 🔄 Two-phase pipeline architecture (merge → sync)
-- 🎯 Support for 8+ secret stores (Vault, AWS, GCP, GitHub, Doppler, K8s)
-- 🌐 Multi-cloud and multi-account secret management
+- 🎯 Vault-to-AWS secrets synchronization
+- 🌐 Multi-account AWS secret management
 - 📊 GitHub-native diff annotations in PRs
 - 🔒 OIDC authentication for AWS (no long-lived credentials)
 - 🚀 Dynamic target discovery via AWS Organizations/Identity Center
@@ -27,14 +27,10 @@ SecretSync provides fully automated, real-time secret synchronization across mul
 
 ### Supported Stores
 
-- HashiCorp Vault (KV2)
-- AWS Secrets Manager
-- AWS S3 (merge store)
-- GCP Secret Manager
-- GitHub Secrets
-- Doppler
-- Kubernetes Secrets
-- HTTP/Webhook
+- HashiCorp Vault (KV2) - source
+- AWS Secrets Manager - target
+- AWS S3 (merge store option)
+- Kubernetes Secrets (operator mode)
 
 ## Marketplace Requirements Checklist
 
@@ -192,15 +188,15 @@ branding:
 
 ### Short Description (200 chars)
 
-Universal secrets sync for Vault, AWS, GCP & more. Two-phase pipeline with inheritance, dynamic discovery & GitHub-native diffs. Free, open source, zero data collection.
+Vault-to-AWS secrets sync. Two-phase pipeline with inheritance, dynamic discovery via AWS Organizations/Identity Center & GitHub-native diffs. Free, open source.
 
 ### Long Description
 
-SecretSync revolutionizes multi-cloud secrets management with a powerful two-phase pipeline architecture. Built for organizations managing secrets across multiple cloud providers, accounts, and platforms.
+SecretSync revolutionizes Vault-to-AWS secrets management with a powerful two-phase pipeline architecture. Built for organizations managing secrets across multiple AWS accounts with HashiCorp Vault as the source of truth.
 
 **Perfect For:**
 - Multi-account AWS environments (Control Tower, Organizations)
-- HashiCorp Vault users needing multi-cloud sync
+- HashiCorp Vault users syncing to AWS Secrets Manager
 - Teams managing secrets across dev/staging/prod
 - Organizations requiring secret inheritance hierarchies
 - DevOps teams automating secret distribution
@@ -208,12 +204,12 @@ SecretSync revolutionizes multi-cloud secrets management with a powerful two-pha
 **Key Benefits:**
 
 🔄 **Two-Phase Architecture**
-Merge secrets from multiple sources, then sync to multiple targets with inheritance support.
+Merge secrets from multiple Vault paths, then sync to multiple AWS accounts with inheritance support.
 
-🎯 **8+ Secret Stores**
-Vault, AWS Secrets Manager, GCP Secret Manager, GitHub Secrets, Doppler, Kubernetes, S3, and more.
+🎯 **Vault → AWS Sync**
+HashiCorp Vault (KV2) as source, AWS Secrets Manager as target, with S3 or Vault merge store options.
 
-🌐 **Multi-Cloud Native**
+🌐 **AWS-Native Patterns**
 First-class support for AWS Control Tower, Organizations, and Identity Center patterns.
 
 📊 **GitHub-Native Integration**
@@ -230,7 +226,7 @@ Automatically discover and sync to accounts via AWS Organizations or Identity Ce
 1. **Control Tower Environments**: Sync secrets to all AWS accounts in your organization
 2. **Vault Distribution**: Push Vault secrets to AWS Secrets Manager across accounts
 3. **Secret Inheritance**: Dev → Staging → Production with automatic propagation
-4. **Multi-Cloud**: Sync secrets between AWS, GCP, and on-premise Vault
+4. **Multi-Region**: Sync secrets across AWS regions from central Vault
 5. **Compliance**: Automated secret rotation with complete audit trail
 
 **Zero Configuration**

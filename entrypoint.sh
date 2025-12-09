@@ -1,68 +1,63 @@
 #!/bin/sh
-# Entrypoint script for SecretSync GitHub Action
-# This script builds the command line from inputs and handles optional flags
+# Entrypoint for SecretSync
+# All configuration via environment variables - no action inputs needed
+# This makes it work identically in GitHub Actions, GitLab CI, or local Docker
 
 set -e
 
-# Start building the command with base
-CMD="vss pipeline"
+# Build argument list safely (no eval, no command injection)
+ARGS="pipeline"
 
-# Add config (always required)
-if [ -n "$INPUT_CONFIG" ]; then
-    CMD="$CMD --config \"$INPUT_CONFIG\""
+# Config file (required)
+CONFIG="${SECRETSYNC_CONFIG:-config.yaml}"
+ARGS="$ARGS --config $CONFIG"
+
+# Optional: specific targets
+if [ -n "$SECRETSYNC_TARGETS" ]; then
+    ARGS="$ARGS --targets $SECRETSYNC_TARGETS"
 fi
 
-# Add optional targets
-if [ -n "$INPUT_TARGETS" ]; then
-    CMD="$CMD --targets \"$INPUT_TARGETS\""
+# Boolean flags
+if [ "$SECRETSYNC_DRY_RUN" = "true" ]; then
+    ARGS="$ARGS --dry-run"
 fi
 
-# Add boolean flags
-if [ "$INPUT_DRY_RUN" = "true" ]; then
-    CMD="$CMD --dry-run"
+if [ "$SECRETSYNC_MERGE_ONLY" = "true" ]; then
+    ARGS="$ARGS --merge-only"
 fi
 
-if [ "$INPUT_MERGE_ONLY" = "true" ]; then
-    CMD="$CMD --merge-only"
+if [ "$SECRETSYNC_SYNC_ONLY" = "true" ]; then
+    ARGS="$ARGS --sync-only"
 fi
 
-if [ "$INPUT_SYNC_ONLY" = "true" ]; then
-    CMD="$CMD --sync-only"
+if [ "$SECRETSYNC_DISCOVER" = "true" ]; then
+    ARGS="$ARGS --discover"
 fi
 
-if [ "$INPUT_DISCOVER" = "true" ]; then
-    CMD="$CMD --discover"
+if [ "$SECRETSYNC_DIFF" = "true" ]; then
+    ARGS="$ARGS --diff"
 fi
 
-# Add output format (always present)
-if [ -n "$INPUT_OUTPUT_FORMAT" ]; then
-    CMD="$CMD --output \"$INPUT_OUTPUT_FORMAT\""
+if [ "$SECRETSYNC_EXIT_CODE" = "true" ]; then
+    ARGS="$ARGS --exit-code"
 fi
 
-# Add diff flag
-if [ "$INPUT_COMPUTE_DIFF" = "true" ]; then
-    CMD="$CMD --diff"
+# Output format (default: github for Actions, human otherwise)
+OUTPUT="${SECRETSYNC_OUTPUT:-github}"
+ARGS="$ARGS --output $OUTPUT"
+
+# Logging
+LOG_LEVEL="${SECRETSYNC_LOG_LEVEL:-info}"
+ARGS="$ARGS --log-level $LOG_LEVEL"
+
+LOG_FORMAT="${SECRETSYNC_LOG_FORMAT:-text}"
+ARGS="$ARGS --log-format $LOG_FORMAT"
+
+# Debug mode - print command
+if [ "$LOG_LEVEL" = "debug" ] || [ "$SECRETSYNC_DEBUG" = "true" ]; then
+    echo "Executing: secretsync $ARGS"
 fi
 
-# Add exit-code flag
-if [ "$INPUT_EXIT_CODE" = "true" ]; then
-    CMD="$CMD --exit-code"
-fi
-
-# Add log level (always present)
-if [ -n "$INPUT_LOG_LEVEL" ]; then
-    CMD="$CMD --log-level \"$INPUT_LOG_LEVEL\""
-fi
-
-# Add log format (always present)
-if [ -n "$INPUT_LOG_FORMAT" ]; then
-    CMD="$CMD --log-format \"$INPUT_LOG_FORMAT\""
-fi
-
-# Debug: Print the command if log level is debug
-if [ "$INPUT_LOG_LEVEL" = "debug" ]; then
-    echo "Executing: $CMD"
-fi
-
-# Execute the command using eval to properly handle quoted arguments
-eval exec "$CMD"
+# Execute directly without eval to prevent command injection
+# shellcheck disable=SC2086
+exec secretsync $ARGS

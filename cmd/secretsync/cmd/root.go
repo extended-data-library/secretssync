@@ -9,16 +9,23 @@ import (
 )
 
 var (
-	cfgFile  string
-	logLevel string
+	cfgFile   string
+	logLevel  string
 	logFormat string
+)
+
+// Build information set via ldflags at build time
+var (
+	Version = "dev"
+	Commit  = "none"
+	Date    = "unknown"
 )
 
 // rootCmd represents the base command
 var rootCmd = &cobra.Command{
-	Use:   "vss",
-	Short: "Vault Secret Sync - Multi-account secrets management",
-	Long: `Vault Secret Sync (vss) synchronizes secrets between Vault and cloud providers.
+	Use:   "secretsync",
+	Short: "SecretSync - Multi-account secrets management",
+	Long: `SecretSync synchronizes secrets from Vault to AWS across multiple accounts.
 
 It supports:
 - AWS Control Tower / Organizations for multi-account management
@@ -28,19 +35,19 @@ It supports:
 
 Examples:
   # Run full pipeline
-  vss pipeline --config config.yaml
+  secretsync pipeline --config config.yaml
 
   # Dry run for specific targets
-  vss pipeline --config config.yaml --targets Serverless_Stg --dry-run
+  secretsync pipeline --config config.yaml --targets Serverless_Stg --dry-run
 
   # Merge only (no AWS sync)
-  vss pipeline --config config.yaml --merge-only
+  secretsync pipeline --config config.yaml --merge-only
 
   # Validate configuration
-  vss validate --config config.yaml
+  secretsync validate --config config.yaml
 
   # Show dependency graph
-  vss graph --config config.yaml`,
+  secretsync graph --config config.yaml`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		// Set log level
 		level, err := log.ParseLevel(logLevel)
@@ -89,6 +96,6 @@ func initConfig() {
 	}
 
 	// Environment variables
-	viper.SetEnvPrefix("VSS")
+	viper.SetEnvPrefix("SECRETSYNC")
 	viper.AutomaticEnv()
 }

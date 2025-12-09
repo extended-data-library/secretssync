@@ -1,79 +1,37 @@
-name: 'SecretSync'
-description: 'Universal secrets synchronization pipeline for multi-cloud secret management with Vault, AWS, GCP, and more'
-author: 'jbcom'
-
-branding:
-  icon: 'lock'
-  color: 'blue'
-
-inputs:
-  config:
-    description: 'Path to the SecretSync configuration file (YAML)'
-    required: false
-    default: 'config.yaml'
-  
-  targets:
-    description: 'Comma-separated list of targets to sync (leave empty for all targets)'
-    required: false
-    default: ''
-  
-  dry-run:
-    description: 'Run in dry-run mode (no changes will be made)'
-    required: false
-    default: 'false'
-  
-  merge-only:
-    description: 'Only run the merge phase (skip AWS sync)'
-    required: false
-    default: 'false'
-  
-  sync-only:
-    description: 'Only run the sync phase (skip merge)'
-    required: false
-    default: 'false'
-  
-  discover:
-    description: 'Enable dynamic target discovery from AWS Organizations/Identity Center'
-    required: false
-    default: 'false'
-  
-  output-format:
-    description: 'Output format for diff/results (human, json, github, compact)'
-    required: false
-    default: 'github'
-  
-  compute-diff:
-    description: 'Compute and show diff even when not in dry-run mode'
-    required: false
-    default: 'false'
-  
-  exit-code:
-    description: 'Use exit codes for CI/CD (0=no changes, 1=changes, 2=errors)'
-    required: false
-    default: 'false'
-  
-  log-level:
-    description: 'Log level (debug, info, warn, error)'
-    required: false
-    default: 'info'
-  
-  log-format:
-    description: 'Log format (text, json)'
-    required: false
-    default: 'text'
-
+---
+name: "SecretSync"
+author: "jbcom"
+description: "Sync secrets from HashiCorp Vault to AWS Secrets Manager across multiple accounts"
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  env:
-    INPUT_CONFIG: ${{ inputs.config }}
-    INPUT_TARGETS: ${{ inputs.targets }}
-    INPUT_DRY_RUN: ${{ inputs.dry-run }}
-    INPUT_MERGE_ONLY: ${{ inputs.merge-only }}
-    INPUT_SYNC_ONLY: ${{ inputs.sync-only }}
-    INPUT_DISCOVER: ${{ inputs.discover }}
-    INPUT_OUTPUT_FORMAT: ${{ inputs.output-format }}
-    INPUT_COMPUTE_DIFF: ${{ inputs.compute-diff }}
-    INPUT_EXIT_CODE: ${{ inputs.exit-code }}
-    INPUT_LOG_LEVEL: ${{ inputs.log-level }}
-    INPUT_LOG_FORMAT: ${{ inputs.log-format }}
+  using: "docker"
+  image: "docker://jbcom/secretsync:v1" # x-release-please-version
+branding:
+  icon: "lock"
+  color: "blue"
+
+# Configuration via environment variables (GitHub Actions inputs map to env vars)
+# See https://github.com/jbcom/secretsync#configuration for full documentation
+#
+# Required:
+#   SECRETSYNC_CONFIG       - Path to config file (default: config.yaml)
+#
+# Optional:
+#   SECRETSYNC_TARGETS      - Comma-separated list of targets (default: all)
+#   SECRETSYNC_DRY_RUN      - Run without making changes (default: false)
+#   SECRETSYNC_MERGE_ONLY   - Only run merge phase (default: false)
+#   SECRETSYNC_SYNC_ONLY    - Only run sync phase (default: false)
+#   SECRETSYNC_DISCOVER     - Enable dynamic target discovery (default: false)
+#   SECRETSYNC_OUTPUT       - Output format: human, json, github (default: github)
+#   SECRETSYNC_DIFF         - Show diff even without dry-run (default: false)
+#   SECRETSYNC_EXIT_CODE    - Use exit codes for CI (default: false)
+#   SECRETSYNC_LOG_LEVEL    - Log level: debug, info, warn, error (default: info)
+#   SECRETSYNC_LOG_FORMAT   - Log format: text, json (default: text)
+#
+# Vault Authentication (one required):
+#   VAULT_ADDR              - Vault server address
+#   VAULT_TOKEN             - Vault token (or use AppRole/K8s auth in config)
+#   VAULT_ROLE_ID           - AppRole role ID
+#   VAULT_SECRET_ID         - AppRole secret ID
+#
+# AWS Authentication:
+#   Use aws-actions/configure-aws-credentials@v4 before this action for OIDC

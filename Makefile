@@ -1,0 +1,112 @@
+# SecretSync Makefile
+
+.PHONY: all build test test-unit test-integration lint clean help
+
+# Go parameters
+GOCMD=go
+GOBUILD=$(GOCMD) build
+GOTEST=$(GOCMD) test
+GOMOD=$(GOCMD) mod
+GOLINT=golangci-lint
+
+# Build info
+BINARY_NAME=secretsync
+VERSION?=$(shell git describe --tags --always --dirty 2>/dev/null || echo "dev")
+COMMIT?=$(shell git rev-parse --short HEAD 2>/dev/null || echo "none")
+DATE?=$(shell date -u '+%Y-%m-%dT%H:%M:%SZ')
+LDFLAGS=-s -w \
+	-X github.com/jbcom/secretsync/cmd/secretsync/cmd.Version=$(VERSION) \
+	-X github.com/jbcom/secretsync/cmd/secretsync/cmd.Commit=$(COMMIT) \
+	-X github.com/jbcom/secretsync/cmd/secretsync/cmd.Date=$(DATE)
+
+all: lint test build
+
+## Build targets
+build:
+	$(GOBUILD) -ldflags "$(LDFLAGS)" -o $(BINARY_NAME) ./cmd/secretsync
+
+## Test targets
+test: test-unit
+
+test-unit:
+	$(GOTEST) -v -race ./...
+
+# Integration tests require LocalStack + Vault
+# Either run manually with docker-compose or let CI handle it
+test-integration:
+	@echo "Running integration tests..."
+	@if [ -z "$$VAULT_ADDR" ] || [ -z "$$AWS_ENDPOINT_URL" ]; then \
+		echo "Starting test environment with docker-compose..."; \
+		docker-compose -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from test-runner; \
+	else \
+		echo "Using existing environment (VAULT_ADDR=$$VAULT_ADDR, AWS_ENDPOINT_URL=$$AWS_ENDPOINT_URL)"; \
+		$(GOTEST) -v -tags=integration ./tests/integration/...; \
+	fi
+
+# Run integration tests with docker-compose (always starts fresh)
+test-integration-docker:
+	docker-compose -f docker-compose.test.yml down -v 2>/dev/null || true
+	docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from test-runner
+	docker-compose -f docker-compose.test.yml down -v
+
+# Start the test environment (for manual testing)
+test-env-up:
+	docker-compose -f docker-compose.test.yml up -d localstack vault
+	@echo "Waiting for services to be healthy..."
+	@for i in 1 2 3 4 5 6 7 8 9 10 11 12; do \
+		if docker-compose -f docker-compose.test.yml ps | grep -q "(healthy)" 2>/dev/null; then \
+			echo "Services are healthy!"; \
+			break; \
+		fi; \
+		if [ $$i -eq 12 ]; then \
+			echo "Warning: Services may not be fully healthy, proceeding anyway"; \
+		else \
+			echo "Waiting... ($$i/12)"; \
+			sleep 5; \
+		fi; \
+	done
+	@echo ""
+	@echo "Test environment ready. Export these variables:"
+	@echo "  export VAULT_ADDR=http://localhost:8200"
+	@echo "  export VAULT_TOKEN=test-root-token"
+	@echo "  export AWS_ENDPOINT_URL=http://localhost:4566"
+	@echo "  export AWS_ACCESS_KEY_ID=test"
+	@echo "  export AWS_SECRET_ACCESS_KEY=test"
+	@echo "  export AWS_REGION=us-east-1"
+	@echo ""
+	@echo "Then run: make test-integration"
+
+test-env-down:
+	docker-compose -f docker-compose.test.yml down -v
+
+## Lint targets
+lint:
+	$(GOLINT) run
+
+lint-fix:
+	$(GOLINT) run --fix
+
+## Dependency management
+deps:
+	$(GOMOD) download
+	$(GOMOD) tidy
+
+## Clean targets
+clean:
+	rm -f $(BINARY_NAME)
+	docker-compose -f docker-compose.test.yml down -v 2>/dev/null || true
+
+## Help
+help:
+	@echo "Available targets:"
+	@echo "  build                 - Build the binary"
+	@echo "  test                  - Run unit tests"
+	@echo "  test-unit             - Run unit tests"
+	@echo "  test-integration      - Run integration tests (auto-detects environment)"
+	@echo "  test-integration-docker - Run integration tests via docker-compose"
+	@echo "  test-env-up           - Start LocalStack + Vault for local testing"
+	@echo "  test-env-down         - Stop test environment"
+	@echo "  lint                  - Run linters"
+	@echo "  lint-fix              - Run linters with auto-fix"
+	@echo "  deps                  - Download and tidy dependencies"
+	@echo "  clean                 - Clean build artifacts and test containers"

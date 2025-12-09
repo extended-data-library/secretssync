@@ -48,26 +48,26 @@ var pipelineCmd = &cobra.Command{
 
 Examples:
   # Full pipeline
-  vss pipeline --config config.yaml
+  secretsync pipeline --config config.yaml
 
   # Dry run with diff output (validates zero-sum)
-  vss pipeline --config config.yaml --dry-run --output json
+  secretsync pipeline --config config.yaml --dry-run --output json
 
   # CI/CD mode with exit codes
-  vss pipeline --config config.yaml --dry-run --exit-code
+  secretsync pipeline --config config.yaml --dry-run --exit-code
   # Returns: 0 if no changes, 1 if changes detected, 2 on errors
 
   # GitHub Actions compatible output
-  vss pipeline --config config.yaml --dry-run --output github
+  secretsync pipeline --config config.yaml --dry-run --output github
 
   # Specific targets only
-  vss pipeline --config config.yaml --targets "Serverless_Stg,Serverless_Prod"
+  secretsync pipeline --config config.yaml --targets "Serverless_Stg,Serverless_Prod"
 
   # Merge only (no AWS sync)
-  vss pipeline --config config.yaml --merge-only
+  secretsync pipeline --config config.yaml --merge-only
 
   # Compute diff even when applying changes (for audit trail)
-  vss pipeline --config config.yaml --diff`,
+  secretsync pipeline --config config.yaml --diff`,
 	RunE: runPipeline,
 }
 

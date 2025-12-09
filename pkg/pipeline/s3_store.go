@@ -211,3 +211,130 @@ func (s *S3MergeStore) GetMergePath(targetName string) string {
 	}
 	return fmt.Sprintf("s3://%s/%s%s", s.Bucket, prefix, targetName)
 }
+
+// GetBundlePath returns the S3 path for a specific bundle
+func (s *S3MergeStore) GetBundlePath(targetName, bundleID string) string {
+	prefix := s.Prefix
+	if prefix != "" && !strings.HasSuffix(prefix, "/") {
+		prefix += "/"
+	}
+	return fmt.Sprintf("s3://%s/%sbundles/%s/%s", s.Bucket, prefix, targetName, bundleID)
+}
+
+// bundleKey returns the S3 key for a bundle
+func (s *S3MergeStore) bundleKey(targetName, bundleID string) string {
+	prefix := s.Prefix
+	if prefix != "" && !strings.HasSuffix(prefix, "/") {
+		prefix += "/"
+	}
+	return fmt.Sprintf("%sbundles/%s/%s.json", prefix, targetName, bundleID)
+}
+
+// WriteMergedBundle writes a complete merged bundle to S3 as a single JSON blob
+func (s *S3MergeStore) WriteMergedBundle(ctx context.Context, targetName, bundleID string, secrets map[string]interface{}) error {
+	l := log.WithFields(log.Fields{
+		"action":   "S3MergeStore.WriteMergedBundle",
+		"bucket":   s.Bucket,
+		"target":   targetName,
+		"bundleID": bundleID,
+	})
+	l.Debug("Writing merged bundle to S3")
+
+	key := s.bundleKey(targetName, bundleID)
+
+	// Marshal all secrets to JSON
+	jsonData, err := json.Marshal(secrets)
+	if err != nil {
+		return fmt.Errorf("failed to marshal bundle: %w", err)
+	}
+
+	input := &s3.PutObjectInput{
+		Bucket:      aws.String(s.Bucket),
+		Key:         aws.String(key),
+		Body:        bytes.NewReader(jsonData),
+		ContentType: aws.String("application/json"),
+	}
+
+	// Use KMS encryption if configured
+	if s.KMSKeyID != "" {
+		input.ServerSideEncryption = "aws:kms"
+		input.SSEKMSKeyId = aws.String(s.KMSKeyID)
+	} else {
+		input.ServerSideEncryption = "AES256"
+	}
+
+	_, err = s.client.PutObject(ctx, input)
+	if err != nil {
+		l.WithError(err).Error("Failed to write bundle to S3")
+		return fmt.Errorf("failed to put object: %w", err)
+	}
+
+	l.WithField("secretsCount", len(secrets)).Debug("Successfully wrote bundle to S3")
+	return nil
+}
+
+// ReadMergedBundle reads a complete merged bundle from S3
+func (s *S3MergeStore) ReadMergedBundle(ctx context.Context, targetName, bundleID string) (map[string]map[string]interface{}, error) {
+	l := log.WithFields(log.Fields{
+		"action":   "S3MergeStore.ReadMergedBundle",
+		"bucket":   s.Bucket,
+		"target":   targetName,
+		"bundleID": bundleID,
+	})
+	l.Debug("Reading merged bundle from S3")
+
+	key := s.bundleKey(targetName, bundleID)
+
+	output, err := s.client.GetObject(ctx, &s3.GetObjectInput{
+		Bucket: aws.String(s.Bucket),
+		Key:    aws.String(key),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get object: %w", err)
+	}
+	defer output.Body.Close()
+
+	body, err := io.ReadAll(output.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read body: %w", err)
+	}
+
+	// The bundle is stored as map[string]interface{} but we need map[string]map[string]interface{}
+	var rawData map[string]interface{}
+	if err := json.Unmarshal(body, &rawData); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal bundle: %w", err)
+	}
+
+	// Convert to expected format
+	result := make(map[string]map[string]interface{})
+	for k, v := range rawData {
+		if m, ok := v.(map[string]interface{}); ok {
+			result[k] = m
+		}
+	}
+
+	return result, nil
+}
+
+// DeleteBundle deletes a bundle from S3
+func (s *S3MergeStore) DeleteBundle(ctx context.Context, targetName, bundleID string) error {
+	l := log.WithFields(log.Fields{
+		"action":   "S3MergeStore.DeleteBundle",
+		"bucket":   s.Bucket,
+		"target":   targetName,
+		"bundleID": bundleID,
+	})
+	l.Debug("Deleting bundle from S3")
+
+	key := s.bundleKey(targetName, bundleID)
+
+	_, err := s.client.DeleteObject(ctx, &s3.DeleteObjectInput{
+		Bucket: aws.String(s.Bucket),
+		Key:    aws.String(key),
+	})
+	if err != nil {
+		return fmt.Errorf("failed to delete object: %w", err)
+	}
+
+	return nil
+}

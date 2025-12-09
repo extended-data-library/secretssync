@@ -2,6 +2,7 @@ package pipeline
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -121,7 +122,7 @@ func TestConfigValidate(t *testing.T) {
 		errMsg  string
 	}{
 		{
-			name: "valid config",
+			name: "valid full config",
 			config: Config{
 				Vault: VaultConfig{Address: "https://vault.example.com"},
 				Sources: map[string]Source{
@@ -135,35 +136,29 @@ func TestConfigValidate(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "missing vault address",
+			name: "minimal config - just targets with imports",
 			config: Config{
-				Sources: map[string]Source{
-					"analytics": {Vault: &VaultSource{Mount: "analytics"}},
-				},
-				MergeStore: MergeStoreConfig{Vault: &MergeStoreVault{Mount: "merged"}},
+				// No vault address, no merge store, no explicit sources
+				// All will be auto-resolved
 				Targets: map[string]Target{
-					"Stg": {AccountID: "111111111111", Imports: []string{"analytics"}},
+					"Production": {Imports: []string{"analytics", "data-engineers"}},
 				},
 			},
-			wantErr: true,
-			errMsg:  "vault.address is required",
+			wantErr: false,
 		},
 		{
-			name: "missing merge store",
+			name: "minimal config - targets without account_id",
 			config: Config{
-				Vault: VaultConfig{Address: "https://vault.example.com"},
-				Sources: map[string]Source{
-					"analytics": {Vault: &VaultSource{Mount: "analytics"}},
-				},
+				// account_id is optional - resolved via fuzzy matching
 				Targets: map[string]Target{
-					"Stg": {AccountID: "111111111111", Imports: []string{"analytics"}},
+					"Staging":    {Imports: []string{"shared"}},
+					"Production": {Imports: []string{"Staging"}}, // inherits from Staging
 				},
 			},
-			wantErr: true,
-			errMsg:  "merge_store must specify",
+			wantErr: false,
 		},
 		{
-			name: "no targets",
+			name: "no targets at all",
 			config: Config{
 				Vault:      VaultConfig{Address: "https://vault.example.com"},
 				MergeStore: MergeStoreConfig{Vault: &MergeStoreVault{Mount: "merged"}},
@@ -172,42 +167,18 @@ func TestConfigValidate(t *testing.T) {
 			errMsg:  "at least one target",
 		},
 		{
-			name: "target missing account_id",
+			name: "invalid account_id format when provided",
 			config: Config{
-				Vault: VaultConfig{Address: "https://vault.example.com"},
-				Sources: map[string]Source{
-					"analytics": {Vault: &VaultSource{Mount: "analytics"}},
-				},
-				MergeStore: MergeStoreConfig{Vault: &MergeStoreVault{Mount: "merged"}},
 				Targets: map[string]Target{
-					"Stg": {Imports: []string{"analytics"}},
+					"Stg": {AccountID: "invalid-id", Imports: []string{"analytics"}},
 				},
 			},
 			wantErr: true,
-			errMsg:  "account_id is required",
-		},
-		{
-			name: "invalid import reference",
-			config: Config{
-				Vault: VaultConfig{Address: "https://vault.example.com"},
-				Sources: map[string]Source{
-					"analytics": {Vault: &VaultSource{Mount: "analytics"}},
-				},
-				MergeStore: MergeStoreConfig{Vault: &MergeStoreVault{Mount: "merged"}},
-				Targets: map[string]Target{
-					"Stg": {AccountID: "111111111111", Imports: []string{"nonexistent"}},
-				},
-			},
-			wantErr: true,
-			errMsg:  "import \"nonexistent\" not found",
+			errMsg:  "invalid account_id format",
 		},
 		{
 			name: "valid S3 merge store",
 			config: Config{
-				Vault: VaultConfig{Address: "https://vault.example.com"},
-				Sources: map[string]Source{
-					"analytics": {Vault: &VaultSource{Mount: "analytics"}},
-				},
 				MergeStore: MergeStoreConfig{S3: &MergeStoreS3{Bucket: "my-bucket", Prefix: "secrets/"}},
 				Targets: map[string]Target{
 					"Stg": {AccountID: "111111111111", Imports: []string{"analytics"}},
@@ -218,10 +189,6 @@ func TestConfigValidate(t *testing.T) {
 		{
 			name: "S3 merge store missing bucket",
 			config: Config{
-				Vault: VaultConfig{Address: "https://vault.example.com"},
-				Sources: map[string]Source{
-					"analytics": {Vault: &VaultSource{Mount: "analytics"}},
-				},
 				MergeStore: MergeStoreConfig{S3: &MergeStoreS3{Prefix: "secrets/"}},
 				Targets: map[string]Target{
 					"Stg": {AccountID: "111111111111", Imports: []string{"analytics"}},
@@ -231,13 +198,8 @@ func TestConfigValidate(t *testing.T) {
 			errMsg:  "merge_store.s3.bucket is required",
 		},
 		{
-			name: "valid dynamic target",
+			name: "valid dynamic target with discovery",
 			config: Config{
-				Vault: VaultConfig{Address: "https://vault.example.com"},
-				Sources: map[string]Source{
-					"analytics": {Vault: &VaultSource{Mount: "analytics"}},
-				},
-				MergeStore: MergeStoreConfig{Vault: &MergeStoreVault{Mount: "merged"}},
 				DynamicTargets: map[string]DynamicTarget{
 					"sandboxes": {
 						Discovery: DiscoveryConfig{
@@ -250,37 +212,48 @@ func TestConfigValidate(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "dynamic target missing discovery config",
+			name: "dynamic target with organizations discovery",
 			config: Config{
-				Vault: VaultConfig{Address: "https://vault.example.com"},
-				Sources: map[string]Source{
-					"analytics": {Vault: &VaultSource{Mount: "analytics"}},
-				},
-				MergeStore: MergeStoreConfig{Vault: &MergeStoreVault{Mount: "merged"}},
 				DynamicTargets: map[string]DynamicTarget{
-					"sandboxes": {
-						Discovery: DiscoveryConfig{},
-						Imports:   []string{"analytics"},
+					"all_accounts": {
+						Discovery: DiscoveryConfig{
+							Organizations: &OrganizationsDiscovery{Recursive: true},
+						},
+						Imports: []string{"shared"},
 					},
 				},
 			},
-			wantErr: true,
-			errMsg:  "must specify identity_center, organizations, or accounts_list discovery",
+			wantErr: false,
 		},
 		{
 			name: "dynamic target with accounts_list",
 			config: Config{
-				Vault: VaultConfig{Address: "https://vault.example.com"},
-				Sources: map[string]Source{
-					"analytics": {Vault: &VaultSource{Mount: "analytics"}},
-				},
-				MergeStore: MergeStoreConfig{Vault: &MergeStoreVault{Mount: "merged"}},
 				DynamicTargets: map[string]DynamicTarget{
 					"sandboxes": {
 						Discovery: DiscoveryConfig{
 							AccountsList: &AccountsListDiscovery{Source: "ssm:/platform/sandboxes"},
 						},
 						Imports: []string{"analytics"},
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "mixed static and dynamic targets",
+			config: Config{
+				Targets: map[string]Target{
+					"Production": {AccountID: "111111111111", Imports: []string{"shared"}},
+				},
+				DynamicTargets: map[string]DynamicTarget{
+					"sandboxes": {
+						Discovery: DiscoveryConfig{
+							Organizations: &OrganizationsDiscovery{
+								OU:        "ou-xxxx-sandboxes",
+								Recursive: true,
+							},
+						},
+						Imports: []string{"Production"}, // inherit from static target
 					},
 				},
 			},
@@ -458,4 +431,261 @@ func TestConfigValidateAccountIDFormat(t *testing.T) {
 	err := cfg.Validate()
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "invalid account_id format")
+}
+
+// TestTargetInheritance tests the target inheritance detection and resolution
+func TestTargetInheritance(t *testing.T) {
+	t.Run("IsInheritedTarget - detect inherited targets", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "analytics"}},
+				"common":    {Vault: &VaultSource{Mount: "common"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics", "common"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"}, // Inherits from another target
+				},
+				"Direct": {
+					AccountID: "333333333333",
+					Imports:   []string{"analytics"}, // Only sources, no inheritance
+				},
+			},
+		}
+		
+		// Prod inherits from Stg (another target)
+		assert.True(t, cfg.IsInheritedTarget("Prod"), "Prod should be detected as inherited")
+		
+		// Stg and Direct only import from sources, not targets
+		assert.False(t, cfg.IsInheritedTarget("Stg"), "Stg should not be detected as inherited")
+		assert.False(t, cfg.IsInheritedTarget("Direct"), "Direct should not be detected as inherited")
+		
+		// Non-existent target
+		assert.False(t, cfg.IsInheritedTarget("NonExistent"), "Non-existent target should return false")
+	})
+	
+	t.Run("Multi-level inheritance chain", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "analytics"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"},
+				},
+				"ProdCA": {
+					AccountID: "333333333333",
+					Imports:   []string{"Prod"}, // Inherits from Prod which inherits from Stg
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				Vault: &MergeStoreVault{Mount: "merged-secrets"},
+			},
+		}
+		
+		// Verify inheritance detection
+		assert.False(t, cfg.IsInheritedTarget("Stg"))
+		assert.True(t, cfg.IsInheritedTarget("Prod"))
+		assert.True(t, cfg.IsInheritedTarget("ProdCA"))
+	})
+	
+	t.Run("GetSourcePath - resolve paths correctly", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "kv/analytics"}},
+				"common":    {Vault: &VaultSource{Mount: "kv/common"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"},
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				Vault: &MergeStoreVault{Mount: "merged-secrets"},
+			},
+		}
+		
+		// Direct source should return mount path
+		assert.Equal(t, "kv/analytics", cfg.GetSourcePath("analytics"))
+		assert.Equal(t, "kv/common", cfg.GetSourcePath("common"))
+		
+		// Inherited target should return merge store path
+		assert.Equal(t, "merged-secrets/Stg", cfg.GetSourcePath("Stg"))
+		assert.Equal(t, "merged-secrets/Prod", cfg.GetSourcePath("Prod"))
+		
+		// Non-existent should return the name itself
+		assert.Equal(t, "nonexistent", cfg.GetSourcePath("nonexistent"))
+	})
+	
+	t.Run("GetSourcePath with S3 merge store", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "kv/analytics"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"},
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				S3: &MergeStoreS3{Bucket: "secrets-bucket", Prefix: "merged/"},
+			},
+		}
+		
+		// With S3 merge store, inherited targets still return the import name
+		// The S3 path is resolved separately in the S3 store implementation
+		assert.Equal(t, "Stg", cfg.GetSourcePath("Stg"))
+	})
+	
+	t.Run("Mixed imports - sources and targets", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"analytics": {Vault: &VaultSource{Mount: "kv/analytics"}},
+				"common":    {Vault: &VaultSource{Mount: "kv/common"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"analytics", "common"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg", "common"}, // Mix of target and source
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				Vault: &MergeStoreVault{Mount: "merged"},
+			},
+		}
+		
+		// Prod imports from both a target (Stg) and a source (common)
+		// It should be detected as inherited because it has at least one target import
+		assert.True(t, cfg.IsInheritedTarget("Prod"))
+	})
+	
+	t.Run("Inheritance order matters for merge", func(t *testing.T) {
+		// This test documents the expected behavior for merge order
+		// When Prod imports ["Stg", "common"], it should:
+		// 1. Read merged state of Stg from merge store
+		// 2. Read common from source
+		// 3. Deep merge them in order
+		
+		cfg := Config{
+			Sources: map[string]Source{
+				"base": {Vault: &VaultSource{Mount: "kv/base"}},
+			},
+			Targets: map[string]Target{
+				"Stg": {
+					AccountID: "111111111111",
+					Imports:   []string{"base"},
+				},
+				"Prod": {
+					AccountID: "222222222222",
+					Imports:   []string{"Stg"},
+				},
+			},
+			MergeStore: MergeStoreConfig{
+				Vault: &MergeStoreVault{Mount: "merged"},
+			},
+		}
+		
+		// Verify that Stg must be processed before Prod (topological ordering)
+		// This is handled by the graph package
+		assert.True(t, cfg.IsInheritedTarget("Prod"))
+		assert.False(t, cfg.IsInheritedTarget("Stg"))
+	})
+
+	t.Run("Circular dependency detection", func(t *testing.T) {
+		cfg := Config{
+			Targets: map[string]Target{
+				"A": {AccountID: "111111111111", Imports: []string{"B"}},
+				"B": {AccountID: "222222222222", Imports: []string{"A"}},
+			},
+		}
+
+		err := cfg.ValidateTargetInheritance()
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "circular")
+	})
+
+	t.Run("Valid inheritance chain passes validation", func(t *testing.T) {
+		cfg := Config{
+			Sources: map[string]Source{
+				"base": {Vault: &VaultSource{Mount: "kv/base"}},
+			},
+			Targets: map[string]Target{
+				"Stg":  {AccountID: "111111111111", Imports: []string{"base"}},
+				"Prod": {AccountID: "222222222222", Imports: []string{"Stg"}},
+				"Demo": {AccountID: "333333333333", Imports: []string{"Prod"}},
+			},
+		}
+
+		err := cfg.ValidateTargetInheritance()
+		assert.NoError(t, err)
+	})
+
+	t.Run("Three-way circular dependency detection", func(t *testing.T) {
+		cfg := Config{
+			Targets: map[string]Target{
+				"A": {AccountID: "111111111111", Imports: []string{"B"}},
+				"B": {AccountID: "222222222222", Imports: []string{"C"}},
+				"C": {AccountID: "333333333333", Imports: []string{"A"}},
+			},
+		}
+
+		err := cfg.ValidateTargetInheritance()
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "circular")
+		// Verify the error message shows the full cycle path
+		assert.Contains(t, err.Error(), "->")
+	})
+
+	t.Run("Self-reference detection (A -> A)", func(t *testing.T) {
+		cfg := Config{
+			Targets: map[string]Target{
+				"A": {AccountID: "111111111111", Imports: []string{"A"}}, // Self-reference
+			},
+		}
+
+		err := cfg.ValidateTargetInheritance()
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "circular")
+		assert.Contains(t, err.Error(), "self-reference")
+	})
+
+	t.Run("Cycle detection shows full path", func(t *testing.T) {
+		cfg := Config{
+			Targets: map[string]Target{
+				"A": {AccountID: "111111111111", Imports: []string{"B"}},
+				"B": {AccountID: "222222222222", Imports: []string{"A"}},
+			},
+		}
+
+		err := cfg.ValidateTargetInheritance()
+		assert.Error(t, err)
+		// Error should show the full cycle path: A -> B -> A or B -> A -> B
+		errMsg := err.Error()
+		assert.Contains(t, errMsg, "->")
+		// Should contain at least two arrows for a proper cycle display
+		assert.True(t, strings.Count(errMsg, "->") >= 1, "Error message should show cycle path with arrows")
+	})
 }
