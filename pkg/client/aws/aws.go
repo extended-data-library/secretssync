@@ -324,10 +324,17 @@ func (g *AwsClient) WriteSecret(ctx context.Context, meta metav1.ObjectMeta, pat
 }
 
 // getAlternatePath returns the alternate path format (/foo vs foo)
-// Returns empty string if path is empty
+// Returns empty string if path is empty or contains invalid sequences
 func (g *AwsClient) getAlternatePath(path string) string {
 	if path == "" {
 		return ""
+	}
+	// Validate path doesn't contain malicious sequences before processing
+	// - ".." : directory traversal
+	// - "\x00" : null byte injection
+	// - "//" : double slashes that could cause confusion
+	if strings.Contains(path, "..") || strings.Contains(path, "\x00") || strings.Contains(path, "//") {
+		return "" // Invalid path, return empty to prevent processing
 	}
 	if strings.HasPrefix(path, "/") {
 		return path[1:] // /foo -> foo

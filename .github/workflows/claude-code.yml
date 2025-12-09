@@ -53,6 +53,9 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Allow full tool access for interactive tasks
+          # This enables Claude to: read/write files, execute commands, git operations
+          claude_args: '--allowedTools "Edit,View,Bash,Write,MultiEdit" --permission-mode acceptEdits'
 
   # ============================================
   # AUTOMATIC MODE: PR code review
@@ -91,4 +94,6 @@ jobs:
             Use `gh pr review` with line-specific comments for detailed feedback on specific code changes.
             For general summary feedback, use `gh pr comment`.
 
-          claude_args: '--allowed-tools "Bash(gh pr:*)"'
+          # Allow broader tools for meaningful code review and fixes
+          # Includes: file operations, git, and gh CLI for PR management
+          claude_args: '--allowedTools "Edit,View,Bash,Write" --permission-mode acceptEdits'

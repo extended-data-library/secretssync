@@ -558,9 +558,14 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 
 		// Process each key found
 		for _, key := range keys {
-			// Validate key doesn't contain path traversal sequences
-			if strings.Contains(key, "..") {
-				l.Warnf("Skipping key with path traversal sequence: %s", key)
+			// Validate key doesn't contain path traversal or malicious sequences:
+			// - ".." : directory traversal
+			// - "\x00" : null byte injection
+			// - "//" : double slashes that could cause path confusion
+			// - leading "/" : absolute path that could escape context
+			if strings.Contains(key, "..") || strings.Contains(key, "\x00") ||
+				strings.Contains(key, "//") || strings.HasPrefix(key, "/") {
+				l.Warnf("Skipping key with invalid path characters: %s", key)
 				continue
 			}
 
