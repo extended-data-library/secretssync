@@ -3,13 +3,13 @@
 package v1alpha1
 
 import (
-	"github.com/jbcom/secretsync/stores/aws"
-	"github.com/jbcom/secretsync/stores/awsidentitycenter"
+	"github.com/jbcom/secretsync/pkg/client/aws"
+	"github.com/jbcom/secretsync/pkg/discovery/identitycenter"
 	"github.com/jbcom/secretsync/stores/doppler"
 	"github.com/jbcom/secretsync/stores/gcp"
 	"github.com/jbcom/secretsync/stores/github"
 	"github.com/jbcom/secretsync/stores/httpstore"
-	"github.com/jbcom/secretsync/stores/vault"
+	"github.com/jbcom/secretsync/pkg/client/vault"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 

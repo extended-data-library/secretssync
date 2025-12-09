@@ -5,7 +5,7 @@ import (
 
 	"github.com/jbcom/secretsync/api/v1alpha1"
 	"github.com/jbcom/secretsync/internal/event"
-	"github.com/jbcom/secretsync/stores/vault"
+	"github.com/jbcom/secretsync/pkg/client/vault"
 	"github.com/stretchr/testify/assert"
 	metav1alpha1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )

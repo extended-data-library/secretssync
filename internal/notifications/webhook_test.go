@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/jbcom/secretsync/api/v1alpha1"
-	"github.com/jbcom/secretsync/stores/aws"
-	"github.com/jbcom/secretsync/stores/vault"
+	"github.com/jbcom/secretsync/pkg/client/aws"
+	"github.com/jbcom/secretsync/pkg/client/vault"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 

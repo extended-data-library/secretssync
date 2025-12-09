@@ -43,8 +43,8 @@ import (
 	"github.com/jbcom/secretsync/internal/queue"
 	internalSync "github.com/jbcom/secretsync/internal/sync"
 	"github.com/jbcom/secretsync/pkg/diff"
-	"github.com/jbcom/secretsync/stores/aws"
-	"github.com/jbcom/secretsync/stores/vault"
+	"github.com/jbcom/secretsync/pkg/client/aws"
+	"github.com/jbcom/secretsync/pkg/client/vault"
 	log "github.com/sirupsen/logrus"
 )
 

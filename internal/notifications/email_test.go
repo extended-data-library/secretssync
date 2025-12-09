@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/jbcom/secretsync/api/v1alpha1"
-	aws "github.com/jbcom/secretsync/stores/aws"
-	vault "github.com/jbcom/secretsync/stores/vault"
+	aws "github.com/jbcom/secretsync/pkg/client/aws"
+	vault "github.com/jbcom/secretsync/pkg/client/vault"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/gomail.v2"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
