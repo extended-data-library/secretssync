@@ -17,6 +17,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// Vault traversal configuration constants
+const (
+	// maxVaultTraversalDepth prevents infinite loops in recursive listing
+	maxVaultTraversalDepth = 100
+	// maxSecretsPerMount prevents DoS/OOM attacks from very large mounts
+	maxSecretsPerMount = 100000
+	// queueCompactionThreshold triggers queue memory cleanup during large traversals
+	queueCompactionThreshold = 1000
+)
+
 // LogicalClient defines the interface for Vault logical operations needed for secret listing
 type LogicalClient interface {
 	ListWithContext(ctx context.Context, path string) (*api.Secret, error)
@@ -498,16 +508,14 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 		"path":    basePath,
 		"method":  vc.AuthMethod,
 	})
-	l.Debug("vault.ListSecretsRecursive")
+	l.Debug("Starting recursive secret listing with BFS traversal")
 
-	const maxDepth = 100            // Safety limit to prevent infinite loops
-	const maxSecretsPerMount = 100000 // Limit total secrets to prevent DoS/OOM attacks
 	var allSecrets []string
 	visited := make(map[string]bool)
 
 	// Normalize basePath to prevent double-slash issues
 	basePath = strings.TrimSuffix(basePath, "/")
-	
+
 	// Use index-based queue to avoid O(n²) slice reallocation on dequeue
 	// Instead of queue = queue[1:] which allocates on each dequeue,
 	// we advance an index and let GC handle the old references
@@ -524,9 +532,9 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 
 		currentPath := queue[queueIdx]
 		queueIdx++
-		
+
 		// Periodically compact queue to free memory on very large traversals
-		if queueIdx > 1000 && queueIdx > len(queue)/2 {
+		if queueIdx > queueCompactionThreshold && queueIdx > len(queue)/2 {
 			queue = queue[queueIdx:]
 			queueIdx = 0
 		}
@@ -539,8 +547,9 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 
 		// Check depth limit as safety measure
 		depth := strings.Count(strings.TrimPrefix(currentPath, basePath), "/")
-		if depth > maxDepth {
-			return nil, fmt.Errorf("max traversal depth %d exceeded at %s", maxDepth, currentPath)
+		if depth > maxVaultTraversalDepth {
+			return nil, fmt.Errorf("max traversal depth %d exceeded at path %q (base: %q, found %d secrets so far)",
+				maxVaultTraversalDepth, currentPath, basePath, len(allSecrets))
 		}
 
 		// Get the metadata path for listing
@@ -563,7 +572,8 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 				}
 			}
 			// Network, authentication, or other critical errors should propagate
-			return nil, fmt.Errorf("failed to list %s: %w", metadataPath, err)
+			return nil, fmt.Errorf("failed to list path %q (depth %d, %d secrets found so far): %w",
+				metadataPath, depth, len(allSecrets), err)
 		}
 
 		if keys == nil {
@@ -603,7 +613,8 @@ func (vc *VaultClient) listSecretsRecursive(ctx context.Context, basePath string
 				allSecrets = append(allSecrets, fullPath)
 				// Check if we've exceeded the maximum secrets limit to prevent DoS/OOM
 				if len(allSecrets) > maxSecretsPerMount {
-					return nil, fmt.Errorf("mount contains more than %d secrets (possible DoS attack)", maxSecretsPerMount)
+					return nil, fmt.Errorf("mount %q contains more than %d secrets at depth %d (possible DoS attack or misconfiguration)",
+						basePath, maxSecretsPerMount, depth)
 				}
 			}
 		}
