@@ -105,6 +105,7 @@ func setupAWSClient(t *testing.T, ctx context.Context) *secretsmanager.Client {
 }
 
 // seedVaultSecrets creates test secrets in Vault simulating multi-source pattern
+// with realistic complexity: deep nesting, mixed types, team/env/service patterns
 func seedVaultSecrets(t *testing.T, client *api.Client) {
 	t.Helper()
 
@@ -113,47 +114,172 @@ func seedVaultSecrets(t *testing.T, client *api.Client) {
 		Type: "kv-v2",
 	})
 
-	// Source 1: base configuration
-	writeVaultSecret(t, client, "secret/data/base/database", map[string]interface{}{
+	// ============================================
+	// Team-based hierarchical structure
+	// Pattern: {team}/{environment}/{service}/config
+	// ============================================
+
+	// Data team - staging
+	writeVaultSecret(t, client, "secret/data/data-team/staging/pipeline/config", map[string]interface{}{
 		"data": map[string]interface{}{
-			"host":     "db.example.com",
-			"port":     5432,
-			"users":    []interface{}{"readonly", "admin"},
-			"settings": map[string]interface{}{"timeout": 30, "pool_size": 10},
+			"warehouse_host": "warehouse-stg.internal",
+			"warehouse_port": 5439,
+			"batch_size":     1000,
+			"enabled_sources": []interface{}{"postgres", "mysql", "mongodb"},
+			"credentials": map[string]interface{}{
+				"username": "pipeline_stg",
+				"password": "stg-secret-123",
+			},
+			"retry_config": map[string]interface{}{
+				"max_attempts": 3,
+				"backoff_ms":   1000,
+			},
 		},
 	})
 
-	writeVaultSecret(t, client, "secret/data/base/api-keys", map[string]interface{}{
+	// Data team - production (inherits from staging, overrides specific values)
+	writeVaultSecret(t, client, "secret/data/data-team/production/pipeline/config", map[string]interface{}{
 		"data": map[string]interface{}{
-			"stripe":   "sk_test_base",
-			"sendgrid": "SG.base",
+			"warehouse_host": "warehouse-prod.internal",
+			"batch_size":     5000,
+			"enabled_sources": []interface{}{"s3", "kinesis"}, // APPENDS to staging sources
+			"credentials": map[string]interface{}{
+				"password": "prod-secret-456", // Override password only
+			},
+			"retry_config": map[string]interface{}{
+				"max_attempts": 5, // Override retry attempts
+			},
 		},
 	})
 
-	// Source 2: environment-specific overrides
-	writeVaultSecret(t, client, "secret/data/overrides/database", map[string]interface{}{
+	// ============================================
+	// Service-level secrets with deep nesting
+	// Pattern: services/{service}/config/{component}
+	// ============================================
+
+	writeVaultSecret(t, client, "secret/data/services/api-gateway/config/routes", map[string]interface{}{
 		"data": map[string]interface{}{
-			"users":    []interface{}{"dev1", "dev2"},       // Should APPEND to base users
-			"settings": map[string]interface{}{"debug": true}, // Should MERGE into base settings
+			"routes": []interface{}{
+				map[string]interface{}{"path": "/v1/users", "service": "user-svc", "timeout": 30},
+				map[string]interface{}{"path": "/v1/orders", "service": "order-svc", "timeout": 60},
+			},
+			"rate_limits": map[string]interface{}{
+				"default":    1000,
+				"premium":    10000,
+				"enterprise": -1,
+			},
 		},
 	})
 
-	// Source 3: shared secrets
-	writeVaultSecret(t, client, "secret/data/shared/common", map[string]interface{}{
+	writeVaultSecret(t, client, "secret/data/services/api-gateway/config/auth", map[string]interface{}{
 		"data": map[string]interface{}{
-			"region":      "us-east-1",
-			"environment": "test",
+			"jwt_secret":      "super-secret-jwt-key",
+			"token_ttl_hours": 24,
+			"allowed_issuers": []interface{}{"auth.example.com", "sso.example.com"},
+			"oauth": map[string]interface{}{
+				"client_id":     "gateway-client",
+				"client_secret": "oauth-secret-789",
+				"scopes":        []interface{}{"read", "write", "admin"},
+			},
 		},
 	})
 
-	// Nested secrets (for recursive listing validation)
-	writeVaultSecret(t, client, "secret/data/base/nested/level1/config", map[string]interface{}{
+	writeVaultSecret(t, client, "secret/data/services/api-gateway/config/tls/certificates", map[string]interface{}{
 		"data": map[string]interface{}{
-			"nested_key": "nested_value",
+			"cert_pem": "-----BEGIN CERTIFICATE-----\nMIIC...\n-----END CERTIFICATE-----",
+			"key_pem":  "-----BEGIN PRIVATE KEY-----\nMIIE...\n-----END PRIVATE KEY-----",
+			"ca_chain": []interface{}{
+				"-----BEGIN CERTIFICATE-----\nROOT...\n-----END CERTIFICATE-----",
+				"-----BEGIN CERTIFICATE-----\nINTER...\n-----END CERTIFICATE-----",
+			},
 		},
 	})
 
-	t.Log("Seeded Vault with test secrets")
+	// ============================================
+	// Infrastructure secrets
+	// Pattern: infra/{provider}/{resource}
+	// ============================================
+
+	writeVaultSecret(t, client, "secret/data/infra/aws/rds/main-cluster", map[string]interface{}{
+		"data": map[string]interface{}{
+			"endpoint":        "main-cluster.abc123.us-east-1.rds.amazonaws.com",
+			"port":            5432,
+			"master_username": "admin",
+			"master_password": "rds-master-password",
+			"databases": []interface{}{
+				map[string]interface{}{"name": "users", "owner": "app_user"},
+				map[string]interface{}{"name": "orders", "owner": "app_order"},
+				map[string]interface{}{"name": "analytics", "owner": "app_analytics"},
+			},
+		},
+	})
+
+	writeVaultSecret(t, client, "secret/data/infra/aws/elasticache/redis-cluster", map[string]interface{}{
+		"data": map[string]interface{}{
+			"primary_endpoint":      "redis.abc123.cache.amazonaws.com",
+			"reader_endpoint":       "redis-ro.abc123.cache.amazonaws.com",
+			"port":                  6379,
+			"auth_token":            "redis-auth-token-xyz",
+			"transit_encryption":    true,
+			"at_rest_encryption":    true,
+			"snapshot_retention":    7,
+			"maintenance_window":    "sun:05:00-sun:06:00",
+		},
+	})
+
+	// ============================================
+	// Shared/common secrets (imported by multiple targets)
+	// ============================================
+
+	writeVaultSecret(t, client, "secret/data/shared/monitoring", map[string]interface{}{
+		"data": map[string]interface{}{
+			"datadog_api_key": "dd-api-key-123",
+			"datadog_app_key": "dd-app-key-456",
+			"pagerduty_token": "pd-token-789",
+			"slack_webhook":   "https://hooks.slack.com/services/XXX/YYY/ZZZ",
+			"alert_channels":  []interface{}{"#ops-alerts", "#on-call"},
+		},
+	})
+
+	writeVaultSecret(t, client, "secret/data/shared/external-apis", map[string]interface{}{
+		"data": map[string]interface{}{
+			"stripe_secret_key":    "sk_live_xxx",
+			"stripe_webhook_secret": "whsec_xxx",
+			"sendgrid_api_key":     "SG.xxx",
+			"twilio_account_sid":   "ACxxx",
+			"twilio_auth_token":    "xxx",
+		},
+	})
+
+	// ============================================
+	// Edge cases
+	// ============================================
+
+	// Empty-ish secret (only metadata)
+	writeVaultSecret(t, client, "secret/data/edge-cases/minimal", map[string]interface{}{
+		"data": map[string]interface{}{
+			"key": "value",
+		},
+	})
+
+	// Secret with special characters in values
+	writeVaultSecret(t, client, "secret/data/edge-cases/special-chars", map[string]interface{}{
+		"data": map[string]interface{}{
+			"connection_string": "postgres://user:p@ss=word!@host:5432/db?sslmode=require&application_name=my-app",
+			"json_blob":         `{"key": "value", "nested": {"array": [1, 2, 3]}}`,
+			"multiline":         "line1\nline2\nline3",
+			"unicode":           "こんにちは世界 🌍",
+		},
+	})
+
+	// Deeply nested path (7 levels)
+	writeVaultSecret(t, client, "secret/data/org/division/team/project/env/service/component", map[string]interface{}{
+		"data": map[string]interface{}{
+			"deep_secret": "found-at-depth-7",
+		},
+	})
+
+	t.Log("Seeded Vault with realistic test secrets")
 }
 
 func writeVaultSecret(t *testing.T, client *api.Client, path string, data map[string]interface{}) {
