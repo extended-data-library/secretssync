@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "Go Security Scanner",
+  "description": "Monitors Go source files for common security issues including command injection, path traversal, SQL injection, unsafe deserialization, and credential leaks",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*.go"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A Go source file has been modified. Perform a security review focusing on:\n\n1. **Command Injection**: Check all uses of `os/exec.Command()` and `exec.CommandContext()`. Ensure user input is never passed directly to shell commands. Verify arguments are passed as separate parameters, not concatenated strings.\n\n2. **Path Traversal**: Check all file path operations. Ensure paths containing `..`, null bytes (`\\x00`), or absolute paths from user input are validated. Verify `filepath.Clean()` is used and paths stay within expected directories.\n\n3. **SQL Injection**: If database queries exist, ensure they use parameterized queries or prepared statements. Check for string concatenation in SQL queries.\n\n4. **Unsafe Deserialization**: Check uses of `encoding/json`, `encoding/gob`, or `yaml.Unmarshal()`. Ensure untrusted input is validated before deserialization.\n\n5. **Credential Leaks**: Check for hardcoded credentials, API keys, or tokens. Verify secrets are loaded from environment variables or secure vaults. Check logging statements don't expose sensitive data.\n\n6. **Unsafe Type Assertions**: Check for type assertions without checking the boolean return value. Look for patterns like `value.(Type)` without the `value, ok := value.(Type)` pattern.\n\n7. **Race Conditions**: Check for shared state accessed without proper synchronization. Verify maps, slices, and other mutable data structures used concurrently are protected by mutexes.\n\n8. **Error Handling**: Ensure errors from security-sensitive operations (authentication, authorization, crypto) are properly checked and logged.\n\nProvide specific, actionable feedback such as:\n- \"Line 45: Command execution uses string concatenation - use exec.CommandContext with separate arguments\"\n- \"Line 67: Path validation missing - add filepath.Clean() and check for '..' sequences\"\n- \"Line 89: Potential race condition on 'cache' map - protect with sync.RWMutex\"\n\nOnly report actual security issues. Be concise but specific about the vulnerability and remediation."
+  }
+}
+
