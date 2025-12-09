@@ -551,12 +551,24 @@ func (vc *VaultClient) getMaxSecretsPerMount() int {
 	return defaultMaxSecretsPerMount
 }
 
-// getQueueCompactionThreshold returns the configured threshold or the default
+// getQueueCompactionThreshold returns the configured threshold or an adaptive default.
+// When not explicitly configured, it uses min(1000, maxSecretsPerMount/100) to better
+// adapt to different scale scenarios. This prevents excessive memory usage on small
+// deployments while maintaining performance on large ones.
 func (vc *VaultClient) getQueueCompactionThreshold() int {
 	if vc.QueueCompactionThreshold > 0 {
 		return vc.QueueCompactionThreshold
 	}
-	return defaultQueueCompactionThreshold
+	// Use adaptive threshold based on maxSecretsPerMount
+	maxSecrets := vc.getMaxSecretsPerMount()
+	adaptiveThreshold := maxSecrets / 100
+	if adaptiveThreshold < 1 {
+		adaptiveThreshold = 1 // Ensure minimum threshold to prevent division by zero
+	}
+	if adaptiveThreshold > defaultQueueCompactionThreshold {
+		return defaultQueueCompactionThreshold
+	}
+	return adaptiveThreshold
 }
 
 func (vc *VaultClient) ListSecretsOnce(ctx context.Context, p string) ([]string, error) {
