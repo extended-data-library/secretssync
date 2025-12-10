@@ -9,7 +9,6 @@ import (
 func TestIdentityCenterClient_EnhancedConfig(t *testing.T) {
 	t.Run("permission set discovery enabled", func(t *testing.T) {
 		client := &IdentityCenterClient{
-			Region:                 "us-east-1",
 			DiscoverPermissionSets: true,
 			CacheAssignments:       true,
 		}
@@ -32,7 +31,6 @@ func TestPermissionSet_Structure(t *testing.T) {
 		ARN:         "arn:aws:sso:::permissionSet/ssoins-1234567890abcdef/ps-1234567890abcdef",
 		Name:        "AdministratorAccess",
 		Description: "Full administrative access",
-		CreatedDate: "2023-01-01T00:00:00Z",
 	}
 
 	assert.Equal(t, "AdministratorAccess", ps.Name)
@@ -45,7 +43,6 @@ func TestAccountAssignment_Structure(t *testing.T) {
 		AccountID:        "123456789012",
 		PermissionSetARN: "arn:aws:sso:::permissionSet/ssoins-1234567890abcdef/ps-1234567890abcdef",
 		PrincipalType:    "GROUP",
-		PrincipalID:      "group-1234567890abcdef",
 	}
 
 	assert.Equal(t, "123456789012", assignment.AccountID)
@@ -137,9 +134,7 @@ func TestIdentityCenterClient_GetAccountAssignmentsForAccount(t *testing.T) {
 }
 
 func TestIdentityCenterClient_CacheInitialization(t *testing.T) {
-	client := &IdentityCenterClient{
-		CacheAssignments: true,
-	}
+	client := &IdentityCenterClient{}
 
 	// Simulate cache initialization (normally done in Init)
 	client.assignmentCache = make(map[string][]AccountAssignment)

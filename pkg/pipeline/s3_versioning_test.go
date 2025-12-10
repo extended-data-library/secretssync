@@ -64,8 +64,6 @@ func TestVersioningConfig(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s3Config := &MergeStoreS3{
-				Bucket:     "test-bucket",
-				Prefix:     "test-prefix",
 				Versioning: tt.config,
 			}
 
@@ -247,6 +245,12 @@ func TestNewS3MergeStoreWithVersioning(t *testing.T) {
 				// but we can verify the configuration structure
 				if tt.expectedVersioning {
 					assert.True(t, tt.config.Versioning.Enabled)
+					// Verify retention is set correctly
+					if tt.config.Versioning.RetainVersions <= 0 {
+						assert.Equal(t, 10, expectedRetain) // Default value
+					} else {
+						assert.Equal(t, tt.config.Versioning.RetainVersions, expectedRetain)
+					}
 				}
 			}
 		})

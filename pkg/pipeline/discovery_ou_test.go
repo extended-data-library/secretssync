@@ -41,7 +41,6 @@ func TestOrganizationsDiscovery_MultipleOUsConfig(t *testing.T) {
 
 	t.Run("OU caching enabled", func(t *testing.T) {
 		cfg := &OrganizationsDiscovery{
-			OUs:              []string{"ou-prod-123"},
 			CacheOUStructure: true,
 		}
 
