@@ -23,9 +23,9 @@ Instead, please report security vulnerabilities through one of the following met
 2. Click "Report a vulnerability"
 3. Fill out the form with details about the vulnerability
 
-### Email
+### Email (Alternative)
 
-Send an email to: **security@[DOMAIN]** (replace with actual contact)
+If you cannot use GitHub Security Advisories, please open a confidential discussion at [GitHub Discussions](https://github.com/jbcom/go-secretsync/discussions) with the label "security".
 
 Include the following information:
 - Type of issue (e.g. buffer overflow, SQL injection, cross-site scripting, etc.)
