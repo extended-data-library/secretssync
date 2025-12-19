@@ -42,7 +42,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 ###
 # Runtime image: tiny BusyBox container that only carries the binary and certs.
 ###
-FROM busybox:1.36.1-musl AS runtime
+FROM busybox:1.37.0-musl AS runtime
 
 ARG VERSION=dev
 ARG SECRETSYNC_CONFIG=/etc/secretsync/config.yaml
