@@ -1,0 +1,1442 @@
+Build	UNKNOWN STEP	﻿2025-12-19T16:35:33.7993903Z Current runner version: '2.330.0'
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8020011Z ##[group]Runner Image Provisioner
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8021148Z Hosted Compute Agent
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8021698Z Version: 20251211.462
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8022370Z Commit: 6cbad8c2bb55d58165063d031ccabf57e2d2db61
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8023039Z Build Date: 2025-12-11T16:28:49Z
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8023698Z Worker ID: {fdca6440-07e2-4675-a35d-ac9fcb8c1ff7}
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8024490Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8024997Z ##[group]Operating System
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8025562Z Ubuntu
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8025973Z 24.04.3
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8026494Z LTS
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8026906Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8027406Z ##[group]Runner Image
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8027979Z Image: ubuntu-24.04
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8028483Z Version: 20251215.174.1
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8029492Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251215.174/images/ubuntu/Ubuntu2404-Readme.md
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8031514Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251215.174
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8032466Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8033532Z ##[group]GITHUB_TOKEN Permissions
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8035716Z Contents: read
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8036363Z Metadata: read
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8036838Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8039406Z Secret source: Dependabot
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8040184Z Prepare workflow directory
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8438593Z Prepare all required actions
+Build	UNKNOWN STEP	2025-12-19T16:35:33.8477665Z Getting action download info
+Build	UNKNOWN STEP	2025-12-19T16:35:34.2039853Z Download action repository 'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8' (SHA:8e8c483db84b4bee98b60c0593521ed34d9990e8)
+Build	UNKNOWN STEP	2025-12-19T16:35:34.3077687Z Download action repository 'docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435' (SHA:e468171a9de216ec08956ac3ada2f0791b6bd435)
+Build	UNKNOWN STEP	2025-12-19T16:35:34.8458015Z Download action repository 'docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83' (SHA:263435318d21b8e681c14492fe198d362a7d2c83)
+Build	UNKNOWN STEP	2025-12-19T16:35:35.2831255Z Complete job name: Build
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3668432Z ##[group]Run actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3670141Z with:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3671125Z   repository: jbcom/go-secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3672461Z   token: ***
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3673182Z   ssh-strict: true
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3673942Z   ssh-user: git
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3674740Z   persist-credentials: true
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3675605Z   clean: true
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3676381Z   sparse-checkout-cone-mode: true
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3677342Z   fetch-depth: 1
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3678112Z   fetch-tags: false
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3678918Z   show-progress: true
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3679708Z   lfs: false
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3680551Z   submodules: false
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3681353Z   set-safe-directory: true
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3682502Z env:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3683189Z   GO_VERSION: 1.25
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3683982Z   REGISTRY: docker.io
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3684807Z   IMAGE_NAME: jbcom/secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3686041Z   HELM_REGISTRY: oci://registry-1.docker.io/jbcom/secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.3687235Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4701824Z Syncing repository: jbcom/go-secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4704560Z ##[group]Getting Git version info
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4706129Z Working directory is '/home/runner/work/go-secretsync/go-secretsync'
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4708163Z [command]/usr/bin/git version
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4754940Z git version 2.52.0
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4778102Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4795733Z Temporarily overriding HOME='/home/runner/work/_temp/02600ab4-09e2-43e8-856e-f970bb41da04' before making global git config changes
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4800360Z Adding repository directory to the temporary git global config as a safe directory
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4804402Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/go-secretsync/go-secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4852655Z Deleting the contents of '/home/runner/work/go-secretsync/go-secretsync'
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4856776Z ##[group]Initializing the repository
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4862274Z [command]/usr/bin/git init /home/runner/work/go-secretsync/go-secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4988231Z hint: Using 'master' as the name for the initial branch. This default branch name
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4991512Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4993494Z hint: to use in all of your new repositories, which will suppress this warning,
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4994863Z hint: call:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4995553Z hint:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4996461Z hint: 	git config --global init.defaultBranch <name>
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4997571Z hint:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.4999045Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5001026Z hint: 'development'. The just-created branch can be renamed via this command:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5002404Z hint:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5003487Z hint: 	git branch -m <name>
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5004885Z hint:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5006061Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5008074Z Initialized empty Git repository in /home/runner/work/go-secretsync/go-secretsync/.git/
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5011582Z [command]/usr/bin/git remote add origin https://github.com/jbcom/go-secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5047273Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5048630Z ##[group]Disabling automatic garbage collection
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5051159Z [command]/usr/bin/git config --local gc.auto 0
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5082839Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5084480Z ##[group]Setting up auth
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5085928Z Removing SSH command configuration
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5089697Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5124538Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5471947Z Removing HTTP extra header
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5478592Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5516153Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5737840Z Removing includeIf entries pointing to credentials config files
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5744737Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.5782332Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Build	UNKNOWN STEP	2025-12-19T16:35:35.6018211Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Build	UNKNOWN STEP	2025-12-19T16:35:35.6059172Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/go-secretsync/go-secretsync/.git.path /home/runner/work/_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:35:35.6094890Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/go-secretsync/go-secretsync/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:35:35.6128941Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:35:35.6164009Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:35:35.6192597Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:35.6194828Z ##[group]Fetching the repository
+Build	UNKNOWN STEP	2025-12-19T16:35:35.6204710Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e4109c5085b08ef7577cc1011b8bd7d26765f592:refs/remotes/pull/9/merge
+Build	UNKNOWN STEP	2025-12-19T16:35:35.8679576Z From https://github.com/jbcom/go-secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.8683798Z  * [new ref]         e4109c5085b08ef7577cc1011b8bd7d26765f592 -> pull/9/merge
+Build	UNKNOWN STEP	2025-12-19T16:35:35.8718971Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:35.8721472Z ##[group]Determining the checkout info
+Build	UNKNOWN STEP	2025-12-19T16:35:35.8724100Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:35.8725865Z [command]/usr/bin/git sparse-checkout disable
+Build	UNKNOWN STEP	2025-12-19T16:35:35.8774147Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Build	UNKNOWN STEP	2025-12-19T16:35:35.8805300Z ##[group]Checking out the ref
+Build	UNKNOWN STEP	2025-12-19T16:35:35.8808788Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/9/merge
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9101268Z Note: switching to 'refs/remotes/pull/9/merge'.
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9102598Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9103702Z You are in 'detached HEAD' state. You can look around, make experimental
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9105852Z changes and commit them, and you can discard any commits you make in this
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9107613Z state without impacting any branches by switching back to a branch.
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9109045Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9109681Z If you want to create a new branch to retain commits you create, you may
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9111456Z do so (now or later) by using -c with the switch command. Example:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9112330Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9112718Z   git switch -c <new-branch-name>
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9113327Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9113794Z Or undo this operation with:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9114465Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9114799Z   git switch -
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9115259Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9116021Z Turn off this advice by setting config variable advice.detachedHead to false
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9117077Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9118221Z HEAD is now at e4109c5 Merge 1519b8a2609f1b54b3538440c840ef37d9d4a87b into 8f71ee911af4d1be60f6a7360552ee7473bf7256
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9121971Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9151570Z [command]/usr/bin/git log -1 --format=%H
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9176200Z e4109c5085b08ef7577cc1011b8bd7d26765f592
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9475425Z ##[group]Run docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9476861Z with:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9477564Z   driver: docker-container
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9478402Z   install: false
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9479124Z   use: true
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9479807Z   keep-state: false
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9480780Z   cache-binary: true
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9481547Z   cleanup: true
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9482248Z env:
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9482995Z   GO_VERSION: 1.25
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9484073Z   REGISTRY: docker.io
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9484943Z   IMAGE_NAME: jbcom/secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9486136Z   HELM_REGISTRY: oci://registry-1.docker.io/jbcom/secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:35.9487443Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:36.2608756Z ##[group]Docker info
+Build	UNKNOWN STEP	2025-12-19T16:35:36.2635935Z [command]/usr/bin/docker version
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3539440Z Client: Docker Engine - Community
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3540123Z  Version:           28.0.4
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3542384Z  API version:       1.48
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3542933Z  Go version:        go1.23.7
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3543449Z  Git commit:        b8034c0
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3543952Z  Built:             Tue Mar 25 15:07:16 2025
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3544495Z  OS/Arch:           linux/amd64
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3545009Z  Context:           default
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3545310Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3545532Z Server: Docker Engine - Community
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3546033Z  Engine:
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3546434Z   Version:          28.0.4
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3546969Z   API version:      1.48 (minimum version 1.24)
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3547560Z   Go version:       go1.23.7
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3548063Z   Git commit:       6430e49
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3548561Z   Built:            Tue Mar 25 15:07:16 2025
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3549110Z   OS/Arch:          linux/amd64
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3549833Z   Experimental:     false
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3550953Z  containerd:
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3551411Z   Version:          v2.2.0
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3551929Z   GitCommit:        1c4457e00facac03ce1d75f7b6777a7a851e5c41
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3552560Z  runc:
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3552985Z   Version:          1.3.4
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3553492Z   GitCommit:        v1.3.4-0-gd6d73eb8
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3554016Z  docker-init:
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3554445Z   Version:          0.19.0
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3554921Z   GitCommit:        de40ad0
+Build	UNKNOWN STEP	2025-12-19T16:35:36.3594930Z [command]/usr/bin/docker info
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5144958Z Client: Docker Engine - Community
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5145565Z  Version:    28.0.4
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5145911Z  Context:    default
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5146256Z  Debug Mode: false
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5146572Z  Plugins:
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5146900Z   buildx: Docker Buildx (Docker Inc.)
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5147311Z     Version:  v0.30.1
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5147774Z     Path:     /usr/libexec/docker/cli-plugins/docker-buildx
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5148328Z   compose: Docker Compose (Docker Inc.)
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5148747Z     Version:  v2.38.2
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5149184Z     Path:     /usr/libexec/docker/cli-plugins/docker-compose
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5149722Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5149853Z Server:
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5150178Z  Containers: 0
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5150770Z   Running: 0
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5151154Z   Paused: 0
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5151450Z   Stopped: 0
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5151748Z  Images: 0
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5152040Z  Server Version: 28.0.4
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5152398Z  Storage Driver: overlay2
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5152754Z   Backing Filesystem: extfs
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5153120Z   Supports d_type: true
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5153459Z   Using metacopy: false
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5153821Z   Native Overlay Diff: false
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5154186Z   userxattr: false
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5154511Z  Logging Driver: json-file
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5154897Z  Cgroup Driver: systemd
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5155290Z  Cgroup Version: 2
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5155625Z  Plugins:
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5156006Z   Volume: local
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5156831Z   Network: bridge host ipvlan macvlan null overlay
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5157556Z   Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5158111Z  Swarm: inactive
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5158455Z  Runtimes: io.containerd.runc.v2 runc
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5158911Z  Default Runtime: runc
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5159275Z  Init Binary: docker-init
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5159802Z  containerd version: 1c4457e00facac03ce1d75f7b6777a7a851e5c41
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5160383Z  runc version: v1.3.4-0-gd6d73eb8
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5161068Z  init version: de40ad0
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5161469Z  Security Options:
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5161844Z   apparmor
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5162171Z   seccomp
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5162490Z    Profile: builtin
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5162838Z   cgroupns
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5163159Z  Kernel Version: 6.11.0-1018-azure
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5163579Z  Operating System: Ubuntu 24.04.3 LTS
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5164006Z  OSType: linux
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5164319Z  Architecture: x86_64
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5164641Z  CPUs: 4
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5165012Z  Total Memory: 15.62GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5165438Z  Name: runnervmh13bl
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5165803Z  ID: 0a695d56-123a-42a8-a772-617b83954cb8
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5166233Z  Docker Root Dir: /var/lib/docker
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5166630Z  Debug Mode: false
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5166975Z  Username: githubactions
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5167331Z  Experimental: false
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5167687Z  Insecure Registries:
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5173041Z   ::1/128
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5173422Z   127.0.0.0/8
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5173784Z  Live Restore Enabled: false
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5174083Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:38.5174774Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:38.6538455Z ##[group]Buildx version
+Build	UNKNOWN STEP	2025-12-19T16:35:38.6568329Z [command]/usr/bin/docker buildx version
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7219123Z github.com/docker/buildx v0.30.1 9e66234aa13328a5e75b75aa5574e1ca6d6d9c01
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7257314Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7411224Z ##[group]Inspecting default docker context
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7559493Z [
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7559828Z   {
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7560054Z     "Name": "default",
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7560292Z     "Metadata": {},
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7560687Z     "Endpoints": {
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7560880Z       "docker": {
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7561086Z         "Host": "unix:///var/run/docker.sock",
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7561373Z         "SkipTLSVerify": false
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7561584Z       }
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7561743Z     },
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7561906Z     "TLSMaterial": {},
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7562096Z     "Storage": {
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7562281Z       "MetadataPath": "<IN MEMORY>",
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7562519Z       "TLSPath": "<IN MEMORY>"
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7562718Z     }
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7562864Z   }
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7563014Z ]
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7563555Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:38.7564100Z ##[group]Creating a new builder instance
+Build	UNKNOWN STEP	2025-12-19T16:35:38.9145631Z [command]/usr/bin/docker buildx create --name builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1 --driver docker-container --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host --use
+Build	UNKNOWN STEP	2025-12-19T16:35:38.9965924Z builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1
+Build	UNKNOWN STEP	2025-12-19T16:35:39.0004147Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:39.0004815Z ##[group]Booting builder
+Build	UNKNOWN STEP	2025-12-19T16:35:39.0043379Z [command]/usr/bin/docker buildx inspect --bootstrap --builder builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1
+Build	UNKNOWN STEP	2025-12-19T16:35:39.0662847Z #1 [internal] booting buildkit
+Build	UNKNOWN STEP	2025-12-19T16:35:39.2168585Z #1 pulling image moby/buildkit:buildx-stable-1
+Build	UNKNOWN STEP	2025-12-19T16:35:42.3677032Z #1 pulling image moby/buildkit:buildx-stable-1 3.3s done
+Build	UNKNOWN STEP	2025-12-19T16:35:42.5181905Z #1 creating container buildx_buildkit_builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd10
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0066445Z #1 creating container buildx_buildkit_builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd10 0.6s done
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0081482Z #1 DONE 3.9s
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0395226Z Name:          builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0398975Z Driver:        docker-container
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0399448Z Last Activity: 2025-12-19 16:35:38 +0000 UTC
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0399757Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0399868Z Nodes:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0400277Z Name:                  builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd10
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0401079Z Endpoint:              unix:///var/run/docker.sock
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0401537Z Status:                running
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0402088Z BuildKit daemon flags: --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0402593Z BuildKit version:      v0.26.2
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0402918Z Platforms:             linux/amd64, linux/amd64/v2, linux/amd64/v3, linux/386
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0403230Z Labels:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0403706Z  org.mobyproject.buildkit.worker.executor:         oci
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0404489Z  org.mobyproject.buildkit.worker.hostname:         80705a2660d9
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0405003Z  org.mobyproject.buildkit.worker.network:          host
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0405548Z  org.mobyproject.buildkit.worker.oci.process-mode: sandbox
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0406101Z  org.mobyproject.buildkit.worker.selinux.enabled:  false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0406673Z  org.mobyproject.buildkit.worker.snapshotter:      overlayfs
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0407430Z GC Policy rule#0:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0407750Z  All:            false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0408244Z  Filters:        type==source.local,type==exec.cachemount,type==source.git.checkout
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0408840Z  Keep Duration:  48h0m0s
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0409180Z  Max Used Space: 488.3MiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0409502Z GC Policy rule#1:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0409816Z  All:            false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0410143Z  Keep Duration:  1440h0m0s
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0410692Z  Reserved Space: 7.451GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0411070Z  Max Used Space: 54.02GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0411779Z  Min Free Space: 13.97GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0412125Z GC Policy rule#2:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0412444Z  All:            false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0412799Z  Reserved Space: 7.451GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0413147Z  Max Used Space: 54.02GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0413487Z  Min Free Space: 13.97GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0413832Z GC Policy rule#3:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0414156Z  All:            true
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0414473Z  Reserved Space: 7.451GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0414808Z  Max Used Space: 54.02GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0415155Z  Min Free Space: 13.97GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.0458120Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1424047Z ##[group]Inspect builder
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1427279Z {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1427814Z   "nodes": [
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1428702Z     {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1430009Z       "name": "builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd10",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1430388Z       "endpoint": "unix:///var/run/docker.sock",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1430901Z       "status": "running",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1431391Z       "buildkitd-flags": "--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1432139Z       "buildkit": "v0.26.2",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1432453Z       "platforms": "linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/386",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1432782Z       "features": {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1433159Z         "Automatically load images to the Docker Engine image store": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1433510Z         "Cache export": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1433734Z         "Direct push": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1433958Z         "Docker exporter": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1434191Z         "Multi-platform build": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1434436Z         "OCI exporter": true
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1434638Z       },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1434799Z       "labels": {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1435194Z         "org.mobyproject.buildkit.worker.executor": "oci",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1435577Z         "org.mobyproject.buildkit.worker.hostname": "80705a2660d9",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1435949Z         "org.mobyproject.buildkit.worker.network": "host",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1436586Z         "org.mobyproject.buildkit.worker.oci.process-mode": "sandbox",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1437022Z         "org.mobyproject.buildkit.worker.selinux.enabled": "false",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1437413Z         "org.mobyproject.buildkit.worker.snapshotter": "overlayfs"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1437720Z       },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1437889Z       "gcPolicy": [
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1438067Z         {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1438232Z           "all": false,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1438418Z           "filter": [
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1438618Z             "type==source.local",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1438851Z             "type==exec.cachemount",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1439092Z             "type==source.git.checkout"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1439314Z           ],
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1439493Z           "keepDuration": "48h0m0s",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1439715Z           "maxUsedSpace": "488.3MiB"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1439927Z         },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1440107Z         {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1440367Z           "all": false,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1440770Z           "keepDuration": "1440h0m0s",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1441012Z           "reservedSpace": "7.451GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1441248Z           "maxUsedSpace": "54.02GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1441470Z           "minFreeSpace": "13.97GiB"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1441682Z         },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1441840Z         {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1441996Z           "all": false,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1442192Z           "reservedSpace": "7.451GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1442417Z           "maxUsedSpace": "54.02GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1442647Z           "minFreeSpace": "13.97GiB"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1442857Z         },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1443013Z         {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1443170Z           "all": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1443397Z           "reservedSpace": "7.451GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1443626Z           "maxUsedSpace": "54.02GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1443852Z           "minFreeSpace": "13.97GiB"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1444248Z         }
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1444400Z       ]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1444555Z     }
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1444703Z   ],
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1444930Z   "name": "builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1445229Z   "driver": "docker-container",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1445471Z   "lastActivity": "2025-12-19T16:35:38.000Z"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1445698Z }
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1446141Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1446459Z ##[group]BuildKit version
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1446724Z builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd10: v0.26.2
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1447129Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1657031Z ##[group]Run docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1657440Z with:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1657623Z   context: .
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1657801Z   push: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1657989Z   cache-from: type=gha
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1658204Z   cache-to: type=gha,mode=max
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1658503Z   build-args: VERSION=e4109c5085b08ef7577cc1011b8bd7d26765f592
+Build	UNKNOWN STEP	
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1658822Z   load: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1659001Z   no-cache: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1659186Z   pull: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1659517Z   github-token: ***
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1659717Z env:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1659881Z   GO_VERSION: 1.25
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1660070Z   REGISTRY: docker.io
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1660266Z   IMAGE_NAME: jbcom/secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1660740Z   HELM_REGISTRY: oci://registry-1.docker.io/jbcom/secretsync
+Build	UNKNOWN STEP	2025-12-19T16:35:43.1661045Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4557444Z ##[group]GitHub Actions runtime token ACs
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4567365Z refs/pull/9/merge: read/write
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4567815Z refs/heads/main: read
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4568854Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4569445Z ##[group]Docker info
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4616535Z [command]/usr/bin/docker version
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4806516Z Client: Docker Engine - Community
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4809635Z  Version:           28.0.4
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4810331Z  API version:       1.48
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4810809Z  Go version:        go1.23.7
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4811044Z  Git commit:        b8034c0
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4811274Z  Built:             Tue Mar 25 15:07:16 2025
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4811530Z  OS/Arch:           linux/amd64
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4811743Z  Context:           default
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4811880Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4811976Z Server: Docker Engine - Community
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4812199Z  Engine:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4812371Z   Version:          28.0.4
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4812600Z   API version:      1.48 (minimum version 1.24)
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4812891Z   Go version:       go1.23.7
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4813103Z   Git commit:       6430e49
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4813318Z   Built:            Tue Mar 25 15:07:16 2025
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4813579Z   OS/Arch:          linux/amd64
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4813800Z   Experimental:     false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4814007Z  containerd:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4814183Z   Version:          v2.2.0
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4814453Z   GitCommit:        1c4457e00facac03ce1d75f7b6777a7a851e5c41
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4814738Z  runc:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4814910Z   Version:          1.3.4
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4815119Z   GitCommit:        v1.3.4-0-gd6d73eb8
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4815356Z  docker-init:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4815540Z   Version:          0.19.0
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4815736Z   GitCommit:        de40ad0
+Build	UNKNOWN STEP	2025-12-19T16:35:43.4856214Z [command]/usr/bin/docker info
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5338589Z Client: Docker Engine - Community
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5339035Z  Version:    28.0.4
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5339241Z  Context:    default
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5339459Z  Debug Mode: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5339652Z  Plugins:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5339839Z   buildx: Docker Buildx (Docker Inc.)
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5340091Z     Version:  v0.30.1
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5340637Z     Path:     /usr/libexec/docker/cli-plugins/docker-buildx
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5341173Z   compose: Docker Compose (Docker Inc.)
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5341565Z     Version:  v2.38.2
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5341867Z     Path:     /usr/libexec/docker/cli-plugins/docker-compose
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5342406Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5342484Z Server:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5342644Z  Containers: 1
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5342824Z   Running: 1
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5342986Z   Paused: 0
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5343151Z   Stopped: 0
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5343310Z  Images: 1
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5343480Z  Server Version: 28.0.4
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5343681Z  Storage Driver: overlay2
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5343896Z   Backing Filesystem: extfs
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5344112Z   Supports d_type: true
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5344510Z   Using metacopy: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5344718Z   Native Overlay Diff: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5344925Z   userxattr: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5345120Z  Logging Driver: json-file
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5345323Z  Cgroup Driver: systemd
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5345513Z  Cgroup Version: 2
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5345688Z  Plugins:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5345855Z   Volume: local
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5346063Z   Network: bridge host ipvlan macvlan null overlay
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5346440Z   Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5346773Z  Swarm: inactive
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5346970Z  Runtimes: io.containerd.runc.v2 runc
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5347215Z  Default Runtime: runc
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5347407Z  Init Binary: docker-init
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5347706Z  containerd version: 1c4457e00facac03ce1d75f7b6777a7a851e5c41
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5348012Z  runc version: v1.3.4-0-gd6d73eb8
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5348248Z  init version: de40ad0
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5348432Z  Security Options:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5348616Z   apparmor
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5348779Z   seccomp
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5348939Z    Profile: builtin
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5349112Z   cgroupns
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5349279Z  Kernel Version: 6.11.0-1018-azure
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5349516Z  Operating System: Ubuntu 24.04.3 LTS
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5349744Z  OSType: linux
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5349923Z  Architecture: x86_64
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5350107Z  CPUs: 4
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5350286Z  Total Memory: 15.62GiB
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5350958Z  Name: runnervmh13bl
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5351337Z  ID: 0a695d56-123a-42a8-a772-617b83954cb8
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5351634Z  Docker Root Dir: /var/lib/docker
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5351867Z  Debug Mode: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5352062Z  Username: githubactions
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5352262Z  Experimental: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5352457Z  Insecure Registries:
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5352662Z   ::1/128
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5352821Z   127.0.0.0/8
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5352993Z  Live Restore Enabled: false
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5353145Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5355515Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5355854Z ##[group]Proxy configuration
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5359160Z No proxy configuration found
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5360168Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5937461Z ##[group]Buildx version
+Build	UNKNOWN STEP	2025-12-19T16:35:43.5958439Z [command]/usr/bin/docker buildx version
+Build	UNKNOWN STEP	2025-12-19T16:35:43.6643335Z github.com/docker/buildx v0.30.1 9e66234aa13328a5e75b75aa5574e1ca6d6d9c01
+Build	UNKNOWN STEP	2025-12-19T16:35:43.6682898Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.6683548Z ##[group]Builder info
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7977020Z {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7977356Z   "nodes": [
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7977656Z     {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7978104Z       "name": "builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd10",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7978652Z       "endpoint": "unix:///var/run/docker.sock",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7979084Z       "status": "running",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7979836Z       "buildkitd-flags": "--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7980906Z       "buildkit": "v0.26.2",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7981418Z       "platforms": "linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/386",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7981764Z       "features": {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7982056Z         "Automatically load images to the Docker Engine image store": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7982387Z         "Cache export": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7982605Z         "Direct push": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7983097Z         "Docker exporter": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7983337Z         "Multi-platform build": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7983573Z         "OCI exporter": true
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7983770Z       },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7983922Z       "labels": {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7984157Z         "org.mobyproject.buildkit.worker.executor": "oci",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7984518Z         "org.mobyproject.buildkit.worker.hostname": "80705a2660d9",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7984863Z         "org.mobyproject.buildkit.worker.network": "host",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7985378Z         "org.mobyproject.buildkit.worker.oci.process-mode": "sandbox",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7985778Z         "org.mobyproject.buildkit.worker.selinux.enabled": "false",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7986161Z         "org.mobyproject.buildkit.worker.snapshotter": "overlayfs"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7986450Z       },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7986611Z       "gcPolicy": [
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7986778Z         {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7986939Z           "all": false,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7987132Z           "filter": [
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7987318Z             "type==source.local",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7987546Z             "type==exec.cachemount",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7987785Z             "type==source.git.checkout"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7988014Z           ],
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7988185Z           "keepDuration": "48h0m0s",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7988410Z           "maxUsedSpace": "488.3MiB"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7988612Z         },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7988765Z         {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7988917Z           "all": false,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7989130Z           "keepDuration": "1440h0m0s",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7989369Z           "reservedSpace": "7.451GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7989593Z           "maxUsedSpace": "54.02GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7989820Z           "minFreeSpace": "13.97GiB"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7990022Z         },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7990177Z         {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7990334Z           "all": false,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7990884Z           "reservedSpace": "7.451GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7991138Z           "maxUsedSpace": "54.02GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7991376Z           "minFreeSpace": "13.97GiB"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7991600Z         },
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7991755Z         {
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7991916Z           "all": true,
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7992112Z           "reservedSpace": "7.451GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7992347Z           "maxUsedSpace": "54.02GiB",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7992574Z           "minFreeSpace": "13.97GiB"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7992784Z         }
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7992932Z       ]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7993083Z     }
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7993226Z   ],
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7993451Z   "name": "builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7993749Z   "driver": "docker-container",
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7993987Z   "lastActivity": "2025-12-19T16:35:38.000Z"
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7994221Z }
+Build	UNKNOWN STEP	2025-12-19T16:35:43.7994615Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:35:43.9644704Z [command]/usr/bin/docker buildx build --build-arg VERSION=e4109c5085b08ef7577cc1011b8bd7d26765f592 --cache-from type=gha --cache-to type=gha,mode=max --iidfile /home/runner/work/_temp/docker-actions-toolkit-UGdc4a/build-iidfile-4f6f19dcd3.txt --attest type=provenance,mode=max,builder-id=https://github.com/jbcom/go-secretsync/actions/runs/20376118901/attempts/1 --metadata-file /home/runner/work/_temp/docker-actions-toolkit-UGdc4a/build-metadata-a3118ce635.json .
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3132121Z #0 building with "builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1" instance using docker-container driver
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3132870Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3133027Z #1 [internal] load build definition from Dockerfile
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3133414Z #1 transferring dockerfile: 1.92kB done
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3133702Z #1 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3133823Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3134013Z #2 [auth] docker/dockerfile:pull token for registry-1.docker.io
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3134375Z #2 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3134493Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:44.3134742Z #3 resolve image config for docker-image://docker.io/docker/dockerfile:1.7
+Build	UNKNOWN STEP	2025-12-19T16:35:44.4358467Z #3 DONE 0.3s
+Build	UNKNOWN STEP	2025-12-19T16:35:44.5970767Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:44.5971617Z #4 docker-image://docker.io/docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e
+Build	UNKNOWN STEP	2025-12-19T16:35:44.5972602Z #4 resolve docker.io/docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e done
+Build	UNKNOWN STEP	2025-12-19T16:35:44.6001411Z #4 sha256:96918c57e42509b97f10c074d80672ecdbd3bb7dcd38c1bd95960cf291207416 3.15MB / 11.98MB 0.2s
+Build	UNKNOWN STEP	2025-12-19T16:35:44.7481973Z #4 sha256:96918c57e42509b97f10c074d80672ecdbd3bb7dcd38c1bd95960cf291207416 11.98MB / 11.98MB 0.3s done
+Build	UNKNOWN STEP	2025-12-19T16:35:44.9061574Z #4 extracting sha256:96918c57e42509b97f10c074d80672ecdbd3bb7dcd38c1bd95960cf291207416 0.1s done
+Build	UNKNOWN STEP	2025-12-19T16:35:44.9062664Z #4 DONE 0.4s
+Build	UNKNOWN STEP	2025-12-19T16:35:44.9063208Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:44.9063663Z #5 [internal] load metadata for docker.io/library/busybox:1.37.0-musl
+Build	UNKNOWN STEP	2025-12-19T16:35:45.0675334Z #5 ...
+Build	UNKNOWN STEP	2025-12-19T16:35:45.0675604Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.0675956Z #6 [auth] library/busybox:pull token for registry-1.docker.io
+Build	UNKNOWN STEP	2025-12-19T16:35:45.0676596Z #6 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.0676802Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.0676991Z #7 [auth] library/golang:pull token for registry-1.docker.io
+Build	UNKNOWN STEP	2025-12-19T16:35:45.0677369Z #7 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.1941873Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.1942940Z #5 [internal] load metadata for docker.io/library/busybox:1.37.0-musl
+Build	UNKNOWN STEP	2025-12-19T16:35:45.1943541Z #5 DONE 0.3s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.1943735Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.1943916Z #8 [internal] load metadata for docker.io/library/golang:1.25-trixie
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2954025Z #8 DONE 0.3s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2954303Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2954464Z #9 [internal] load .dockerignore
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2954873Z #9 transferring context: 2B done
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2955272Z #9 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2955446Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2955691Z #10 [internal] load build context
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2956735Z #10 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2956926Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2957992Z #11 [builder 1/7] FROM docker.io/library/golang:1.25-trixie@sha256:8e8f9c84609b6005af0a4a8227cee53d6226aab1c6dcb22daf5aeeb8b05480e1
+Build	UNKNOWN STEP	2025-12-19T16:35:45.2959431Z #11 resolve docker.io/library/golang:1.25-trixie@sha256:8e8f9c84609b6005af0a4a8227cee53d6226aab1c6dcb22daf5aeeb8b05480e1 done
+Build	UNKNOWN STEP	2025-12-19T16:35:45.4448967Z #11 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.4449636Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.4450105Z #12 importing cache manifest from gha:16000668037435240193
+Build	UNKNOWN STEP	2025-12-19T16:35:45.4456469Z #12 DONE 0.1s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.4456956Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.4457985Z #13 [runtime 1/6] FROM docker.io/library/busybox:1.37.0-musl@sha256:b259afe60d4b88dbdb31908ca9524ef5308afd01aea17f4ce44ddb3c6a882929
+Build	UNKNOWN STEP	2025-12-19T16:35:45.4460920Z #13 resolve docker.io/library/busybox:1.37.0-musl@sha256:b259afe60d4b88dbdb31908ca9524ef5308afd01aea17f4ce44ddb3c6a882929 done
+Build	UNKNOWN STEP	2025-12-19T16:35:45.4464327Z #13 sha256:5bfa213ad2917fd7ef0d56c49b841de3a4788e60b3554ad86d616100e095c1f8 871.01kB / 871.01kB 0.1s done
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5968651Z #13 extracting sha256:5bfa213ad2917fd7ef0d56c49b841de3a4788e60b3554ad86d616100e095c1f8 0.1s done
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5969606Z #13 DONE 0.1s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5969787Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5969932Z #10 [internal] load build context
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5970376Z #10 transferring context: 3.62MB 0.1s done
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5970951Z #10 DONE 0.1s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5971134Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5971272Z #14 [runtime 2/6] WORKDIR /app
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5971633Z #14 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5971803Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5972005Z #15 [runtime 3/6] RUN mkdir -p /etc/ssl/certs
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5972424Z #15 DONE 0.1s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5972596Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5972740Z #16 [builder 2/7] WORKDIR /src
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5973396Z #16 sha256:81a77c8f945b182238059746e5d5e82689a78d8c65fdf751d1d0e659935b04c1 126B / 126B 0.0s done
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5974401Z #16 sha256:ef48f9a245f957816d9270326c024918ceba974078222aacb8db32448cc61ab8 93B / 93B 0.0s done
+Build	UNKNOWN STEP	2025-12-19T16:35:45.5975408Z #16 sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 32B / 32B 0.0s done
+Build	UNKNOWN STEP	2025-12-19T16:35:45.7681566Z #16 sha256:5c445a0e108b509dd422d6adce512f16cb7edd37814e8e3509850820377bcf06 15.73MB / 60.15MB 0.3s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.7682689Z #16 sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b 8.39MB / 102.11MB 0.2s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.7683577Z #16 sha256:58f2d358b447d091790c5ef0943550bbcf57bac46c4b8bfcfc3e6dacf4cb7969 13.63MB / 67.78MB 0.2s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.7684209Z #16 sha256:b22766554d6bfa95c7325b00ee002f2705a7b8605908c3eb43dbe729c412422c 8.39MB / 25.61MB 0.2s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.9184995Z #16 sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b 27.26MB / 102.11MB 0.3s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.9186162Z #16 sha256:58f2d358b447d091790c5ef0943550bbcf57bac46c4b8bfcfc3e6dacf4cb7969 31.46MB / 67.78MB 0.3s
+Build	UNKNOWN STEP	2025-12-19T16:35:45.9187113Z #16 sha256:b22766554d6bfa95c7325b00ee002f2705a7b8605908c3eb43dbe729c412422c 25.61MB / 25.61MB 0.3s done
+Build	UNKNOWN STEP	2025-12-19T16:35:46.0707985Z #16 sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b 46.14MB / 102.11MB 0.5s
+Build	UNKNOWN STEP	2025-12-19T16:35:46.0709347Z #16 sha256:58f2d358b447d091790c5ef0943550bbcf57bac46c4b8bfcfc3e6dacf4cb7969 67.78MB / 67.78MB 0.6s done
+Build	UNKNOWN STEP	2025-12-19T16:35:46.0710603Z #16 sha256:2981f7e8980b9f4b6605026e1c5f99b4971ebba15f626e46904554de09f324f4 7.34MB / 49.29MB 0.2s
+Build	UNKNOWN STEP	2025-12-19T16:35:46.2182478Z #16 sha256:5c445a0e108b509dd422d6adce512f16cb7edd37814e8e3509850820377bcf06 46.14MB / 60.15MB 0.8s
+Build	UNKNOWN STEP	2025-12-19T16:35:46.2184066Z #16 sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b 65.01MB / 102.11MB 0.6s
+Build	UNKNOWN STEP	2025-12-19T16:35:46.2185354Z #16 sha256:2981f7e8980b9f4b6605026e1c5f99b4971ebba15f626e46904554de09f324f4 28.31MB / 49.29MB 0.3s
+Build	UNKNOWN STEP	2025-12-19T16:35:46.3362335Z #16 sha256:5c445a0e108b509dd422d6adce512f16cb7edd37814e8e3509850820377bcf06 60.15MB / 60.15MB 0.9s done
+Build	UNKNOWN STEP	2025-12-19T16:35:46.3363467Z #16 sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b 78.64MB / 102.11MB 0.8s
+Build	UNKNOWN STEP	2025-12-19T16:35:46.3364541Z #16 sha256:2981f7e8980b9f4b6605026e1c5f99b4971ebba15f626e46904554de09f324f4 49.29MB / 49.29MB 0.5s done
+Build	UNKNOWN STEP	2025-12-19T16:35:46.5368022Z #16 extracting sha256:2981f7e8980b9f4b6605026e1c5f99b4971ebba15f626e46904554de09f324f4
+Build	UNKNOWN STEP	2025-12-19T16:35:46.5368913Z #16 sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b 87.03MB / 102.11MB 0.9s
+Build	UNKNOWN STEP	2025-12-19T16:35:46.5380655Z #16 sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b 96.47MB / 102.11MB 1.1s
+Build	UNKNOWN STEP	2025-12-19T16:35:46.7430709Z #16 sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b 102.11MB / 102.11MB 1.1s done
+Build	UNKNOWN STEP	2025-12-19T16:35:47.3027737Z #16 extracting sha256:2981f7e8980b9f4b6605026e1c5f99b4971ebba15f626e46904554de09f324f4 1.0s done
+Build	UNKNOWN STEP	2025-12-19T16:35:47.3028479Z #16 DONE 1.9s
+Build	UNKNOWN STEP	2025-12-19T16:35:47.4533023Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:47.4534882Z #16 [builder 2/7] WORKDIR /src
+Build	UNKNOWN STEP	2025-12-19T16:35:47.4536089Z #16 extracting sha256:b22766554d6bfa95c7325b00ee002f2705a7b8605908c3eb43dbe729c412422c
+Build	UNKNOWN STEP	2025-12-19T16:35:47.7612304Z #16 extracting sha256:b22766554d6bfa95c7325b00ee002f2705a7b8605908c3eb43dbe729c412422c 0.5s done
+Build	UNKNOWN STEP	2025-12-19T16:35:47.7612994Z #16 DONE 2.4s
+Build	UNKNOWN STEP	2025-12-19T16:35:47.9117308Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:47.9117893Z #16 [builder 2/7] WORKDIR /src
+Build	UNKNOWN STEP	2025-12-19T16:35:47.9118625Z #16 extracting sha256:58f2d358b447d091790c5ef0943550bbcf57bac46c4b8bfcfc3e6dacf4cb7969
+Build	UNKNOWN STEP	2025-12-19T16:35:49.2952647Z #16 extracting sha256:58f2d358b447d091790c5ef0943550bbcf57bac46c4b8bfcfc3e6dacf4cb7969 1.5s done
+Build	UNKNOWN STEP	2025-12-19T16:35:49.2953400Z #16 DONE 3.9s
+Build	UNKNOWN STEP	2025-12-19T16:35:49.4456126Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:49.4456554Z #16 [builder 2/7] WORKDIR /src
+Build	UNKNOWN STEP	2025-12-19T16:35:49.4457279Z #16 extracting sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b
+Build	UNKNOWN STEP	2025-12-19T16:35:51.0696009Z #16 extracting sha256:dfe0f9d3557d0d7bae81e9248d9b3dbcf4bea111897f7b681ad95869d3931e3b 1.8s done
+Build	UNKNOWN STEP	2025-12-19T16:35:51.0696816Z #16 DONE 5.7s
+Build	UNKNOWN STEP	2025-12-19T16:35:51.2206232Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:51.2207652Z #16 [builder 2/7] WORKDIR /src
+Build	UNKNOWN STEP	2025-12-19T16:35:51.2208933Z #16 extracting sha256:5c445a0e108b509dd422d6adce512f16cb7edd37814e8e3509850820377bcf06
+Build	UNKNOWN STEP	2025-12-19T16:35:53.9377891Z #16 extracting sha256:5c445a0e108b509dd422d6adce512f16cb7edd37814e8e3509850820377bcf06 2.9s done
+Build	UNKNOWN STEP	2025-12-19T16:35:53.9378652Z #16 DONE 8.6s
+Build	UNKNOWN STEP	2025-12-19T16:35:54.0475683Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:54.0476514Z #16 [builder 2/7] WORKDIR /src
+Build	UNKNOWN STEP	2025-12-19T16:35:54.0477225Z #16 extracting sha256:81a77c8f945b182238059746e5d5e82689a78d8c65fdf751d1d0e659935b04c1 done
+Build	UNKNOWN STEP	2025-12-19T16:35:54.0478277Z #16 extracting sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 done
+Build	UNKNOWN STEP	2025-12-19T16:35:54.0479323Z #16 extracting sha256:ef48f9a245f957816d9270326c024918ceba974078222aacb8db32448cc61ab8 done
+Build	UNKNOWN STEP	2025-12-19T16:35:54.0479746Z #16 DONE 8.6s
+Build	UNKNOWN STEP	2025-12-19T16:35:54.0479864Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:54.0480149Z #17 [builder 3/7] RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+Build	UNKNOWN STEP	2025-12-19T16:35:54.0480917Z #17 0.096 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+Build	UNKNOWN STEP	2025-12-19T16:35:54.2755458Z #17 0.108 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+Build	UNKNOWN STEP	2025-12-19T16:35:54.2756346Z #17 0.108 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+Build	UNKNOWN STEP	2025-12-19T16:35:54.2756959Z #17 0.124 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9670 kB]
+Build	UNKNOWN STEP	2025-12-19T16:35:54.2757540Z #17 0.173 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [5412 B]
+Build	UNKNOWN STEP	2025-12-19T16:35:54.2758172Z #17 0.173 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [85.2 kB]
+Build	UNKNOWN STEP	2025-12-19T16:35:54.7777716Z #17 0.826 Fetched 9992 kB in 1s (13.2 MB/s)
+Build	UNKNOWN STEP	2025-12-19T16:35:55.2976621Z #17 0.826 Reading package lists...
+Build	UNKNOWN STEP	2025-12-19T16:35:55.8707608Z #17 1.363 Reading package lists...
+Build	UNKNOWN STEP	2025-12-19T16:35:56.0558454Z #17 1.929 Building dependency tree...
+Build	UNKNOWN STEP	2025-12-19T16:35:56.2065701Z #17 2.104 Reading state information...
+Build	UNKNOWN STEP	2025-12-19T16:35:56.2719220Z #17 2.320 ca-certificates is already the newest version (20250419).
+Build	UNKNOWN STEP	2025-12-19T16:35:56.2719965Z #17 2.320 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Build	UNKNOWN STEP	2025-12-19T16:35:58.3637010Z #17 DONE 4.4s
+Build	UNKNOWN STEP	2025-12-19T16:35:58.5274859Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:58.5275504Z #18 [builder 4/7] COPY go.mod go.sum ./
+Build	UNKNOWN STEP	2025-12-19T16:35:58.5275867Z #18 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:35:58.5276009Z 
+Build	UNKNOWN STEP	2025-12-19T16:35:58.5276443Z #19 [builder 5/7] RUN --mount=type=cache,target=/go/pkg/mod     --mount=type=cache,target=/root/.cache/go-build     go mod download
+Build	UNKNOWN STEP	2025-12-19T16:36:00.8153916Z #19 DONE 2.4s
+Build	UNKNOWN STEP	2025-12-19T16:36:01.0188809Z 
+Build	UNKNOWN STEP	2025-12-19T16:36:01.0189409Z #20 [builder 6/7] COPY . .
+Build	UNKNOWN STEP	2025-12-19T16:36:01.0191380Z #20 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:36:01.0191561Z 
+Build	UNKNOWN STEP	2025-12-19T16:36:01.0192655Z #21 [builder 7/7] RUN --mount=type=cache,target=/go/pkg/mod     --mount=type=cache,target=/root/.cache/go-build     GOOS=linux     GOARCH=amd64     GOARM=     go build -trimpath       -ldflags="-s -w"       -o /out/secretsync ./cmd/secretsync
+Build	UNKNOWN STEP	2025-12-19T16:36:43.1062859Z #21 DONE 42.2s
+Build	UNKNOWN STEP	2025-12-19T16:36:43.2235517Z 
+Build	UNKNOWN STEP	2025-12-19T16:36:43.2236476Z #22 [runtime 4/6] COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+Build	UNKNOWN STEP	2025-12-19T16:36:43.2237393Z #22 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:36:43.2237601Z 
+Build	UNKNOWN STEP	2025-12-19T16:36:43.2237988Z #23 [runtime 5/6] COPY --from=builder /out/secretsync /usr/local/bin/secretsync
+Build	UNKNOWN STEP	2025-12-19T16:36:43.2238630Z #23 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:36:43.2238822Z 
+Build	UNKNOWN STEP	2025-12-19T16:36:43.2239119Z #24 [runtime 6/6] RUN ln -s /usr/local/bin/secretsync /usr/local/bin/vss
+Build	UNKNOWN STEP	2025-12-19T16:36:43.2239633Z #24 DONE 0.1s
+Build	UNKNOWN STEP	2025-12-19T16:36:43.3775225Z 
+Build	UNKNOWN STEP	2025-12-19T16:36:43.3779566Z #25 exporting to GitHub Actions Cache
+Build	UNKNOWN STEP	2025-12-19T16:36:43.3780090Z #25 preparing build cache for export
+Build	UNKNOWN STEP	2025-12-19T16:36:44.6114647Z #25 writing layer sha256:06f886f4a4049bb9be9245adae726ae2a5f7f477ac0e9f0759f1333a6f58950c
+Build	UNKNOWN STEP	2025-12-19T16:36:44.7219007Z #25 writing layer sha256:06f886f4a4049bb9be9245adae726ae2a5f7f477ac0e9f0759f1333a6f58950c 0.1s done
+Build	UNKNOWN STEP	2025-12-19T16:36:44.8710122Z #25 writing layer sha256:3ee3954295d27b0bbeb9f8f31cb4e98ed02b52447462d8b5affec5f0ea517b02 0.1s done
+Build	UNKNOWN STEP	2025-12-19T16:36:45.0234419Z #25 writing layer sha256:4090ed4242db16360087753317cafd802e8a9291705af55f5b4af5278fac723b 0.1s done
+Build	UNKNOWN STEP	2025-12-19T16:36:45.2305793Z #25 writing layer sha256:5bfa213ad2917fd7ef0d56c49b841de3a4788e60b3554ad86d616100e095c1f8
+Build	UNKNOWN STEP	2025-12-19T16:36:45.2898919Z #25 writing layer sha256:5bfa213ad2917fd7ef0d56c49b841de3a4788e60b3554ad86d616100e095c1f8 0.2s done
+Build	UNKNOWN STEP	2025-12-19T16:36:45.4681552Z #25 writing layer sha256:5e8fa878e7aa3515a3e3afb13bca815e2b6b19be998a18f8d4a017cf4152c34e
+Build	UNKNOWN STEP	2025-12-19T16:36:45.9131980Z #25 writing layer sha256:5e8fa878e7aa3515a3e3afb13bca815e2b6b19be998a18f8d4a017cf4152c34e 0.6s done
+Build	UNKNOWN STEP	2025-12-19T16:36:46.0810395Z #25 writing layer sha256:637bc331dabaf8e349577981bc9a9ba584cbea322916f59504f7c05d1a3bac39
+Build	UNKNOWN STEP	2025-12-19T16:36:46.1357572Z #25 writing layer sha256:637bc331dabaf8e349577981bc9a9ba584cbea322916f59504f7c05d1a3bac39 0.2s done
+Build	UNKNOWN STEP	2025-12-19T16:36:46.3154200Z #25 writing layer sha256:ab1b08122f2a8725da77cd365bc3075f948091e6f29176c0ddaa3a5e4d046a78
+Build	UNKNOWN STEP	2025-12-19T16:36:46.4238516Z #25 writing layer sha256:ab1b08122f2a8725da77cd365bc3075f948091e6f29176c0ddaa3a5e4d046a78 0.3s done
+Build	UNKNOWN STEP	2025-12-19T16:36:46.5991426Z #25 writing layer sha256:caface6352a84e6f85bfc36eeb7359fab29642ce36e723ba13565044876f9936
+Build	UNKNOWN STEP	2025-12-19T16:36:46.6021999Z #25 writing layer sha256:caface6352a84e6f85bfc36eeb7359fab29642ce36e723ba13565044876f9936 0.2s done
+Build	UNKNOWN STEP	2025-12-19T16:36:46.7622016Z #25 writing layer sha256:d891836d1d7294a889edbab8eec468d27dfeb1dc0fa64bfe77fad1b4a6c3d6ee
+Build	UNKNOWN STEP	2025-12-19T16:36:47.1365523Z #25 writing layer sha256:d891836d1d7294a889edbab8eec468d27dfeb1dc0fa64bfe77fad1b4a6c3d6ee 0.5s done
+Build	UNKNOWN STEP	2025-12-19T16:36:47.2847903Z #25 writing layer sha256:fd2eefc25ee258a4b9054f13e9270f92080d1daac6ac7ab9fda41d51871275f4 0.1s done
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4206559Z #25 preparing build cache for export 4.2s done
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4207228Z #25 DONE 4.2s
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4456188Z 
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4456681Z #26 resolving provenance for metadata file
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4457170Z #26 DONE 0.0s
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4458417Z WARNING: No output specified with docker-container driver. Build result will only remain in the build cache. To push result image into registry use --push or to load image into docker use --load
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4543554Z ##[group]Metadata
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4544923Z {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4545228Z   "buildx.build.provenance": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4545596Z     "builder": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4546149Z       "id": "https://github.com/jbcom/go-secretsync/actions/runs/20376118901/attempts/1"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4546762Z     },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4547141Z     "buildType": "https://mobyproject.org/buildkit@v1",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4547632Z     "materials": [
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4547954Z       {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4548267Z         "uri": "pkg:docker/docker/dockerfile@1.7",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4548679Z         "digest": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4549173Z           "sha256": "a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4549744Z         }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4550007Z       },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4550258Z       {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4550879Z         "uri": "pkg:docker/busybox@1.37.0-musl?platform=linux%2Famd64",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4551381Z         "digest": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4551876Z           "sha256": "b259afe60d4b88dbdb31908ca9524ef5308afd01aea17f4ce44ddb3c6a882929"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4552446Z         }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4552823Z       },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4553076Z       {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4553441Z         "uri": "pkg:docker/golang@1.25-trixie?platform=linux%2Famd64",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4553919Z         "digest": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4554429Z           "sha256": "8e8f9c84609b6005af0a4a8227cee53d6226aab1c6dcb22daf5aeeb8b05480e1"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4555012Z         }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4555265Z       }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4555505Z     ],
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4555762Z     "invocation": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4556064Z       "configSource": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4556400Z         "entryPoint": "Dockerfile"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4556745Z       },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4557013Z       "parameters": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4557213Z         "frontend": "gateway.v0",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4557705Z         "args": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4557956Z           "build-arg:VERSION": "e4109c5085b08ef7577cc1011b8bd7d26765f592",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4558279Z           "cmdline": "docker/dockerfile:1.7",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4558535Z           "source": "docker/dockerfile:1.7"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4558792Z         },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4558954Z         "locals": [
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4559122Z           {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4559293Z             "name": "context"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4559491Z           },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4559655Z           {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4559950Z             "name": "dockerfile"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4560163Z           }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4560311Z         ]
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4560683Z       },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4560850Z       "environment": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4561103Z         "github_actor": "dependabot[bot]",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4561406Z         "github_actor_id": "49699333",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4561652Z         "github_event_name": "pull_request",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4561918Z         "github_event_payload": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4562139Z           "action": "opened",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4562343Z           "number": 9,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4562530Z           "organization": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4562975Z             "avatar_url": "https://avatars.githubusercontent.com/u/249346714?v=4",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4563327Z             "description": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4563613Z             "events_url": "https://api.github.com/orgs/jbcom/events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4563962Z             "hooks_url": "https://api.github.com/orgs/jbcom/hooks",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4564345Z             "id": 249346714,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4564616Z             "issues_url": "https://api.github.com/orgs/jbcom/issues",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4564896Z             "login": "jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4565186Z             "members_url": "https://api.github.com/orgs/jbcom/members{/member}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4565507Z             "node_id": "O_kgDODty6mg",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4565866Z             "public_members_url": "https://api.github.com/orgs/jbcom/public_members{/member}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4566280Z             "repos_url": "https://api.github.com/orgs/jbcom/repos",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4566593Z             "url": "https://api.github.com/orgs/jbcom"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4566843Z           },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4567011Z           "pull_request": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4567216Z             "_links": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4567398Z               "comments": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4567708Z                 "href": "https://api.github.com/repos/jbcom/go-secretsync/issues/9/comments"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4568036Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4568212Z               "commits": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4568503Z                 "href": "https://api.github.com/repos/jbcom/go-secretsync/pulls/9/commits"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4568824Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4568995Z               "html": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4569234Z                 "href": "https://github.com/jbcom/go-secretsync/pull/9"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4569519Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4569693Z               "issue": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4569980Z                 "href": "https://api.github.com/repos/jbcom/go-secretsync/issues/9"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4570290Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4571009Z               "review_comment": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4571445Z                 "href": "https://api.github.com/repos/jbcom/go-secretsync/pulls/comments{/number}"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4571799Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4571981Z               "review_comments": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4572309Z                 "href": "https://api.github.com/repos/jbcom/go-secretsync/pulls/9/comments"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4572635Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4572798Z               "self": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4573069Z                 "href": "https://api.github.com/repos/jbcom/go-secretsync/pulls/9"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4573367Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4573537Z               "statuses": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4574149Z                 "href": "https://api.github.com/repos/jbcom/go-secretsync/statuses/1519b8a2609f1b54b3538440c840ef37d9d4a87b"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4574602Z               }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4574770Z             },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4574950Z             "active_lock_reason": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4575190Z             "additions": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4575387Z             "assignee": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4575597Z             "assignees": [],
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4575817Z             "author_association": "CONTRIBUTOR",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4576188Z             "auto_merge": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4576390Z             "base": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4576582Z               "label": "jbcom:main",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4576799Z               "ref": "main",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4576998Z               "repo": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4577195Z                 "allow_auto_merge": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4577432Z                 "allow_forking": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4577669Z                 "allow_merge_commit": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4577916Z                 "allow_rebase_merge": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4578158Z                 "allow_squash_merge": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4578398Z                 "allow_update_branch": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4578824Z                 "archive_url": "https://api.github.com/repos/jbcom/go-secretsync/{archive_format}{/ref}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4579203Z                 "archived": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4579557Z                 "assignees_url": "https://api.github.com/repos/jbcom/go-secretsync/assignees{/user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4580041Z                 "blobs_url": "https://api.github.com/repos/jbcom/go-secretsync/git/blobs{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4580729Z                 "branches_url": "https://api.github.com/repos/jbcom/go-secretsync/branches{/branch}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4581167Z                 "clone_url": "https://github.com/jbcom/go-secretsync.git",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4581646Z                 "collaborators_url": "https://api.github.com/repos/jbcom/go-secretsync/collaborators{/collaborator}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4582206Z                 "comments_url": "https://api.github.com/repos/jbcom/go-secretsync/comments{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4582681Z                 "commits_url": "https://api.github.com/repos/jbcom/go-secretsync/commits{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4583169Z                 "compare_url": "https://api.github.com/repos/jbcom/go-secretsync/compare/{base}...{head}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4583678Z                 "contents_url": "https://api.github.com/repos/jbcom/go-secretsync/contents/{+path}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4584166Z                 "contributors_url": "https://api.github.com/repos/jbcom/go-secretsync/contributors",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4584549Z                 "created_at": "2025-12-16T08:37:23Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4584900Z                 "default_branch": "main",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4585156Z                 "delete_branch_on_merge": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4585521Z                 "deployments_url": "https://api.github.com/repos/jbcom/go-secretsync/deployments",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4586398Z                 "description": "Enterprise-grade secret synchronization pipeline. Sync secrets from HashiCorp Vault to AWS Secrets Manager with two-phase architecture, inheritance, versioning, and CI/CD integration.",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4587126Z                 "disabled": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4587463Z                 "downloads_url": "https://api.github.com/repos/jbcom/go-secretsync/downloads",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4587914Z                 "events_url": "https://api.github.com/repos/jbcom/go-secretsync/events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4588242Z                 "fork": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4588451Z                 "forks": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4588651Z                 "forks_count": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4588954Z                 "forks_url": "https://api.github.com/repos/jbcom/go-secretsync/forks",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4589292Z                 "full_name": "jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4589679Z                 "git_commits_url": "https://api.github.com/repos/jbcom/go-secretsync/git/commits{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4590868Z                 "git_refs_url": "https://api.github.com/repos/jbcom/go-secretsync/git/refs{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4591674Z                 "git_tags_url": "https://api.github.com/repos/jbcom/go-secretsync/git/tags{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4592151Z                 "git_url": "git://github.com/jbcom/go-secretsync.git",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4592440Z                 "has_discussions": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4592681Z                 "has_downloads": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4593065Z                 "has_issues": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4593295Z                 "has_pages": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4593517Z                 "has_projects": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4593739Z                 "has_wiki": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4593957Z                 "homepage": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4594259Z                 "hooks_url": "https://api.github.com/repos/jbcom/go-secretsync/hooks",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4594646Z                 "html_url": "https://github.com/jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4594917Z                 "id": 1117384113,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4595137Z                 "is_template": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4595527Z                 "issue_comment_url": "https://api.github.com/repos/jbcom/go-secretsync/issues/comments{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4596087Z                 "issue_events_url": "https://api.github.com/repos/jbcom/go-secretsync/issues/events{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4596598Z                 "issues_url": "https://api.github.com/repos/jbcom/go-secretsync/issues{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4597055Z                 "keys_url": "https://api.github.com/repos/jbcom/go-secretsync/keys{/key_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4597507Z                 "labels_url": "https://api.github.com/repos/jbcom/go-secretsync/labels{/name}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4597851Z                 "language": "Go",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4598419Z                 "languages_url": "https://api.github.com/repos/jbcom/go-secretsync/languages",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4598997Z                 "license": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4599321Z                   "key": "mit",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4599622Z                   "name": "MIT License",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4599870Z                   "node_id": "MDc6TGljZW5zZTEz",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4600116Z                   "spdx_id": "MIT",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4600364Z                   "url": "https://api.github.com/licenses/mit"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4600834Z                 },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4601046Z                 "merge_commit_message": "PR_TITLE",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4601315Z                 "merge_commit_title": "MERGE_MESSAGE",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4601655Z                 "merges_url": "https://api.github.com/repos/jbcom/go-secretsync/merges",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4602136Z                 "milestones_url": "https://api.github.com/repos/jbcom/go-secretsync/milestones{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4602516Z                 "mirror_url": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4602752Z                 "name": "go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4602989Z                 "node_id": "R_kgDOQpntsQ",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4603459Z                 "notifications_url": "https://api.github.com/repos/jbcom/go-secretsync/notifications{?since,all,participating}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4603924Z                 "open_issues": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4604145Z                 "open_issues_count": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4604374Z                 "owner": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4604676Z                   "avatar_url": "https://avatars.githubusercontent.com/u/249346714?v=4",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4605102Z                   "events_url": "https://api.github.com/users/jbcom/events{/privacy}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4605498Z                   "followers_url": "https://api.github.com/users/jbcom/followers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4605925Z                   "following_url": "https://api.github.com/users/jbcom/following{/other_user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4606345Z                   "gists_url": "https://api.github.com/users/jbcom/gists{/gist_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4606821Z                   "gravatar_id": "",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4607072Z                   "html_url": "https://github.com/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4607321Z                   "id": 249346714,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4607535Z                   "login": "jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4607757Z                   "node_id": "O_kgDODty6mg",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4608073Z                   "organizations_url": "https://api.github.com/users/jbcom/orgs",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4608620Z                   "received_events_url": "https://api.github.com/users/jbcom/received_events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4609027Z                   "repos_url": "https://api.github.com/users/jbcom/repos",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4609322Z                   "site_admin": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4609651Z                   "starred_url": "https://api.github.com/users/jbcom/starred{/owner}{/repo}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4610094Z                   "subscriptions_url": "https://api.github.com/users/jbcom/subscriptions",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4610644Z                   "type": "Organization",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4610942Z                   "url": "https://api.github.com/users/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4611215Z                   "user_view_type": "public"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4611437Z                 },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4611618Z                 "private": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4611949Z                 "pulls_url": "https://api.github.com/repos/jbcom/go-secretsync/pulls{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4612315Z                 "pushed_at": "2025-12-19T16:30:33Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4612683Z                 "releases_url": "https://api.github.com/repos/jbcom/go-secretsync/releases{/id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4613036Z                 "size": 7493,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4613278Z                 "squash_merge_commit_message": "COMMIT_MESSAGES",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4613588Z                 "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4613905Z                 "ssh_url": "git@github.com:jbcom/go-secretsync.git",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4614188Z                 "stargazers_count": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4614532Z                 "stargazers_url": "https://api.github.com/repos/jbcom/go-secretsync/stargazers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4615001Z                 "statuses_url": "https://api.github.com/repos/jbcom/go-secretsync/statuses/{sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4615479Z                 "subscribers_url": "https://api.github.com/repos/jbcom/go-secretsync/subscribers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4615968Z                 "subscription_url": "https://api.github.com/repos/jbcom/go-secretsync/subscription",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4616381Z                 "svn_url": "https://github.com/jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4616737Z                 "tags_url": "https://api.github.com/repos/jbcom/go-secretsync/tags",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4617135Z                 "teams_url": "https://api.github.com/repos/jbcom/go-secretsync/teams",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4617459Z                 "topics": [],
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4617775Z                 "trees_url": "https://api.github.com/repos/jbcom/go-secretsync/git/trees{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4618138Z                 "updated_at": "2025-12-19T16:29:08Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4618440Z                 "url": "https://api.github.com/repos/jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4618745Z                 "use_squash_pr_title_as_default": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4619002Z                 "visibility": "public",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4619231Z                 "watchers": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4619441Z                 "watchers_count": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4619681Z                 "web_commit_signoff_required": false
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4619919Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4620129Z               "sha": "8f71ee911af4d1be60f6a7360552ee7473bf7256",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4620387Z               "user": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4620870Z                 "avatar_url": "https://avatars.githubusercontent.com/u/249346714?v=4",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4621280Z                 "events_url": "https://api.github.com/users/jbcom/events{/privacy}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4621839Z                 "followers_url": "https://api.github.com/users/jbcom/followers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4622260Z                 "following_url": "https://api.github.com/users/jbcom/following{/other_user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4622687Z                 "gists_url": "https://api.github.com/users/jbcom/gists{/gist_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4622996Z                 "gravatar_id": "",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4623242Z                 "html_url": "https://github.com/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4623494Z                 "id": 249346714,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4623826Z                 "login": "jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4624056Z                 "node_id": "O_kgDODty6mg",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4624367Z                 "organizations_url": "https://api.github.com/users/jbcom/orgs",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4624796Z                 "received_events_url": "https://api.github.com/users/jbcom/received_events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4625188Z                 "repos_url": "https://api.github.com/users/jbcom/repos",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4625484Z                 "site_admin": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4625805Z                 "starred_url": "https://api.github.com/users/jbcom/starred{/owner}{/repo}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4626246Z                 "subscriptions_url": "https://api.github.com/users/jbcom/subscriptions",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4626594Z                 "type": "Organization",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4626856Z                 "url": "https://api.github.com/users/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4627124Z                 "user_view_type": "public"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4627402Z               }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4627680Z             },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4634623Z             "body": "Bumps busybox from 1.36.1-musl to 1.37.0-musl.\n\n\n[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=busybox&package-manager=docker&previous-version=1.36.1-musl&new-version=1.37.0-musl)](https://docs.github.com/en/github/managing-security-vulnerabilities/about-dependabot-security-updates#about-compatibility-scores)\n\nDependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.\n\n[//]: # (dependabot-automerge-start)\n[//]: # (dependabot-automerge-end)\n\n---\n\n<details>\n<summary>Dependabot commands and options</summary>\n<br />\n\nYou can trigger Dependabot actions by commenting on this PR:\n- `@dependabot rebase` will rebase this PR\n- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it\n- `@dependabot merge` will merge this PR after your CI passes on it\n- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it\n- `@dependabot cancel merge` will cancel a previously requested merge and block automerging\n- `@dependabot reopen` will reopen this PR if it is closed\n- `@dependabot close` will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually\n- `@dependabot show <dependency name> ignore conditions` will show all of the ignore conditions of the specified dependency\n- `@dependabot ignore this major version` will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)\n- `@dependabot ignore this minor version` will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)\n- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)\n\n\n</details>",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4640873Z             "changed_files": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4641101Z             "closed_at": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4641308Z             "comments": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4641659Z             "comments_url": "https://api.github.com/repos/jbcom/go-secretsync/issues/9/comments",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4642405Z             "commits": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4642746Z             "commits_url": "https://api.github.com/repos/jbcom/go-secretsync/pulls/9/commits",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4643132Z             "created_at": "2025-12-19T16:30:33Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4643371Z             "deletions": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4643654Z             "diff_url": "https://github.com/jbcom/go-secretsync/pull/9.diff",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4643960Z             "draft": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4644155Z             "head": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4644526Z               "label": "jbcom:dependabot/docker/busybox-1.37.0-musl",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4644852Z               "ref": "dependabot/docker/busybox-1.37.0-musl",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4645111Z               "repo": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4645307Z                 "allow_auto_merge": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4645550Z                 "allow_forking": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4645785Z                 "allow_merge_commit": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4646028Z                 "allow_rebase_merge": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4646273Z                 "allow_squash_merge": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4646513Z                 "allow_update_branch": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4646899Z                 "archive_url": "https://api.github.com/repos/jbcom/go-secretsync/{archive_format}{/ref}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4647288Z                 "archived": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4647645Z                 "assignees_url": "https://api.github.com/repos/jbcom/go-secretsync/assignees{/user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4648137Z                 "blobs_url": "https://api.github.com/repos/jbcom/go-secretsync/git/blobs{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4648621Z                 "branches_url": "https://api.github.com/repos/jbcom/go-secretsync/branches{/branch}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4649050Z                 "clone_url": "https://github.com/jbcom/go-secretsync.git",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4649542Z                 "collaborators_url": "https://api.github.com/repos/jbcom/go-secretsync/collaborators{/collaborator}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4650117Z                 "comments_url": "https://api.github.com/repos/jbcom/go-secretsync/comments{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4650813Z                 "commits_url": "https://api.github.com/repos/jbcom/go-secretsync/commits{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4651308Z                 "compare_url": "https://api.github.com/repos/jbcom/go-secretsync/compare/{base}...{head}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4651809Z                 "contents_url": "https://api.github.com/repos/jbcom/go-secretsync/contents/{+path}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4652309Z                 "contributors_url": "https://api.github.com/repos/jbcom/go-secretsync/contributors",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4652693Z                 "created_at": "2025-12-16T08:37:23Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4652943Z                 "default_branch": "main",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4653196Z                 "delete_branch_on_merge": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4653564Z                 "deployments_url": "https://api.github.com/repos/jbcom/go-secretsync/deployments",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4654436Z                 "description": "Enterprise-grade secret synchronization pipeline. Sync secrets from HashiCorp Vault to AWS Secrets Manager with two-phase architecture, inheritance, versioning, and CI/CD integration.",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4655182Z                 "disabled": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4655527Z                 "downloads_url": "https://api.github.com/repos/jbcom/go-secretsync/downloads",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4655981Z                 "events_url": "https://api.github.com/repos/jbcom/go-secretsync/events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4656309Z                 "fork": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4656520Z                 "forks": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4656722Z                 "forks_count": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4657027Z                 "forks_url": "https://api.github.com/repos/jbcom/go-secretsync/forks",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4657366Z                 "full_name": "jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4657759Z                 "git_commits_url": "https://api.github.com/repos/jbcom/go-secretsync/git/commits{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4658460Z                 "git_refs_url": "https://api.github.com/repos/jbcom/go-secretsync/git/refs{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4658919Z                 "git_tags_url": "https://api.github.com/repos/jbcom/go-secretsync/git/tags{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4659319Z                 "git_url": "git://github.com/jbcom/go-secretsync.git",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4659602Z                 "has_discussions": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4659843Z                 "has_downloads": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4660072Z                 "has_issues": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4660401Z                 "has_pages": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4660878Z                 "has_projects": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4661106Z                 "has_wiki": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4661325Z                 "homepage": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4661631Z                 "hooks_url": "https://api.github.com/repos/jbcom/go-secretsync/hooks",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4662004Z                 "html_url": "https://github.com/jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4662284Z                 "id": 1117384113,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4662503Z                 "is_template": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4662894Z                 "issue_comment_url": "https://api.github.com/repos/jbcom/go-secretsync/issues/comments{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4663458Z                 "issue_events_url": "https://api.github.com/repos/jbcom/go-secretsync/issues/events{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4663973Z                 "issues_url": "https://api.github.com/repos/jbcom/go-secretsync/issues{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4664433Z                 "keys_url": "https://api.github.com/repos/jbcom/go-secretsync/keys{/key_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4664897Z                 "labels_url": "https://api.github.com/repos/jbcom/go-secretsync/labels{/name}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4665244Z                 "language": "Go",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4665577Z                 "languages_url": "https://api.github.com/repos/jbcom/go-secretsync/languages",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4665929Z                 "license": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4666134Z                   "key": "mit",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4666348Z                   "name": "MIT License",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4666597Z                   "node_id": "MDc6TGljZW5zZTEz",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4666842Z                   "spdx_id": "MIT",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4667093Z                   "url": "https://api.github.com/licenses/mit"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4667349Z                 },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4667547Z                 "merge_commit_message": "PR_TITLE",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4667821Z                 "merge_commit_title": "MERGE_MESSAGE",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4668167Z                 "merges_url": "https://api.github.com/repos/jbcom/go-secretsync/merges",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4668643Z                 "milestones_url": "https://api.github.com/repos/jbcom/go-secretsync/milestones{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4669030Z                 "mirror_url": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4669260Z                 "name": "go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4669509Z                 "node_id": "R_kgDOQpntsQ",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4669996Z                 "notifications_url": "https://api.github.com/repos/jbcom/go-secretsync/notifications{?since,all,participating}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4670657Z                 "open_issues": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4671025Z                 "open_issues_count": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4671349Z                 "owner": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4671653Z                   "avatar_url": "https://avatars.githubusercontent.com/u/249346714?v=4",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4672083Z                   "events_url": "https://api.github.com/users/jbcom/events{/privacy}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4672487Z                   "followers_url": "https://api.github.com/users/jbcom/followers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4672911Z                   "following_url": "https://api.github.com/users/jbcom/following{/other_user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4673338Z                   "gists_url": "https://api.github.com/users/jbcom/gists{/gist_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4673654Z                   "gravatar_id": "",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4674054Z                   "html_url": "https://github.com/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4674309Z                   "id": 249346714,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4674521Z                   "login": "jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4674751Z                   "node_id": "O_kgDODty6mg",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4675070Z                   "organizations_url": "https://api.github.com/users/jbcom/orgs",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4675498Z                   "received_events_url": "https://api.github.com/users/jbcom/received_events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4676017Z                   "repos_url": "https://api.github.com/users/jbcom/repos",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4676311Z                   "site_admin": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4676645Z                   "starred_url": "https://api.github.com/users/jbcom/starred{/owner}{/repo}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4677089Z                   "subscriptions_url": "https://api.github.com/users/jbcom/subscriptions",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4677442Z                   "type": "Organization",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4677709Z                   "url": "https://api.github.com/users/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4677982Z                   "user_view_type": "public"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4678207Z                 },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4678387Z                 "private": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4678759Z                 "pulls_url": "https://api.github.com/repos/jbcom/go-secretsync/pulls{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4679121Z                 "pushed_at": "2025-12-19T16:30:33Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4679495Z                 "releases_url": "https://api.github.com/repos/jbcom/go-secretsync/releases{/id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4679849Z                 "size": 7493,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4680099Z                 "squash_merge_commit_message": "COMMIT_MESSAGES",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4680400Z                 "squash_merge_commit_title": "COMMIT_OR_PR_TITLE",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4680986Z                 "ssh_url": "git@github.com:jbcom/go-secretsync.git",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4681270Z                 "stargazers_count": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4681638Z                 "stargazers_url": "https://api.github.com/repos/jbcom/go-secretsync/stargazers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4682116Z                 "statuses_url": "https://api.github.com/repos/jbcom/go-secretsync/statuses/{sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4682595Z                 "subscribers_url": "https://api.github.com/repos/jbcom/go-secretsync/subscribers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4683090Z                 "subscription_url": "https://api.github.com/repos/jbcom/go-secretsync/subscription",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4683507Z                 "svn_url": "https://github.com/jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4683858Z                 "tags_url": "https://api.github.com/repos/jbcom/go-secretsync/tags",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4684267Z                 "teams_url": "https://api.github.com/repos/jbcom/go-secretsync/teams",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4684590Z                 "topics": [],
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4684910Z                 "trees_url": "https://api.github.com/repos/jbcom/go-secretsync/git/trees{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4685273Z                 "updated_at": "2025-12-19T16:29:08Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4685573Z                 "url": "https://api.github.com/repos/jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4685889Z                 "use_squash_pr_title_as_default": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4686147Z                 "visibility": "public",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4686383Z                 "watchers": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4686590Z                 "watchers_count": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4686837Z                 "web_commit_signoff_required": false
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4687072Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4687288Z               "sha": "1519b8a2609f1b54b3538440c840ef37d9d4a87b",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4687539Z               "user": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4687830Z                 "avatar_url": "https://avatars.githubusercontent.com/u/249346714?v=4",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4688305Z                 "events_url": "https://api.github.com/users/jbcom/events{/privacy}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4688708Z                 "followers_url": "https://api.github.com/users/jbcom/followers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4689273Z                 "following_url": "https://api.github.com/users/jbcom/following{/other_user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4689689Z                 "gists_url": "https://api.github.com/users/jbcom/gists{/gist_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4690008Z                 "gravatar_id": "",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4690251Z                 "html_url": "https://github.com/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4690620Z                 "id": 249346714,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4690833Z                 "login": "jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4691162Z                 "node_id": "O_kgDODty6mg",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4691490Z                 "organizations_url": "https://api.github.com/users/jbcom/orgs",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4691915Z                 "received_events_url": "https://api.github.com/users/jbcom/received_events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4692315Z                 "repos_url": "https://api.github.com/users/jbcom/repos",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4692600Z                 "site_admin": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4692934Z                 "starred_url": "https://api.github.com/users/jbcom/starred{/owner}{/repo}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4693377Z                 "subscriptions_url": "https://api.github.com/users/jbcom/subscriptions",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4693722Z                 "type": "Organization",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4693983Z                 "url": "https://api.github.com/users/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4694249Z                 "user_view_type": "public"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4694473Z               }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4694636Z             },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4694880Z             "html_url": "https://github.com/jbcom/go-secretsync/pull/9",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4695169Z             "id": 3118098923,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4695472Z             "issue_url": "https://api.github.com/repos/jbcom/go-secretsync/issues/9",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4695801Z             "labels": [
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4695978Z               {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4696156Z                 "color": "0366d6",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4696378Z                 "default": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4696672Z                 "description": "Pull requests that update a dependency file",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4696974Z                 "id": 9858812991,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4697193Z                 "name": "dependencies",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4697444Z                 "node_id": "LA_kwDOQpntsc8AAAACS6GMPw",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4697808Z                 "url": "https://api.github.com/repos/jbcom/go-secretsync/labels/dependencies"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4698145Z               },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4698312Z               {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4698491Z                 "color": "21ceff",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4698701Z                 "default": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4698969Z                 "description": "Pull requests that update docker code",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4699250Z                 "id": 9858813000,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4699460Z                 "name": "docker",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4699689Z                 "node_id": "LA_kwDOQpntsc8AAAACS6GMSA",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4700036Z                 "url": "https://api.github.com/repos/jbcom/go-secretsync/labels/docker"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4700353Z               }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4700617Z             ],
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4700793Z             "locked": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4701008Z             "maintainer_can_modify": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4701258Z             "merge_commit_sha": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4701481Z             "mergeable": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4701700Z             "mergeable_state": "unknown",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4701931Z             "merged": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4702138Z             "merged_at": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4702336Z             "merged_by": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4702544Z             "milestone": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4702776Z             "node_id": "PR_kwDOQpntsc652mnr",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4703018Z             "number": 9,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4703307Z             "patch_url": "https://github.com/jbcom/go-secretsync/pull/9.patch",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4703749Z             "rebaseable": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4703971Z             "requested_reviewers": [],
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4704201Z             "requested_teams": [],
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4704601Z             "review_comment_url": "https://api.github.com/repos/jbcom/go-secretsync/pulls/comments{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4705010Z             "review_comments": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4705381Z             "review_comments_url": "https://api.github.com/repos/jbcom/go-secretsync/pulls/9/comments",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4705773Z             "state": "open",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4706331Z             "statuses_url": "https://api.github.com/repos/jbcom/go-secretsync/statuses/1519b8a2609f1b54b3538440c840ef37d9d4a87b",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4706871Z             "title": "build: bump busybox from 1.36.1-musl to 1.37.0-musl",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4707178Z             "updated_at": "2025-12-19T16:30:34Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4707505Z             "url": "https://api.github.com/repos/jbcom/go-secretsync/pulls/9",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4707816Z             "user": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4708097Z               "avatar_url": "https://avatars.githubusercontent.com/in/29110?v=4",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4708553Z               "events_url": "https://api.github.com/users/dependabot%5Bbot%5D/events{/privacy}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4709025Z               "followers_url": "https://api.github.com/users/dependabot%5Bbot%5D/followers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4709527Z               "following_url": "https://api.github.com/users/dependabot%5Bbot%5D/following{/other_user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4710025Z               "gists_url": "https://api.github.com/users/dependabot%5Bbot%5D/gists{/gist_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4710376Z               "gravatar_id": "",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4710742Z               "html_url": "https://github.com/apps/dependabot",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4711009Z               "id": 49699333,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4711225Z               "login": "dependabot[bot]",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4711491Z               "node_id": "MDM6Qm90NDk2OTkzMzM=",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4711862Z               "organizations_url": "https://api.github.com/users/dependabot%5Bbot%5D/orgs",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4712353Z               "received_events_url": "https://api.github.com/users/dependabot%5Bbot%5D/received_events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4712825Z               "repos_url": "https://api.github.com/users/dependabot%5Bbot%5D/repos",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4713153Z               "site_admin": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4713513Z               "starred_url": "https://api.github.com/users/dependabot%5Bbot%5D/starred{/owner}{/repo}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4714035Z               "subscriptions_url": "https://api.github.com/users/dependabot%5Bbot%5D/subscriptions",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4714407Z               "type": "Bot",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4714670Z               "url": "https://api.github.com/users/dependabot%5Bbot%5D",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4714963Z               "user_view_type": "public"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4715191Z             }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4715350Z           },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4715526Z           "repository": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4715734Z             "allow_forking": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4716099Z             "archive_url": "https://api.github.com/repos/jbcom/go-secretsync/{archive_format}{/ref}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4716502Z             "archived": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4716840Z             "assignees_url": "https://api.github.com/repos/jbcom/go-secretsync/assignees{/user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4717322Z             "blobs_url": "https://api.github.com/repos/jbcom/go-secretsync/git/blobs{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4717798Z             "branches_url": "https://api.github.com/repos/jbcom/go-secretsync/branches{/branch}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4718227Z             "clone_url": "https://github.com/jbcom/go-secretsync.git",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4718714Z             "collaborators_url": "https://api.github.com/repos/jbcom/go-secretsync/collaborators{/collaborator}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4719263Z             "comments_url": "https://api.github.com/repos/jbcom/go-secretsync/comments{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4719865Z             "commits_url": "https://api.github.com/repos/jbcom/go-secretsync/commits{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4720356Z             "compare_url": "https://api.github.com/repos/jbcom/go-secretsync/compare/{base}...{head}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4721175Z             "contents_url": "https://api.github.com/repos/jbcom/go-secretsync/contents/{+path}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4721673Z             "contributors_url": "https://api.github.com/repos/jbcom/go-secretsync/contributors",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4722188Z             "created_at": "2025-12-16T08:37:23Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4722444Z             "custom_properties": {},
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4722675Z             "default_branch": "main",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4723031Z             "deployments_url": "https://api.github.com/repos/jbcom/go-secretsync/deployments",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4723896Z             "description": "Enterprise-grade secret synchronization pipeline. Sync secrets from HashiCorp Vault to AWS Secrets Manager with two-phase architecture, inheritance, versioning, and CI/CD integration.",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4724635Z             "disabled": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4724974Z             "downloads_url": "https://api.github.com/repos/jbcom/go-secretsync/downloads",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4725418Z             "events_url": "https://api.github.com/repos/jbcom/go-secretsync/events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4725750Z             "fork": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4725942Z             "forks": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4726136Z             "forks_count": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4726436Z             "forks_url": "https://api.github.com/repos/jbcom/go-secretsync/forks",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4726784Z             "full_name": "jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4727173Z             "git_commits_url": "https://api.github.com/repos/jbcom/go-secretsync/git/commits{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4727659Z             "git_refs_url": "https://api.github.com/repos/jbcom/go-secretsync/git/refs{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4728125Z             "git_tags_url": "https://api.github.com/repos/jbcom/go-secretsync/git/tags{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4728514Z             "git_url": "git://github.com/jbcom/go-secretsync.git",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4728812Z             "has_discussions": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4729043Z             "has_downloads": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4729271Z             "has_issues": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4729483Z             "has_pages": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4729689Z             "has_projects": true,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4729912Z             "has_wiki": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4730120Z             "homepage": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4730424Z             "hooks_url": "https://api.github.com/repos/jbcom/go-secretsync/hooks",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4730943Z             "html_url": "https://github.com/jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4731218Z             "id": 1117384113,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4731421Z             "is_template": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4731816Z             "issue_comment_url": "https://api.github.com/repos/jbcom/go-secretsync/issues/comments{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4732390Z             "issue_events_url": "https://api.github.com/repos/jbcom/go-secretsync/issues/events{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4732900Z             "issues_url": "https://api.github.com/repos/jbcom/go-secretsync/issues{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4733358Z             "keys_url": "https://api.github.com/repos/jbcom/go-secretsync/keys{/key_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4733804Z             "labels_url": "https://api.github.com/repos/jbcom/go-secretsync/labels{/name}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4734161Z             "language": "Go",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4734485Z             "languages_url": "https://api.github.com/repos/jbcom/go-secretsync/languages",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4734835Z             "license": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4735032Z               "key": "mit",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4735234Z               "name": "MIT License",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4735476Z               "node_id": "MDc6TGljZW5zZTEz",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4735833Z               "spdx_id": "MIT",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4736075Z               "url": "https://api.github.com/licenses/mit"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4736326Z             },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4736596Z             "merges_url": "https://api.github.com/repos/jbcom/go-secretsync/merges",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4737075Z             "milestones_url": "https://api.github.com/repos/jbcom/go-secretsync/milestones{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4737451Z             "mirror_url": null,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4737667Z             "name": "go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4738002Z             "node_id": "R_kgDOQpntsQ",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4738468Z             "notifications_url": "https://api.github.com/repos/jbcom/go-secretsync/notifications{?since,all,participating}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4738935Z             "open_issues": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4739152Z             "open_issues_count": 1,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4739365Z             "owner": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4739660Z               "avatar_url": "https://avatars.githubusercontent.com/u/249346714?v=4",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4740091Z               "events_url": "https://api.github.com/users/jbcom/events{/privacy}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4740583Z               "followers_url": "https://api.github.com/users/jbcom/followers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4741013Z               "following_url": "https://api.github.com/users/jbcom/following{/other_user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4741434Z               "gists_url": "https://api.github.com/users/jbcom/gists{/gist_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4741749Z               "gravatar_id": "",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4741996Z               "html_url": "https://github.com/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4742248Z               "id": 249346714,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4742452Z               "login": "jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4742661Z               "node_id": "O_kgDODty6mg",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4742977Z               "organizations_url": "https://api.github.com/users/jbcom/orgs",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4743393Z               "received_events_url": "https://api.github.com/users/jbcom/received_events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4743797Z               "repos_url": "https://api.github.com/users/jbcom/repos",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4744086Z               "site_admin": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4744413Z               "starred_url": "https://api.github.com/users/jbcom/starred{/owner}{/repo}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4744854Z               "subscriptions_url": "https://api.github.com/users/jbcom/subscriptions",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4745198Z               "type": "Organization",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4745458Z               "url": "https://api.github.com/users/jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4745728Z               "user_view_type": "public"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4745955Z             },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4746130Z             "private": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4746456Z             "pulls_url": "https://api.github.com/repos/jbcom/go-secretsync/pulls{/number}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4746811Z             "pushed_at": "2025-12-19T16:30:33Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4747174Z             "releases_url": "https://api.github.com/repos/jbcom/go-secretsync/releases{/id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4747534Z             "size": 7493,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4747771Z             "ssh_url": "git@github.com:jbcom/go-secretsync.git",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4748054Z             "stargazers_count": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4748390Z             "stargazers_url": "https://api.github.com/repos/jbcom/go-secretsync/stargazers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4748868Z             "statuses_url": "https://api.github.com/repos/jbcom/go-secretsync/statuses/{sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4749345Z             "subscribers_url": "https://api.github.com/repos/jbcom/go-secretsync/subscribers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4749834Z             "subscription_url": "https://api.github.com/repos/jbcom/go-secretsync/subscription",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4750242Z             "svn_url": "https://github.com/jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4750694Z             "tags_url": "https://api.github.com/repos/jbcom/go-secretsync/tags",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4751097Z             "teams_url": "https://api.github.com/repos/jbcom/go-secretsync/teams",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4751546Z             "topics": [],
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4751856Z             "trees_url": "https://api.github.com/repos/jbcom/go-secretsync/git/trees{/sha}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4752218Z             "updated_at": "2025-12-19T16:29:08Z",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4752511Z             "url": "https://api.github.com/repos/jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4752808Z             "visibility": "public",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4753028Z             "watchers": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4753233Z             "watchers_count": 0,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4753568Z             "web_commit_signoff_required": false
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4753816Z           },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4753982Z           "sender": {
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4754265Z             "avatar_url": "https://avatars.githubusercontent.com/in/29110?v=4",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4754715Z             "events_url": "https://api.github.com/users/dependabot%5Bbot%5D/events{/privacy}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4755182Z             "followers_url": "https://api.github.com/users/dependabot%5Bbot%5D/followers",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4755684Z             "following_url": "https://api.github.com/users/dependabot%5Bbot%5D/following{/other_user}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4756176Z             "gists_url": "https://api.github.com/users/dependabot%5Bbot%5D/gists{/gist_id}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4756525Z             "gravatar_id": "",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4756774Z             "html_url": "https://github.com/apps/dependabot",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4757043Z             "id": 49699333,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4757261Z             "login": "dependabot[bot]",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4757508Z             "node_id": "MDM6Qm90NDk2OTkzMzM=",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4757868Z             "organizations_url": "https://api.github.com/users/dependabot%5Bbot%5D/orgs",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4758357Z             "received_events_url": "https://api.github.com/users/dependabot%5Bbot%5D/received_events",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4758821Z             "repos_url": "https://api.github.com/users/dependabot%5Bbot%5D/repos",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4759143Z             "site_admin": false,
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4759501Z             "starred_url": "https://api.github.com/users/dependabot%5Bbot%5D/starred{/owner}{/repo}",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4760018Z             "subscriptions_url": "https://api.github.com/users/dependabot%5Bbot%5D/subscriptions",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4760385Z             "type": "Bot",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4760936Z             "url": "https://api.github.com/users/dependabot%5Bbot%5D",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4761235Z             "user_view_type": "public"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4761463Z           }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4761621Z         },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4761789Z         "github_job": "build",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4762005Z         "github_ref": "refs/pull/9/merge",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4762249Z         "github_ref_name": "9/merge",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4762486Z         "github_ref_protected": "false",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4762722Z         "github_ref_type": "branch",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4762975Z         "github_repository": "jbcom/go-secretsync",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4763246Z         "github_repository_id": "1117384113",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4763497Z         "github_repository_owner": "jbcom",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4763755Z         "github_repository_owner_id": "249346714",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4764010Z         "github_run_attempt": "1",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4764233Z         "github_run_id": "20376118901",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4764465Z         "github_run_number": "25",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4764691Z         "github_runner_arch": "X64",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4764953Z         "github_runner_environment": "github-hosted",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4765232Z         "github_runner_image_os": "ubuntu24",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4765500Z         "github_runner_image_version": "20251215.174.1",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4765793Z         "github_runner_name": "GitHub Actions 1000004702",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4766055Z         "github_runner_os": "Linux",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4766388Z         "github_runner_tracking_id": "github_bf7d1b95-abf2-4dfb-83c3-08c5b7ca507b",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4766894Z         "github_server_url": "https://github.com",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4767182Z         "github_triggering_actor": "dependabot[bot]",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4767444Z         "github_workflow": "CI",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4767800Z         "github_workflow_ref": "jbcom/go-secretsync/.github/workflows/ci.yml@refs/pull/9/merge",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4768251Z         "github_workflow_sha": "e4109c5085b08ef7577cc1011b8bd7d26765f592",
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4768559Z         "platform": "linux/amd64"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4768772Z       }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4769027Z     }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4769185Z   },
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4769675Z   "buildx.build.ref": "builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1/builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd10/sy0yir4243z5llea99lwlsv11"
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4770232Z }
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4770770Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4771080Z ##[group]Reference
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4771569Z builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1/builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd10/sy0yir4243z5llea99lwlsv11
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4772193Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4772494Z ##[group]Check build summary support
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4772871Z Build summary supported!
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4773184Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:36:47.4883490Z Post job cleanup.
+Build	UNKNOWN STEP	2025-12-19T16:36:47.7766513Z ##[group]Generating build summary
+Build	UNKNOWN STEP	2025-12-19T16:36:47.7771761Z exporting build record to /home/runner/work/_temp/docker-actions-toolkit-u9wy4A/export
+Build	UNKNOWN STEP	2025-12-19T16:36:47.9692743Z [command]/usr/bin/docker buildx history export --builder builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1 --output /home/runner/work/_temp/docker-actions-toolkit-u9wy4A/export/jbcom~go-secretsync~SY0YIR.dockerbuild sy0yir4243z5llea99lwlsv11 --finalize
+Build	UNKNOWN STEP	2025-12-19T16:36:48.2057912Z Build record written to /home/runner/work/_temp/docker-actions-toolkit-u9wy4A/export/jbcom~go-secretsync~SY0YIR.dockerbuild (44.02 KB)
+Build	UNKNOWN STEP	2025-12-19T16:36:48.2074031Z Uploading jbcom~go-secretsync~SY0YIR.dockerbuild to blob storage
+Build	UNKNOWN STEP	2025-12-19T16:36:48.2898949Z Beginning upload of artifact content to blob storage
+Build	UNKNOWN STEP	2025-12-19T16:36:48.3006148Z Uploaded bytes 45077
+Build	UNKNOWN STEP	2025-12-19T16:36:48.3299770Z Finished uploading artifact content to blob storage!
+Build	UNKNOWN STEP	2025-12-19T16:36:48.3305815Z SHA256 hash of uploaded artifact is 2d8823e0b9de4a6b812edaff5c1bf6ed960846041faa737d186dec5d73943322
+Build	UNKNOWN STEP	2025-12-19T16:36:48.3307467Z Finalizing artifact upload
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4377578Z Artifact successfully finalized (4926570818)
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4380965Z Artifact download URL: https://github.com/jbcom/go-secretsync/actions/runs/20376118901/artifacts/4926570818
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4405982Z Writing summary
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4419602Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4420732Z ##[group]Removing temp folder /home/runner/work/_temp/docker-actions-toolkit-UGdc4a
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4430962Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4431594Z ##[group]Post cache
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4433440Z State not set
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4434054Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:36:48.4591781Z Post job cleanup.
+Build	UNKNOWN STEP	2025-12-19T16:36:48.7535832Z ##[group]Removing builder
+Build	UNKNOWN STEP	2025-12-19T16:36:48.8524217Z [command]/usr/bin/docker buildx rm builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1
+Build	UNKNOWN STEP	2025-12-19T16:36:50.6066234Z builder-d8acab28-4df0-4cd8-8dcf-351b5b300bd1 removed
+Build	UNKNOWN STEP	2025-12-19T16:36:50.6104775Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:36:50.6106157Z ##[group]Cleaning up certificates
+Build	UNKNOWN STEP	2025-12-19T16:36:50.6113593Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:36:50.6114305Z ##[group]Post cache
+Build	UNKNOWN STEP	2025-12-19T16:36:50.6116813Z State not set
+Build	UNKNOWN STEP	2025-12-19T16:36:50.6117504Z ##[endgroup]
+Build	UNKNOWN STEP	2025-12-19T16:36:50.6275598Z Post job cleanup.
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7093622Z [command]/usr/bin/git version
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7132550Z git version 2.52.0
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7171484Z Temporarily overriding HOME='/home/runner/work/_temp/9986ccf8-eb32-4703-9c49-70f74025f123' before making global git config changes
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7172725Z Adding repository directory to the temporary git global config as a safe directory
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7177931Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/go-secretsync/go-secretsync
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7213511Z Removing SSH command configuration
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7220876Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7264620Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7512743Z Removing HTTP extra header
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7518051Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7556048Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7786804Z Removing includeIf entries pointing to credentials config files
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7794202Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7820923Z includeif.gitdir:/home/runner/work/go-secretsync/go-secretsync/.git.path
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7821898Z includeif.gitdir:/home/runner/work/go-secretsync/go-secretsync/.git/worktrees/*.path
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7822657Z includeif.gitdir:/github/workspace/.git.path
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7823292Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7832721Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/go-secretsync/go-secretsync/.git.path
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7858044Z /home/runner/work/_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7869881Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/go-secretsync/go-secretsync/.git.path /home/runner/work/_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7907356Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/go-secretsync/go-secretsync/.git/worktrees/*.path
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7932417Z /home/runner/work/_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7943071Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/go-secretsync/go-secretsync/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:36:50.7979800Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Build	UNKNOWN STEP	2025-12-19T16:36:50.8004703Z /github/runner_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:36:50.8013423Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:36:50.8046682Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Build	UNKNOWN STEP	2025-12-19T16:36:50.8069610Z /github/runner_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:36:50.8112523Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config
+Build	UNKNOWN STEP	2025-12-19T16:36:50.8150900Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Build	UNKNOWN STEP	2025-12-19T16:36:50.8377529Z Removing credentials config '/home/runner/work/_temp/git-credentials-cefd7ccc-0eb2-4cbd-a4ec-f3719e803a67.config'
+Build	UNKNOWN STEP	2025-12-19T16:36:50.8507138Z Cleaning up orphan processes
