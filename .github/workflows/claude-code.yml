@@ -34,7 +34,7 @@ jobs:
         github.event.comment.author_association == 'MEMBER' ||
         github.event.comment.author_association == 'COLLABORATOR' ||
         github.event.sender.login == github.repository_owner
-      )
+      ) && github.actor != 'dependabot[bot]' && secrets.ANTHROPIC_API_KEY != ''
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -64,7 +64,7 @@ jobs:
   # ============================================
   claude-review:
     name: Claude Code Review
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]' && secrets.ANTHROPIC_API_KEY != ''
     runs-on: ubuntu-latest
     permissions:
       contents: read
