@@ -33,7 +33,7 @@ jobs:
     if: |
       github.event_name == 'pull_request' &&
       !github.event.pull_request.draft &&
-      github.actor != 'dependabot[bot]'
+      secrets.OLLAMA_API_KEY != ''
 
     steps:
       - name: Checkout

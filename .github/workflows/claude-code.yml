@@ -61,7 +61,7 @@ jobs:
   # ============================================
   claude-review:
     name: Claude Code Review
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && secrets.ANTHROPIC_API_KEY != ''
     runs-on: ubuntu-latest
     permissions:
       contents: read
