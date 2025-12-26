@@ -18,6 +18,10 @@
 
 SecretSync provides **fully automated, enterprise-grade secret synchronization** across multiple cloud providers and secret stores. Built for scale with a **two-phase pipeline architecture** (merge → sync), it supports inheritance, dynamic target discovery, and CI/CD-friendly diff reporting.
 
+## 🏢 Enterprise Context
+
+**jbcom** is the core division of the [jbcom enterprise](https://jbcom.github.io). This repository provides enterprise-grade secret synchronization, part of a coherent suite of specialized tools sharing a unified design system and interconnected with specialized divisions like [Agentic](https://agentic.dev), [Strata](https://strata.game), and [Extended Data](https://extendeddata.dev).
+
 **🚀 Perfect for:** Multi-account AWS environments, Kubernetes deployments, CI/CD pipelines, and enterprise secret management at scale.
 
 ## 🤔 Why SecretSync?
