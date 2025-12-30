@@ -1,8 +1,8 @@
-// Package secrets_sync provides Python bindings for the secrets-sync pipeline.
+// Package secretssync provides Python bindings for the secrets-sync pipeline.
 //
 // This package exposes the core secrets synchronization functionality
 // for use from Python via gopy-generated bindings.
-package secrets_sync
+package secretssync
 
 import (
 	"context"
