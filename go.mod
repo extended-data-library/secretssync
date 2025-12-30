@@ -12,7 +12,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/identitystore v1.35.2
 	github.com/aws/aws-sdk-go-v2/service/organizations v1.50.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.95.0
-	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.40.2
+	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.41.0
 	github.com/aws/aws-sdk-go-v2/service/ssm v1.67.7
 	github.com/aws/aws-sdk-go-v2/service/ssoadmin v1.36.13
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.5
