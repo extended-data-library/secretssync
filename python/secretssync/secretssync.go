@@ -180,7 +180,7 @@ func RunPipeline(configPath string, opts *SyncOptions) *SyncResult {
 	if opts.ComputeDiff {
 		pipelineDiff := p.Diff()
 		if pipelineDiff != nil {
-			result.DiffOutput = pipelineDiff.Format(pipelineOpts.OutputFormat, false)
+			result.DiffOutput = diff.FormatDiffWithOptions(pipelineDiff, pipelineOpts.OutputFormat, false)
 		}
 	}
 
